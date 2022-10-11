@@ -1,0 +1,92 @@
+/*General CSS*/
+
+head {
+	
+}
+
+html, body {
+	height: 100%;
+}
+
+body * {
+	display: flex;
+}
+
+/*Top and Side Bar*/
+
+#title_container {
+	border: 1px solid black;
+	height: 50px;
+	width: 100%;
+}
+
+#title {
+	margin: auto;
+	margin-top: 6px;
+	text-align: center;
+}
+
+#account_container, #settings_container {
+	border: 1px solid black;
+	height: 50px;
+	width: 50px;
+	margin-left: 0px;
+}
+
+/*Home Page*/
+
+#nav_container {
+	border: 1px solid black;
+	width: 15%;
+	float: left;
+	height: 100%;
+	display: block;
+}
+
+.option {
+	float: left;
+	height: 50px;
+	width: 100%;
+	margin-top: 5px;
+	background-color: grey;
+	color: white;
+	text-align: center;
+}
+
+#feed_container {
+	height: 100%;
+	width: 84%;
+	border: 1px solid black;
+	float: right;
+	display: block;
+}
+
+.message_template {
+	height: 100px;
+	width: 80%;
+	border: 1px solid black;
+	margin-top: 10px !important;
+	margin: auto;
+	display: block;
+}
+
+.name_container {
+	height: 25px;
+	border: 1px solid black;
+	float: left;
+	width: 100px;
+}
+
+.title_container {
+	margin: auto;
+	width: 400px;
+	border: 1px solid black;
+	height: 25px;
+}
+
+.message_container {
+	border: 1px solid black;
+	height: 70px;
+	width: 100%;
+	margin-bottom: 0px;
+}
