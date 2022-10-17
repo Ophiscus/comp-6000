@@ -5,24 +5,35 @@
 
 
 body{
-	background-color: green;
+	background-color: #77DD77;
 }
 
  
 
 h1{
 	colour: black;
-	text-align: left;
+	text-align: center;
 }
 
 .container{
 background-color: lightgrey;
-width: 300 px;
+width: 300px;
 border: 3px solid #f1f1f1;
-padding: 50px;
-margin:20px;
-height: 20px;
+padding: 16px;
+margin: 0 auto;
+height: 300px;
 
+
+
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 </style>
@@ -40,16 +51,15 @@ height: 20px;
 		<input type = "text" placeholder = "Enter username" name = "usern" required>
 		
 		<label for = "ps"><b>Password</b></label>
-		<input type = "text" placeholder = "Enter Password" name="ps" required>
+		<input type = "password" placeholder = "Enter Password" name="ps" required>
 		
 <!-- Submit button // need to map the submit button to the dashboard -->
 		<button type="submit">login</button>
 
 <!-- when one or both fields don't have a value to check -->
-...
+
 
 <!-- when incorrect details that don't match on the database -->
-...
 
 
 </div>
