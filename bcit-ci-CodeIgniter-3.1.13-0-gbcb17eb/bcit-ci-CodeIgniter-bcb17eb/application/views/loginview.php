@@ -42,19 +42,19 @@ input[type=text], input[type=password] {
 
 <!-- Heading of the page  -->
 
-	<h1>Company name</h1>
+	<h1 style="font-family:verdana";>Company name</h1>
 	
 <!-- Form to enter in Username and Password   -->
 	<div class ="container">
-	    <h1>Login</h1>
-		<label for = "usern"><b>Username</b></label>
+	    <h1 style="font-family:verdana";>Login</h1>
+		<label for = "usern"><b style="font-family:verdana";>Username</b></label>
 		<input type = "text" placeholder = "Enter username" name = "usern" required>
 		
-		<label for = "ps"><b>Password</b></label>
+		<label for = "ps"><b style="font-family:verdana";>Password</b></label>
 		<input type = "password" placeholder = "Enter Password" name="ps" required>
 		
 <!-- Submit button // need to map the submit button to the dashboard -->
-		<button type="submit">login</button>
+		<button type="submit">Login</button>
 
 <!-- when one or both fields don't have a value to check -->
 
@@ -63,5 +63,8 @@ input[type=text], input[type=password] {
 
 
 </div>
+
+<h2 style="font-family:verdana"> Need help logging in?</h2>
+<!-- link to contact us page  -->
 </body>
 </html>
