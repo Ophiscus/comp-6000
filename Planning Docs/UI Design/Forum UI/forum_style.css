@@ -14,34 +14,13 @@ body * {
 
 /*Top and Side Bar*/
 
-#title_container {
+.title_container {
 	border: 1px solid black;
 	height: 50px;
 	width: 100%;
 }
 
-#title {
-	margin: auto;
-	margin-top: 6px;
-	text-align: center;
-}
-
-#account_container, #settings_container {
-	border: 1px solid black;
-	height: 50px;
-	width: 50px;
-	margin-left: 0px;
-}
-
 /*Home Page*/
-
-#nav_container {
-	border: 1px solid black;
-	width: 15%;
-	float: left;
-	height: 100%;
-	display: block;
-}
 
 .option {
 	float: left;
@@ -53,20 +32,34 @@ body * {
 	text-align: center;
 }
 
-#feed_container {
+#content {
+	background-color: white;
 	height: 100%;
-	width: 84%;
-	border: 1px solid black;
-	float: right;
+	margin: 5px;
+	transition: .5s;
+	border-radius: 10px;
+	box-shadow: 0 15px 40px rgb(0 0 0 / 12%);
 	display: block;
+	padding-top: 20px;
+}
+
+#info_box {
+	height: fit-content;
+	width: 80%;
+	margin-top: 30px !important;
+	margin: auto;
+	font-style: bold;
+	box-shadow: 0 15px 40px rgb(0 0 0 / 12%);
+	background-color: #fad5d2;
 }
 
 .message_template {
-	height: 100px;
+	height: fit-content;
 	width: 80%;
 	border: 1px solid black;
-	margin-top: 10px !important;
+	margin-top: 30px !important;
 	margin: auto;
+	background-color: #228B22;
 	display: block;
 }
 
@@ -74,7 +67,9 @@ body * {
 	height: 25px;
 	border: 1px solid black;
 	float: left;
-	width: 100px;
+	width: 150px;
+	background-color: #333;
+	color: white;
 }
 
 .title_container {
@@ -82,11 +77,16 @@ body * {
 	width: 400px;
 	border: 1px solid black;
 	height: 25px;
+	background-color: #333;
+	color: white;
+	margin-top: 0px;
 }
 
 .message_container {
 	border: 1px solid black;
 	height: 70px;
-	width: 100%;
 	margin-bottom: 0px;
+	background-color: white;
+	padding: 5px;
+	margin: 5px;
 }
