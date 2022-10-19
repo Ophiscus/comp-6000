@@ -1,0 +1,193 @@
+<!--Note that this will most need to use and become a php file as we move to pull data in, for now for demonstration though will be a HTML-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Statistics</title>
+    <!-- Import the Chart.js library for our graphs.-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Import the styleSheet-->
+    <link rel="stylesheet" href="../../../..//Planning Docs/UI Design/calendar UI/style.css">
+    <!-- Import the sidebar Script-->
+    <script src="../../../..//Planning Docs/UI Design/calendar UI/script.js"></script>
+</head>
+
+<style>
+    .graphs {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .stockTable {
+        padding: 10px;
+        text-align: center;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        background-color: #ffff66
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: #228B22;
+        color: white;
+        text-transform: capitalize;
+    }
+
+    caption {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        color: white;
+        background-color: #333;
+        font-size: xx-large;
+    }
+</style>
+<script>
+
+    function drawPieChart(xValues, yValues, id) {
+
+        if (xValues.length == yValues.length) {
+            var barColours = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
+            createCanvasElement(id);
+
+            return new Chart(id, {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        data: yValues,
+                        backgroundColor: barColours
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: id
+                    }
+                }
+            });
+        }
+        return;
+
+
+    }
+    function drawLineGraph(xValues, yValues, id) {
+        if (xValues.length == yValues.length) {
+            var barColours = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
+            createCanvasElement(id);
+
+            return new Chart(id, {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        data: yValues,
+                        label: 'Monthly Profits in £',
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: id
+                    }
+                }
+            });
+        }
+        return;
+
+        function drawStackedBarChart(xValues, yValues, id) {
+
+        }
+    }
+
+    //TODO: currently using random colours if more than 8 is needed, definitely need to find a better solution (look at Canvas patterns or maybe a library that works)
+    /*function generateRandomGraphColours(qty) {
+        var colours = []
+        for (let i = 0; i < qty; i++) {
+            //divide 16777215 (the largest possible hex code, for pure white) by 2 to (hopefully) get darker colours (more fitting on graph)
+            colours[i] = "#" + Math.floor(Math.random() * (16777215 / 2)).toString(16);
+        }
+        return colours;
+    }
+    */
+
+    function createCanvasElement(id) {
+        var canvas = document.createElement("canvas")
+        canvas.id = id;
+        canvas.width = 300;
+        canvas.height = 300;
+        document.getElementById("graphs").appendChild(canvas);
+    } 
+</script>
+
+<body>
+
+    <!-- Sidebar setup-->
+    <div id="main">
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
+            <a href="#">Maneger</a>
+            <a href="#">Statistic</a>
+            <a href="#">Calendar</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="topnav">
+            <button class="openbtn" onclick="openNav()">☰</button>
+            <a class="active" href="#home">Home</a>
+            <a href="#Announcements">Announcements</a>
+            <a href="#contact">Contact Us</a>
+            <a href="#about">About</a>
+            <a href="#login">Login</a>
+        </div>
+
+        <div id="graphs" class="graphs">
+            <script>
+                //We can echo in values and loop using php to dynamically generate this list
+                drawPieChart(["Stock", "Labour and Admin", "Rent", "Insurance", "Cleaning", "Advertisements", "Other"], [4000, 3000, 1000, 1500, 700, 300, 500], "Costs")
+                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], [1000, 2000, 1300, 900, 1200, 1800, 2300, 2900, 3000, 2500, 2100, 1900], "Profits")
+            </script>
+        </div>
+        <div id="stockTable">
+            <!--This table can be populated with php echo statements and loops. for now a few examples-->
+            <table>
+                <caption>Stock</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Needed</th>
+                </tr>
+                <tr>
+                    <td>Raw Chicken</td>
+                    <td>100</td>
+                    <td>130</td>
+                </tr>
+                <tr>
+                    <td>Washing up Liquid</td>
+                    <td>50</td>
+                    <td>50</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
