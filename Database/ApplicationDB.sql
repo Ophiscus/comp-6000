@@ -10,6 +10,9 @@ DROP TABLE IF EXISTS `Training Document` ;
 DROP TABLE IF EXISTS `Payslips` ;
 DROP TABLE IF EXISTS `Rota` ;
 DROP TABLE IF EXISTS `Staff` ;
+DROP TABLE IF EXISTS 'items';
+DROP TABLE IF EXISTS 'expenses';
+DROP TABLE IF EXISTS 'income'
 
 CREATE TABLE IF NOT EXISTS `Staff` (
   `StaffID` INT NOT NULL AUTO_INCREMENT,
@@ -199,3 +202,57 @@ CREATE TABLE IF NOT EXISTS `Replies` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
+
+-- -----------------------------------------------------
+-- Table `items`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS`items` (
+  `ItemID` INT NOT NULL AUTO_INCREMENT,
+  `ItemName` VARCHAR(45) NOT NULL,
+  `ItemCost` DECIMAL(15,2) NOT NULL,
+  `Quantity` INT NOT NULL,
+  `Needed` INT NOT NULL,
+  PRIMARY KEY (`ItemID`),
+  UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC),
+  UNIQUE INDEX `ItemName_UNIQUE` (`ItemName` ASC));
+
+INSERT INTO `items`
+(`ItemName`,
+`ItemCost`,
+`Quantity`,
+`Needed`)
+VALUES
+("chicken",1.00,10,20);
+
+CREATE TABLE `expenses` (
+  `ExpenseID` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Amount` DECIMAL(15,2) NOT NULL,
+  `Date` DATETIME NOT NULL,
+  PRIMARY KEY (`ExpenseID`),
+  UNIQUE INDEX `financeID_UNIQUE` (`ExpenseID` ASC));
+
+INSERT INTO `expenses`
+(
+`Name`,
+`Amount`,
+`Date`)
+VALUES
+("Stock Purchase", 500, '2022-10-21');
+
+CREATE TABLE `income` (
+  `incomeID` INT NOT NULL AUTO_INCREMENT,
+  `incomeSource` VARCHAR(45) NOT NULL,
+  `Date` DATETIME NOT NULL,
+  `Amount` DECIMAL(15,2) NOT NULL,
+  PRIMARY KEY (`incomeID`),
+  UNIQUE INDEX `idincome_UNIQUE` (`incomeID` ASC));
+
+INSERT INTO `income`
+(
+`incomeSource`,
+`Amount`,
+`Date`)
+VALUES
+("Income", 2000, '2022-10-21');
