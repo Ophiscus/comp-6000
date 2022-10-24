@@ -7,9 +7,9 @@
     <!-- Import the Chart.js library for our graphs.-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Import the styleSheet-->
-    <link rel="stylesheet" href="../../..//Planning Docs/UI Design/calendar UI/style.css">
+    <link rel="stylesheet" href="<?php echo base_url("assets/style.css") ?>">
     <!-- Import the sidebar Script-->
-    <script src="../../..//Planning Docs/UI Design/calendar UI/script.js"></script>
+    <script src="<?php echo base_url("assets/script.js") ?>"></script>
 </head>
 
 <style>
@@ -167,21 +167,20 @@
             <!--This table can be populated with php echo statements and loops. for now a few examples-->
             <table>
                 <caption>Stock</caption>
-                <tr>
+                <tr> 
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Needed</th>
+                    <th>Cost per unit</th>
                 </tr>
+                <?php foreach($stockData as $row) { ?>
                 <tr>
-                    <td>Raw Chicken</td>
-                    <td>100</td>
-                    <td>130</td>
+                    <td><?php echo $row['ItemName']  ?></td>
+                    <td><?php echo $row['Quantity'] ?></td>
+                    <td><?php echo $row['Needed'] ?></td>
+                    <td><?php echo $row['ItemCost']?></td>
                 </tr>
-                <tr>
-                    <td>Washing up Liquid</td>
-                    <td>50</td>
-                    <td>50</td>
-                </tr>
+                <?php } ?>
             </table>
         </div>
     </div>
