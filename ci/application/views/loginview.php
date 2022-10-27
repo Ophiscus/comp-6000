@@ -39,7 +39,16 @@ input[type=text], input[type=password] {
 </style>
 </head>
 <body>
-
+<script>
+function showPassword() {
+  var x = document.getElementById("myInput");
+    if (x.type === "password") {
+    x.type = "text";
+  } else {
+      x.type = "password";
+  }
+}
+</script>
 <!-- Heading of the page  -->
 
 	<h1 style="font-family:verdana";>Company name</h1>
@@ -52,6 +61,9 @@ input[type=text], input[type=password] {
 		
 		<label for = "ps"><b style="font-family:verdana";>Password</b></label>
 		<input type = "password" placeholder = "Enter Password" name="ps" required>
+		
+		<!--Toggle Password Visibility -->
+		<input type= "checkbox" onclick="showPassword()">
 		
 <!-- Submit button // need to map the submit button to the dashboard -->
 		<button type="submit">Login</button>
