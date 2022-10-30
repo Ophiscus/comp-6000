@@ -53,40 +53,34 @@ body * {
 	background-color: #fad5d2;
 }
 
-.message_template {
+.post_head {
 	height: fit-content;
-	width: 80%;
-	border: 1px solid black;
-	margin-top: 30px !important;
-	margin: auto;
-	background-color: #228B22;
-	display: block;
+  width: 80%;
+  border: 1px solid black;
+  margin-top: 30px !important;
+  margin: auto;
+  background-color: #228B22;
+  display: block;
 }
 
-.name_container {
-	height: 25px;
-	border: 1px solid black;
-	float: left;
-	width: 150px;
-	background-color: #333;
-	color: white;
-}
-
-.title_container {
-	margin: auto;
-	width: 400px;
+.subject {
+  margin: auto;
+	width: 300px;
 	border: 1px solid black;
 	height: 25px;
 	background-color: #333;
 	color: white;
 	margin-top: 0px;
+  text-align: center;
 }
 
-.message_container {
+.message {
 	border: 1px solid black;
 	height: 70px;
 	margin-bottom: 0px;
 	background-color: white;
 	padding: 5px;
-	margin: 5px;
+	margin-left: 30px;
+  display: block;
+  width: 200px;
 }
