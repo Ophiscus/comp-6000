@@ -1,25 +1,19 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-
 <!DOCTYPE HTML>
 <html>
 <head>
-<link rel="stylesheet" href="assets/forum_style.css">
-<link rel="stylesheet" href="assets/nav_style.css">
+<link rel="stylesheet" href="<?php echo base_url("assets/forum_style.css") ?>">
+<link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
 
 </head>
 
 <body>
-
-<div id="main" type="html" source="assets/nav.html"></div>
 
 <table border = "1" id="message_container">
 <thead>
 </thead>
 <tbody>
 <?php
-
+echo "controller called";
 foreach ($results as $row) {
 	?>
     <tr class="post_head">
@@ -41,6 +35,6 @@ foreach ($results as $row) {
 
 </body>
 
-<script type="text/javascript" src="nav.js"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>
 
 </html>
