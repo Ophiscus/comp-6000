@@ -9,7 +9,7 @@ class Forummodel extends CI_Model
 	//Retrieves all messages in database and passes it to the controller
 	public function getPosts()
 	{
-		$sql = "SELECT Subject, Content FROM Announcements";
+		$sql = "SELECT Subject, Content, PostDate FROM Announcements";
 
 		$query = $this->db->query($sql);
 		

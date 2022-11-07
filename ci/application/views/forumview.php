@@ -8,24 +8,30 @@
 
 <body>
 
-<table border = "1" id="message_container">
+<?php include("assets/nav.html");?>
+
+<table id="content">
 <thead>
 </thead>
 <tbody>
 <?php
-echo "controller called";
 foreach ($results as $row) {
 	?>
-    <tr class="post_head">
-      <td class="subject">
-        <?php echo $row['Subject']?>
-      </td>
-    </tr>
-    <tr class="message">
-      <td>
-        <?php echo $row['Content']?>
-      </td>
-    </tr>
+	<tr class="announcement">
+		<tr class="post_head">
+		  <td class="subject">
+			<?php echo $row['Subject']?>
+		  </td>
+		  <td class="date">
+			<?php echo $row['PostDate']?>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="message">
+			<?php echo $row['Content']?>
+		  </td>
+		</tr>
+	</tr>
 	<?php
    }   
 ?>
