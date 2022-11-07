@@ -29,6 +29,20 @@ CREATE TABLE IF NOT EXISTS `Staff` (
   UNIQUE INDEX `username_UNIQUE` (`username` ASC)
   );
 
+----- Test User, do not keep, password for real users should be hashed!
+
+INSERT INTO `groupdb`.`staff`
+(`First Name`,
+`Last Name`,
+`username`,
+`password`,
+`email`,
+`contact number`,
+`Role`,
+`Job Title`)
+VALUES
+("John","Smith","TestUser","TestPassword","JSmith@TestMail.com",07700900764,"Staff","Waiter");
+
 
 -- -----------------------------------------------------
 -- Table `Rota`
@@ -251,7 +265,7 @@ CREATE TABLE `income` (
 
 INSERT INTO `income`
 (
-`incomeSource`,
+`incomeSource`, 
 `Amount`,
 `Date`)
 VALUES
