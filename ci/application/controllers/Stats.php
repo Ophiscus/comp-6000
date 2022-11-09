@@ -7,15 +7,21 @@ class Stats extends CI_Controller {
         
     }
 
-    public function showData() {
+    public function show() {
+        //adding helper because the view calls base_url.
         $this->load->helper('url');
         $this->load->model('Stats_model');
 
-        $data = $this->Stats_model->getStock();
+        $stock = $this->Stats_model->getStock();
+        $profit = $this->Stats_model->getProfit();
+        $costs = $this->Stats_model->getCosts();
 
-        $dataForView = array("stockData" => $data);
-        
-        $this->load->view('stats',$dataForView);
+        //$stockData = array("stockData" => $stock);
+        //$profitData = array("profitData" => $profit);
+
+        $data = array("stockData" => $stock, "profitData" => $profit,"costsData" => $costs);
+
+        $this->load->view('stats',$data);
     }
 }
 

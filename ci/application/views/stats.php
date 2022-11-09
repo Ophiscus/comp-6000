@@ -1,4 +1,3 @@
-<!--Note that this will most need to use and become a php file as we move to pull data in, for now for demonstration though will be a HTML-->
 <!DOCTYPE html>
 <html>
 
@@ -74,9 +73,11 @@
                     }]
                 },
                 options: {
-                    title: {
-                        display: true,
-                        text: id
+                    plugins: {
+                        title: {    
+                            display: true,
+                            text: id
+                        }
                     }
                 }
             });
@@ -102,9 +103,11 @@
                     }]
                 },
                 options: {
-                    title: {
-                        display: true,
-                        text: id
+                    plugins: {
+                        title: {    
+                            display: true,
+                            text: id
+                        }
                     }
                 }
             });
@@ -158,9 +161,23 @@
 
         <div id="graphs" class="graphs">
             <script>
+                var index = 0;
+                const profits = [];
+                <?php foreach($profitData as $month => $profits) { ?>
+                    profits[index]= <?php echo $profits?>;
+                    index++;
+                <?php } ?>
+                index = 0;
+                const costNames = [];
+                const costs = [];
+                <?php foreach($costsData as $costData) { ?>
+                    costNames[index]= "<?php echo $costData['Name']?>";
+                    costs[index]= <?php echo $costData['Amount']?>;
+                    index++;
+                <?php } ?>
                 //We can echo in values and loop using php to dynamically generate this list
-                drawPieChart(["Stock", "Labour and Admin", "Rent", "Insurance", "Cleaning", "Advertisements", "Other"], [4000, 3000, 1000, 1500, 700, 300, 500], "Costs")
-                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], [1000, 2000, 1300, 900, 1200, 1800, 2300, 2900, 3000, 2500, 2100, 1900], "Profits")
+                drawPieChart(costNames, costs, "Costs")
+                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], profits, "Profits")
             </script>
         </div>
         <div id="stockTable">
