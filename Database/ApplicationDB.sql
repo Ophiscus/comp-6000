@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `Staff` (
 
 ----- Test User, do not keep, password for real users should be hashed!
 
-INSERT INTO `groupdb`.`staff`
+INSERT INTO `Staff`
 (`First Name`,
 `Last Name`,
 `username`,
@@ -239,6 +239,14 @@ INSERT INTO `items`
 VALUES
 ("chicken",1.00,10,20);
 
+INSERT INTO `items`
+(`ItemName`,
+`ItemCost`,
+`Quantity`,
+`Needed`)
+VALUES
+("washing supplies",10.00,50,50);
+
 CREATE TABLE `expenses` (
   `ExpenseID` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
@@ -255,6 +263,22 @@ INSERT INTO `expenses`
 VALUES
 ("Stock Purchase", 500, '2022-10-21');
 
+INSERT INTO `expenses`
+(
+`Name`,
+`Amount`,
+`Date`)
+VALUES
+("Salaries", 10000, '2022-10-19');
+
+INSERT INTO `expenses`
+(
+`Name`,
+`Amount`,
+`Date`)
+VALUES
+("Advertising", 500, '2022-09-11');
+
 CREATE TABLE `income` (
   `incomeID` INT NOT NULL AUTO_INCREMENT,
   `incomeSource` VARCHAR(45) NOT NULL,
@@ -270,3 +294,75 @@ INSERT INTO `income`
 `Date`)
 VALUES
 ("Income", 2000, '2022-10-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 1500, '2022-09-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 3000, '2022-08-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 2000, '2022-07-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 2500, '2022-06-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 1500, '2022-05-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 2000, '2022-04-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 1000, '2022-03-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 200, '2022-02-21');
+
+INSERT INTO `income`
+(
+`incomeSource`, 
+`Amount`,
+`Date`)
+VALUES
+("Income", 3500, '2022-02-21');
