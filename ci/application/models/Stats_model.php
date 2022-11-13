@@ -14,9 +14,9 @@ class Stats_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function getProfit() {
+    public function getIncome() {
 
-        $profits = array();
+        $income = array();
 
         for($i=1;$i<=12;$i++) {
             $this->db->select_sum('Amount','profit');
@@ -29,24 +29,42 @@ class Stats_model extends CI_Model {
             $count = count($result);
             //otherwise assign 0
             if($query->row()->profit === NULL) {
-                $profits[$i] = 0;
+                $income[$i] = 0;
             } else { 
                 //if query returned something, assign that to the array
-                $profits[$i] = $query->row()->profit;
+                $income[$i] = $query->row()->profit;
             }
         }
 
-        $monthProfits = array("January" => $profits[1], "February" => $profits[2], "March" => $profits[3], "April" => $profits[4], "May" =>$profits[5], "June"=>$profits[6], "July"=>$profits[7], "August"=>$profits[8], "September"=>$profits[9], "October"=>$profits[10], "November"=>$profits[11], "December"=>$profits[12]);
-        return $monthProfits;
+        $monthIncome = array("January" => $income[1], "February" => $income[2], "March" => $income[3], "April" => $income[4], "May" =>$income[5], "June"=>$income[6], "July"=>$income[7], "August"=>$income[8], "September"=>$income[9], "October"=>$income[10], "November"=>$income[11], "December"=>$income[12]);
+        return $monthIncome;
     }
 
-    public function getCosts() {
+    public function getExpenses() {
         $this->db->select('Name,Amount');
         $this->db->from('expenses');
 
         $query = $this->db->get();
         return $query->result_array();
 
+    }
+
+    public function postCost($name,$amount,$date) {
+        //consider getting current date as an alternative
+        $data = array('Name' =>$name,'Amount'=>$amount,'Date'=>$date);
+        $this->db->insert('expenses',$data);
+    }
+
+    public function postIncome($name,$amount,$date) {
+        //consider getting current date as an alternative (or maybe as an optional parameter?)
+        $data = array('incomeSource' =>$name,'Amount'=>$amount,'Date'=>$date);
+        $this->db->insert('income',$data);
+    }
+
+    public function postStock($name,$cost,$owned,$needed) {
+        //consider getting current date as an alternative
+        $data = array('Name' =>$name,'ItemCost'=>$cost,'Quantity'=>$owned,'Needed'=>$needed);
+        $this->db->insert('items',$data);
     }
 
 }

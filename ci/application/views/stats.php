@@ -97,7 +97,7 @@
                     labels: xValues,
                     datasets: [{
                         data: yValues,
-                        label: 'Monthly Profits in £',
+                        label: 'Monthly income in £',
                         borderColor: 'rgb(75, 192, 192)',
                         fill: true
                     }]
@@ -162,22 +162,22 @@
         <div id="graphs" class="graphs">
             <script>
                 var index = 0;
-                const profits = [];
-                <?php foreach($profitData as $month => $profits) { ?>
-                    profits[index]= <?php echo $profits?>;
+                const income = [];
+                <?php foreach($incomeData as $month => $income) { ?>
+                    income[index]= <?php echo $income?>;
                     index++;
                 <?php } ?>
                 index = 0;
-                const costNames = [];
-                const costs = [];
-                <?php foreach($costsData as $costData) { ?>
-                    costNames[index]= "<?php echo $costData['Name']?>";
-                    costs[index]= <?php echo $costData['Amount']?>;
+                const expenseNames = [];
+                const expenses = [];
+                <?php foreach($expensesData as $expenseData) { ?>
+                    expenseNames[index]= "<?php echo $expenseData['Name']?>";
+                    expenses[index]= <?php echo $expenseData['Amount']?>;
                     index++;
                 <?php } ?>
                 //We can echo in values and loop using php to dynamically generate this list
-                drawPieChart(costNames, costs, "Costs")
-                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], profits, "Profits")
+                drawPieChart(expenseNames, expenses, "expenses")
+                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], income, "income")
             </script>
         </div>
         <div id="stockTable">
@@ -188,11 +188,11 @@
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Needed</th>
-                    <th>Cost per unit</th>
+                    <th>cost per unit</th>
                 </tr>
                 <?php foreach($stockData as $row) { ?>
                 <tr>
-                    <td><?php echo $row['ItemName']  ?></td>
+                    <td><?php echo $row['ItemName'] ?></td>
                     <td><?php echo $row['Quantity'] ?></td>
                     <td><?php echo $row['Needed'] ?></td>
                     <td><?php echo $row['ItemCost']?></td>
