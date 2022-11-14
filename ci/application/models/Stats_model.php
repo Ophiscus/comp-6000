@@ -49,7 +49,7 @@ class Stats_model extends CI_Model {
 
     }
 
-    public function postCost($name,$amount,$date) {
+    public function postExpenses($name,$amount,$date) {
         //consider getting current date as an alternative
         $data = array('Name' =>$name,'Amount'=>$amount,'Date'=>$date);
         $this->db->insert('expenses',$data);

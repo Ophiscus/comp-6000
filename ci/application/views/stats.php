@@ -183,15 +183,6 @@
         }
     }
 
-    function close(button_id){
-        console.log("invoked")
-        if(button_id == "closeExpenseTab") {
-            document.getElementById("ExpensePopup").style.setProperty('display','none');
-            console.log("yep");
-        } else if (button_id == "closeIncomeTab") {
-            document.getElementById("IncomePopup").style.setProperty('display','none');
-        }
-    }
 </script>
 
 <body>
@@ -265,6 +256,16 @@
         <div id="Expense_Content" class = "Content">
         <span class="closeTab" id="closeExpenseTab">&times;</span>
             <h1>Report Expense</h1>
+
+            <form action="postExpense" method="POST">
+                <label for="expense name">Expense Name: </label> <br>
+                <input type = "text" name="expenseName" required> <br>
+                <label for="expense amount">Amount: </label> <br>
+                <input type ="number" name="expenseAmount" step="0.01" required> <br>
+                <label for="expense date">Date: </label> <br>
+                <input type = "date" name="expenseDate" required> <br>
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </div>
    
@@ -272,6 +273,16 @@
         <div id="Income_Content" class = "Content">
         <span class="closeTab" id="closeIncomeTab">&times;</span>
             <h1>Report Income</h1>
+
+            <form action="postIncome" method="POST">
+                <label for="incomeSource">Income Source: </label> <br>
+                <input type = "text" name="incomeSource" required> <br>
+                <label for="incomeAmount">Amount: </label> <br>
+                <input type ="number" name="incomeAmount" step="0.01" required> <br>
+                <label for="incomeDate">Date: </label> <br>
+                <input type = "date" name="incomeDate" required> <br>
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </div>
 
@@ -287,7 +298,7 @@
         document.getElementById("ExpensePopup").style.setProperty('display','none');
     }
 
-    closeIncome.onClick = function(){
+    closeIncome.onclick = function() {
         document.getElementById("IncomePopup").style.setProperty('display','none');
     }
 
