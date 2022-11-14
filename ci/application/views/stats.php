@@ -14,10 +14,17 @@
 <style>
     .graphs {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto auto;
         padding: 10px;
         width: 100%;
         max-width: 500px;
+    }
+
+    canvas{
+        background-color: white;
+        border: 10px solid grey;
+        border-spacing: 10px,20px;
+        border-color: grey;
     }
 
     .stockTable {
@@ -53,6 +60,36 @@
         color: white;
         background-color: #333;
         font-size: xx-large;
+    }
+
+    .popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    }
+
+
+    .Content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    }
+
+    .closeTab {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
     }
 </style>
 <script>
@@ -137,6 +174,24 @@
         canvas.height = 300;
         document.getElementById("graphs").appendChild(canvas);
     } 
+
+    function openForm(button_id){
+        if(button_id == "Expense Button") {
+        document.getElementById("ExpensePopup").style.setProperty('display','block');
+        } else if(button_id == "Income Button") {
+        document.getElementById("IncomePopup").style.setProperty('display','block');
+        }
+    }
+
+    function close(button_id){
+        console.log("invoked")
+        if(button_id == "closeExpenseTab") {
+            document.getElementById("ExpensePopup").style.setProperty('display','none');
+            console.log("yep");
+        } else if (button_id == "closeIncomeTab") {
+            document.getElementById("IncomePopup").style.setProperty('display','none');
+        }
+    }
 </script>
 
 <body>
@@ -176,9 +231,13 @@
                     index++;
                 <?php } ?>
                 //We can echo in values and loop using php to dynamically generate this list
-                drawPieChart(expenseNames, expenses, "expenses")
-                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], income, "income")
+                drawPieChart(expenseNames, expenses, "Expenses")
+                
+                drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], income, "Income")
+                
             </script>
+            <button type="button" id="Expense Button" onclick="openForm(this.id)">Report Expenses</button>
+            <button type="button" id="Income Button" onclick="openForm(this.id)">Report Income</button>
         </div>
         <div id="stockTable">
             <!--This table can be populated with php echo statements and loops. for now a few examples-->
@@ -202,8 +261,35 @@
         </div>
     </div>
 
+    <div id="ExpensePopup" class="popup">
+        <div id="Expense_Content" class = "Content">
+        <span class="closeTab" id="closeExpenseTab">&times;</span>
+            <h1>Report Expense</h1>
+        </div>
+    </div>
+   
+    <div id="IncomePopup" class ="popup">
+        <div id="Income_Content" class = "Content">
+        <span class="closeTab" id="closeIncomeTab">&times;</span>
+            <h1>Report Income</h1>
+        </div>
+    </div>
+
 
 
 </body>
+<script>
 
+    var closeExpenses = document.getElementById("closeExpenseTab");
+    var closeIncome = document.getElementById("closeIncomeTab");
+
+    closeExpenses.onclick = function() {
+        document.getElementById("ExpensePopup").style.setProperty('display','none');
+    }
+
+    closeIncome.onClick = function(){
+        document.getElementById("IncomePopup").style.setProperty('display','none');
+    }
+
+</script>
 </html>
