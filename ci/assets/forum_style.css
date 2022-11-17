@@ -8,14 +8,17 @@ html, body {
 	height: 100%;
 }
 
-body * {
-	display: flex;
+#main {
+	display: block;
+	transition: 0.5s;
+	margin: auto;
 }
 
 /*Announcements*/
 
 #content {
-	margin: 50px;
+	margin-top: 50px !important;
+	margin: auto;
 }
 
 #content * {
@@ -44,6 +47,7 @@ tbody {
 	background-color: #228B22;
 	text-align: center;
 	color: white;
+	height: 25px;
 }
 
 .message {
