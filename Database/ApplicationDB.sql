@@ -227,6 +227,7 @@ CREATE TABLE IF NOT EXISTS`items` (
   `ItemCost` DECIMAL(15,2) NOT NULL,
   `Quantity` INT NOT NULL,
   `Needed` INT NOT NULL,
+  'Hide' TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`ItemID`),
   UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC),
   UNIQUE INDEX `ItemName_UNIQUE` (`ItemName` ASC));
@@ -235,17 +236,20 @@ INSERT INTO `items`
 (`ItemName`,
 `ItemCost`,
 `Quantity`,
-`Needed`)
+`Needed`,
+`Hide`)
 VALUES
-("chicken",1.00,10,20);
+("chicken",1.00,10,20,0);
 
 INSERT INTO `items`
 (`ItemName`,
 `ItemCost`,
 `Quantity`,
-`Needed`)
+`Needed`,
+`Hide`)
 VALUES
-("washing supplies",10.00,50,50);
+("washing supplies",10.00,50,50,0); 
+
 
 CREATE TABLE `expenses` (
   `ExpenseID` INT NOT NULL AUTO_INCREMENT,
