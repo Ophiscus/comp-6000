@@ -34,10 +34,11 @@ class Stats extends CI_Controller {
         $needed = $this->input->post("Needed");
 
         $this->load->model('Stats_model');
-        $this->Stats_model->postStock($name,$cost,$quantity,$needed);
+        $id = $this->Stats_model->postStock($name,$cost,$quantity,$needed);
         
+        echo($id);
         //redirect to stats view page
-        redirect("stats/show");
+        //redirect("stats/show");
         } else {
             //handling for non-logged in users.
             $this->load->view('login');
@@ -75,6 +76,29 @@ class Stats extends CI_Controller {
 
         $this->show();
     }
+
+    function hideStockItem() {
+        $itemID = $this->input->post('id',TRUE);
+        $this->load->model('Stats_model');
+        $this->Stats_model->hideStock($itemID);
+    }
+
+    function saveStock(){
+        $id = $this->input->post('ItemID',TRUE);
+        $name = $this->input->post('ItemName',TRUE);
+        $needed = $this->input->post('Needed',TRUE);
+        $cost = $this->input->post('ItemCost',TRUE);
+        $quantity = $this->input->post('Quantity',TRUE);
+        if($id === NULL || $name === NULL || $needed === NULL || $cost === NULL || $quantity === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $this->Stats_model->updateStock($id,$name,$needed,$cost,$quantity);
+        
+
+    }
+
 }
 
 ?>

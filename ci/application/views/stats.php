@@ -5,6 +5,8 @@
     <title>Statistics</title>
     <!-- Import the Chart.js library for our graphs.-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Import JQuery for ajax interaction between the view and the controller -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Import the styleSheet-->
     <link rel="stylesheet" href="<?php echo base_url("assets/style.css") ?>">
     <!-- Import the sidebar Script-->
@@ -18,6 +20,7 @@
         padding: 10px;
         width: 100%;
         max-width: 500px;
+        
     }
 
     canvas{
@@ -90,6 +93,11 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
+    }
+    
+    .save {
+        display:none;
+        text-align: center;
     }
 </style>
 <script>
@@ -183,27 +191,136 @@
         }
     }
 
+    function editRow(id) {
+        document.getElementById("editButton"+id).style.display="none";
+        document.getElementById("saveButton"+id).style.display="block";
+
+        var row = document.getElementById("row"+id);
+        var children = row.getElementsByTagName("td");
+
+        
+        var name = children[0];
+        var quantity = children[1];
+        var needed = children[2];
+        var itemCost = children[3];
+
+        var currentName = children[0].innerHTML;
+        var currentQuantity = children[1].innerHTML;
+        var currentNeeded = children[2].innerHTML;
+        var currentItemCost = children[3].innerHTML;
+
+        name.innerHTML="<input type='text' value='"+currentName+"'>";
+        quantity.innerHTML="<input type='text' value='"+currentQuantity+"'>";
+        needed.innerHTML="<input type='text' value='"+currentNeeded+"'>";
+        itemCost.innerHTML="<input type='text' value='"+currentItemCost+"'>";
+        
+    }
+
+    function deleteRow(id) {
+        document.getElementById("row"+id).outerHTML="";
+
+        $.ajax({
+            url: '<?php echo base_url("index.php/Stats/hideStockItem") ?>',
+            method: 'post',
+            data: {id: id},
+            success:function(){
+                alert("delete successful");
+            }
+        });
+    }
+
+    function addRow() {
+
+        var newItemName = document.getElementById("newItemName").value;
+        var newQuantity = document.getElementById("newQuantity").value;
+        var newNeeded = document.getElementById("newNeeded").value;
+        var newItemCost = document.getElementById("newItemCost").value;
+
+        if(newItemName == "") {
+            alert("Please enter the name of the item");
+            return false;
+        } else if (newQuantity == "") {
+            alert("Please enter the quantity of the item");
+            return false;
+        } else if (isNaN(newQuantity)){
+            alert("Please enter a number for the quantity");
+            return false;
+        } else if (newNeeded == "") {
+            alert("Please enter the amount of this item that is needed");
+            return false;
+        } else if (isNaN(newNeeded)){
+            alert("Please enter a number for the needed");
+            return false;
+        }else if (newItemCost == "") {
+            alert("Please enter the cost per unit of the item");
+            return false;
+        }else if (isNaN(newItemCost)){
+            alert("Please enter a number for the cost");
+            return false;
+        }
+
+        $.ajax({
+            url: '<?php echo base_url("index.php/Stats/postStock")?>',
+            method: 'post',
+            data: {ItemName: newItemName, 
+                Needed: newNeeded,
+                ItemCost: newItemCost,    
+                Quantity: newQuantity,
+            },
+            success:function(response) {
+                var table =document.getElementById("table");
+                var newRow = table.insertRow((table.rows.length)-1).outerHTML="<tr id='row"+response+"'><td>"+newItemName+"</td><td>"+newQuantity+"</td><td>"+newNeeded+"</td><td>"+newItemCost+"</td><td> <button type = 'button' onclick='editRow("+response+")'> Edit </button> <br> <button type = 'button' onclick = 'deleteRow("+response+")'> Delete </button> </td> </tr>";
+
+                document.getElementById("newItemName").value="";
+                document.getElementById("newQuantity").value="";
+                document.getElementById("newNeeded").value="";
+                document.getElementById("newItemCost").value="";
+            },
+        })                
+    }
+
+    function saveRow(id) {
+        document.getElementById("editButton"+id).style.display="none";
+        document.getElementById("saveButton"+id).style.display="block";
+
+        var row = document.getElementById("row"+id);
+        var children = row.getElementsByTagName("td");
+
+        
+        var newName =  children[0].firstChild.value;
+        var newQuantity= children[1].firstChild.value;
+        var newNeeded = children[2].firstChild.value;
+        var newItemCost = children[3].firstChild.value;
+
+        children[0].innerHTML = newName;
+        children[1].innerHTML = newQuantity;
+        children[2].innerHTML = newNeeded;
+        children[3].innerHTML = newItemCost;
+
+        $.ajax({
+            url: '<?php echo base_url("index.php/Stats/saveStock")?>',
+            method: 'post',
+            data: {ItemName: newName, 
+                Needed: newNeeded,
+                ItemCost: newItemCost,    
+                Quantity: newQuantity,
+                ItemID: id,
+            },
+            success:function(){
+                alert("update successful");
+            }
+
+        })
+        
+        document.getElementById("editButton"+id).style.display="block";
+        document.getElementById("saveButton"+id).style.display="none";
+    }
+
 </script>
 
 <body>
 
-    <!-- Sidebar setup-->
-    <div id="main">
-        <div id="mySidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
-            <a href="#">Maneger</a>
-            <a href="#">Statistic</a>
-            <a href="#">Calendar</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="topnav">
-            <button class="openbtn" onclick="openNav()">☰</button>
-            <a class="active" href="#home">Home</a>
-            <a href="#Announcements">Announcements</a>
-            <a href="#contact">Contact Us</a>
-            <a href="#about">About</a>
-            <a href="#login">Login</a>
-        </div>
+<?php include("assets/nav.html");?>
 
         <div id="graphs" class="graphs">
             <script>
@@ -230,24 +347,37 @@
             <button type="button" id="Expense Button" onclick="openForm(this.id)">Report Expenses</button>
             <button type="button" id="Income Button" onclick="openForm(this.id)">Report Income</button>
         </div>
+
         <div id="stockTable">
             <!--This table can be populated with php echo statements and loops. for now a few examples-->
-            <table>
+            <table id="table">
                 <caption>Stock</caption>
                 <tr> 
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Needed</th>
                     <th>cost per unit</th>
+                    <th></th>
                 </tr>
                 <?php foreach($stockData as $row) { ?>
-                <tr>
+                <tr id = "row<?php echo $row['ItemID']?>">
                     <td><?php echo $row['ItemName'] ?></td>
                     <td><?php echo $row['Quantity'] ?></td>
                     <td><?php echo $row['Needed'] ?></td>
                     <td><?php echo $row['ItemCost']?></td>
+                    <td> <button type ="button" id="editButton<?php echo $row['ItemID']?>" onclick = "editRow(<?php echo $row['ItemID']?>)">Edit</button> <br>
+                        <button type = "button" id="saveButton<?php echo $row['ItemID']?>" onclick="saveRow(<?php echo $row['ItemID']?>)" class="save"> Save </button>
+                        <button type = "button" onclick = "deleteRow(<?php echo $row['ItemID']?>)"> Delete </button> 
+                    </td>
                 </tr>
                 <?php } ?>
+                <tr>
+                    <td><input type="text" id="newItemName"></td>
+                    <td><input type="text" id="newQuantity"></td>
+                    <td><input type="text" id="newNeeded"></td>
+                    <td><input type="text" id="newItemCost"></td>
+                    <td><input type="button" class="add" onclick="addRow();" value="Add Row"></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -286,6 +416,7 @@
         </div>
     </div>
 
+    
 
 
 </body>

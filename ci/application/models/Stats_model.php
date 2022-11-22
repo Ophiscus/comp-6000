@@ -8,6 +8,7 @@ class Stats_model extends CI_Model {
     public function getStock() {
         $this->db->select('*');
         $this->db->from('items');
+        $this->db->where('Hide',0);
 
         $query=$this->db->get();
 
@@ -63,8 +64,24 @@ class Stats_model extends CI_Model {
 
     public function postStock($name,$cost,$owned,$needed) {
         //consider getting current date as an alternative
-        $data = array('Name' =>$name,'ItemCost'=>$cost,'Quantity'=>$owned,'Needed'=>$needed);
+        $data = array('ItemName' =>$name,'ItemCost'=>$cost,'Quantity'=>$owned,'Needed'=>$needed);
         $this->db->insert('items',$data);
+        $insertId = $this->db->insert_id();
+        return $insertId;
+    }
+
+    //sets hide value of the id deleted to 1, so that it won't appear in the view (this could be used for an UNDO or history function later, else this should simply delete the data)
+    public function hideStock($id) {
+        $this->db->set('Hide','1',FALSE);
+        $this->db->where('ItemID',$id);
+        $this->db->update('items');
+    }
+
+    public function updateStock($id,$name,$needed,$cost,$quantity){
+        $data = array('ItemName'=>$name, 'ItemCost'=>$cost,'Quantity'=>$quantity,'Needed'=>$needed);
+
+        $this->db->where('ItemID',$id);
+        $this->db->update('items',$data);
     }
 
 }
