@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<div id="main">
 
 <?php include("assets/nav.html");?>
 
@@ -39,6 +40,7 @@ foreach ($results as $row) {
 </tbody>
 </table>
 
+</div>
 </body>
 
 <script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>

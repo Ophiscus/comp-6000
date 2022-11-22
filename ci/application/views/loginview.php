@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel=”stylesheet” href=”https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css” />
 <style>
 
 
 body{
-	background-color: #77DD77;
+	background-color: ##FFFDD0;
 }
 
  
@@ -36,37 +37,60 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
+form i{
+margin-left: -30px; 
+cursor: pointer;
+}
+
 </style>
 </head>
 <body>
 <script>
-function showPassword() {
-  var x = document.getElementById("myInput");
-    if (x.type === "password") {
-    x.type = "text";
-  } else {
-      x.type = "password";
-  }
-}
+const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#id_password');
+
+  togglePassword.addEventListener('click', () => {
+    // toggle the type attribute
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    // toggle the eye slash icon
+    this.classList.toggle('bi-eye');
+});
 </script>
+<!-- calling the dologin function from controller -->	
+
+	<form method="post" action="<?php echo base_url(); ?>index.php/Login/dologin">
 <!-- Heading of the page  -->
 
 	<h1 style="font-family:verdana";>Company name</h1>
 	
+	
+	
+
+	
 <!-- Form to enter in Username and Password   -->
 	<div class ="container">
+	    <?php echo form_open('user/login'); ?>
+		<div class="form-group">
 	    <h1 style="font-family:verdana";>Login</h1>
 		<label for = "usern"><b style="font-family:verdana";>Username</b></label>
 		<input type = "text" placeholder = "Enter username" name = "usern" required>
-		
+		<?php echo form_error('username'); ?>
+
+		</div>
+	    <div class="form-group">	
 		<label for = "ps"><b style="font-family:verdana";>Password</b></label>
-		<input type = "password" placeholder = "Enter Password" name="ps" required>
+		<input type = "password" placeholder = "Enter Password" name="ps" required="" id="id_Password">
+		<?php echo form_error('password'); ?>
+		</div>
 		
 		<!--Toggle Password Visibility -->
-		<input type= "checkbox" onclick="showPassword()">
+		<i class="bi bi-eye-slash" id="togglePassword"></i>
 		
 <!-- Submit button // need to map the submit button to the dashboard -->
 		<button type="submit">Login</button>
+		<?php echo $this->session->flashdata('login_error'); ?>
+        <?php form_close(); ?>
 
 <!-- when one or both fields don't have a value to check -->
 
@@ -75,6 +99,7 @@ function showPassword() {
 
 
 </div>
+
 
 <h2 style="font-family:verdana"> Need help logging in?</h2>
 <!-- link to contact us page  -->

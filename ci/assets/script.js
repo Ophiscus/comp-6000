@@ -16,6 +16,7 @@ prevNextIcon = document.querySelectorAll(".icons span");
 let date = new Date(),
 currYear = date.getFullYear(),
 currMonth = date.getMonth();
+actualMonth;
 
 // storing full name of all months in array
 const months = ["January", "February", "March", "April", "May", "June", "July",
@@ -37,6 +38,25 @@ const renderCalendar = () => {
                       let isToday = i === date.getDate() && currMonth === new Date().getMonth()
                                    && currYear === new Date().getFullYear() ? "active" : "";
                       liTag += `<li class="${isToday}">${i}</li>`;
+                        if(currMonth+1<10)
+                        {
+                            actualMonth = "0"+ String(currMonth+1);
+                        }
+                        else
+                        {
+                            actualMonth = String(currMonth+1);
+                        }
+                        var y = 0;
+                        if(i<10)
+                        {
+                            y= "0"+i;
+                        }
+                        else
+                        {
+                            y =i;
+                        }
+                      date = currYear +"-"+ actualMonth +"-"+ y;
+                      console.log(date);
                   }
 
             for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days

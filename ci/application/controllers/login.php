@@ -1,46 +1,94 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User extends CI_Controller
-{public function index()
+class Login extends CI_Controller
+{
+	public function __construct()
 	{
+		parent::__construct();
+		$this->load->library('form_validation'); 											//this loads the form validation function
+		$this->load->library('session');
+		$this->load->helper(array('form', 'url'));
+		$this->load->database();
+	}
+
+	public function index()
+	{
+		
 		//redirect(base_url().'User/View/'.$this->session->userdata('username'));
+		
+	}
+	
+	public function showView()
+	{
 		$this->load->view('loginview');
 	}
-
+	
 	function dologin()
 	{
-		$username = $this->input->post('username');
-		$_SESSION['username'] = $username;
+		$this->form_validation->set_rules('username', 'Username', 'required');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('loginview');
+		} else {
 
-		$this->load->model('Login_Model');
-		$user_exists = $this->User_Model->checkLogin(
-			$this->input->post('username'),													//collect username from form and agaist with database
-			$this->input->post('password')
-		);
+			$username = $this->input->post('username');
+			$password = $this->input->post('password');
 
-		if ($user_exists) {
+			$user = $this->db->get_where('Staff',['username' => $username])->row();
 			
-			$this->load->view('Forumview');
-		}
-		else {
-			//session_destroy();
-			$this->session->set_flashdata('error', 'Invalid Username or Password');  		//When the user login fails an error message display and redirect to the login form.
-			redirect('index.php/User/login');
-		}
+			if(!$user) {
+				$this->session->set_flashdata('login_error', 'Please check your username or password and try again.', 300);
+				redirect(uri_string());
+			}
+			if(!password_verify($password,$user->password)) {
+				$this->session->set_flashdata('login_error', 'Please check your email or password and try again.', 300);
+				redirect(uri_string());
+			}
+
+			 $data = array(
+					'username' => $user->username,
+					'first_name' => $user->first_name,
+					'last_name' => $user->last_name,
+					'password' => $user->password,
+					);
+
+				
+			$this->session->set_userdata($data);
+
+			//redirect('/'); // redirect to home
+			echo 'Login success!'; exit;
+			$this->load->view(forumview);
+			
+		}		
 	}
 
+	public function logout(){
+        $this->session->sess_destroy();
+        redirect('user/login');
+    }
 
 
+		//$username = $this->input->post('username');
+		//$_SESSION['username'] = $username;
 
+		//$this->load->model('Login_Model');
+		//$user_exists = $this->Login_Model->checkLogin(
+			//$this->input->post('username'),													//collect //username from form and agaist with database
+			//$this->input->post('password')
+		//);
 
-
-
-
-
-
-
-
-
+		//if ($user_exists) 
+			//$data = array('session_data' => $this->Login_Model->getSessionInfo($_SESSION['username']));
+			//$this->load->view('forumview',$data);                                               
+		
+		//else {
+			//session_destroy();
+			//$this->session->set_flashdata('error', 'Invalid Username or Password');  		//When the user login fails an error message display and redirect to the login form.
+			//redirect('/Login/showView','refresh');
+		//}
+	
 
 }
+?>

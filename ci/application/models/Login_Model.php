@@ -28,17 +28,19 @@ public function getAllUsers()
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	
 	public function ExsitUser($name)
 	{								//Check through username only, if user exist
-		$query = $this->db->get_where('Users', array(
+		$query = $this->db->get_where('Staff', array(
 			'username' => $name
 		));
 		if ($query->num_rows() == 1) {								//Checking at most 1, at least 0 from the number of rows retured.
 			return TRUE;
-		} else {
+		} else {       
 			return FALSE;
 		}
 	}
+
 	
 	
 	
