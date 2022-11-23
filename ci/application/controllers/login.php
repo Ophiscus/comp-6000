@@ -6,10 +6,12 @@ class Login extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation'); 											//this loads the form validation function
+		$this->load->library('form_validation'); 
+        $this->load->helper('form');		//this loads the form validation function
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 		$this->load->database();
+		$this->load->model('Login_Model');
 	}
 
 	public function index()
@@ -19,54 +21,53 @@ class Login extends CI_Controller
 		
 	}
 	
-	public function showView()
+	public function Show()
 	{
 		$this->load->view('loginview');
 	}
+
 	
+
 	function dologin()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		
-		if ($this->form_validation->run() == FALSE) {
+		if($this->form_validation->run() == FALSE)
+		{
 			$this->load->view('loginview');
-		} else {
+		}
+		else {
+			$data = [
+			$username = $this->input->post('username'),
+		    $password = $this->input->post('password')
+		];
+		   $user = new Login_Model();
+		   $result = $user->checkLogin($data);
+		   if($result != FALSE)
+		   {
+			 $this->session->set_flashdata('status', 'you are logged in successfully');
+			 $this->session->set_userdata($data);
+			 redirect('Forum/Show');
+		   }
+		   else
+		   {
+			   $this->session->set_flashdata('error', 'Invalid Username or Password');
+               redirect('Login/Show');			   
+		   }
+		}
+    }
+		
 
-			$username = $this->input->post('username');
-			$password = $this->input->post('password');
+		
+		
 
-			$user = $this->db->get_where('Staff',['username' => $username])->row();
-			
-			if(!$user) {
-				$this->session->set_flashdata('login_error', 'Please check your username or password and try again.', 300);
-				redirect(uri_string());
-			}
-			if(!password_verify($password,$user->password)) {
-				$this->session->set_flashdata('login_error', 'Please check your email or password and try again.', 300);
-				redirect(uri_string());
-			}
 
-			 $data = array(
-					'username' => $user->username,
-					'first_name' => $user->first_name,
-					'last_name' => $user->last_name,
-					'password' => $user->password,
-					);
 
-				
-			$this->session->set_userdata($data);
 
-			//redirect('/'); // redirect to home
-			echo 'Login success!'; exit;
-			$this->load->view(forumview);
-			
-		}		
-	}
-
-	public function logout(){
+	function logout(){
         $this->session->sess_destroy();
-        redirect('user/login');
+        redirect('index.php/login/Show');
     }
 
 
