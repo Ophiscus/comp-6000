@@ -6,7 +6,7 @@
 
 
 body{
-	background-color: ##FFFDD0;
+	background-color: #FFFDD0;
 }
 
  
@@ -74,13 +74,13 @@ const togglePassword = document.querySelector('#togglePassword');
 		<div class="form-group">
 	    <h1 style="font-family:verdana";>Login</h1>
 		<label for = "usern"><b style="font-family:verdana";>Username</b></label>
-		<input type = "text" placeholder = "Enter username" name = "usern" required>
+		<input type = "text" placeholder = "Enter username" name = "username" required>
 		<?php echo form_error('username'); ?>
 
 		</div>
 	    <div class="form-group">	
 		<label for = "ps"><b style="font-family:verdana";>Password</b></label>
-		<input type = "password" placeholder = "Enter Password" name="ps" required="" id="id_Password">
+		<input type = "password" placeholder = "Enter Password" name="password" required="" id="id_Password">
 		<?php echo form_error('password'); ?>
 		</div>
 		
