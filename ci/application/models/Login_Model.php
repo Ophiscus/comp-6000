@@ -9,36 +9,24 @@ public function __construct()
 		$this->load->database();
 	}
 	
-public function checkLogin($data)
-	{			
-		
-		//Checking for correct user login details
-		$user = 'SELECT username FROM Staff';
-		$password = 'SELECT password FROM Staff';
-		
-		$query = $this->db->get_where('Staff',array(
-			'username' = $data['username'];
-			'password' = $data['password'];
-		)
-
-		);
-		if ($query->num_rows() == 1) {								//Checking at most 1, at least 0 from the number of rows retured.
+public function checkLogin($username, $Password)
+	{																//Checking for correct user login details
+		$query = $this->db->get_where('Staff', array(				//Getting data username and password from Users table which matches in the database
+			'username' => $username,
+			'password' => sha1($Password)
+		));
+		if (!empty($query->row_array())) {							//Checking if result is empty, if it is then an error may occur
 			return TRUE;
-		} else {       
+		} else {
 			return FALSE;
 		}
-		
 	}
 	
 public function getAllUsers()
 	{
-		
-		$this->db->select('*');
-        $this->db->from('Staff');
-
-        $query=$this->db->get();
-
-        return $query->result_array();
+		$sql = "SELECT * FROM Staff";
+		$query = $this->db->query($sql);
+		return $query->result_array();
 	}
 	
 	public function ExsitUser($name)
