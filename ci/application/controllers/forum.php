@@ -6,9 +6,9 @@ class Forum extends CI_Controller {
 	public function show()
 	{
 		$this->load->helper('url');
-		$this->load->model('forummodel');
+		$this->load->model('Forummodel');
 		
-		$data = $this->forummodel->getPosts();
+		$data = $this->Forummodel->getPosts();
 
 		$results = array("results" => $data);
 		
