@@ -44,20 +44,15 @@ const dynamicCalendar = () => {
 
             for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
                       // adding active class to li if the current day, month, and year matched
-                    let currentDate= (i).toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping:false}) 
-                    let thisDate = new Date(`${currentDate} ${months[currMonth]} ${currYear}`);
+                    let improvDate= (i).toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping:false}) 
+                    let thisDate = new Date(`${improvDate} ${months[currMonth]} ${currYear}`);
                       console.log(thisDate);
                     let sqlDate = thisDate.toISOString(); 
                       console.log(sqlDate);
                     if(isToday = i=== date.getDate() && currMonth === new Date().getMonth()&& currYear === new Date().getFullYear())
-                            {  
-                                    liTag += `<li  onclick = "openEvent()" class="active">${i}</li>`;
-                            }
-                                   
-                    else if(i == demoDate.getDate()&& currMonth === demoDate().getMonth()&& currYear === demoDate().getFullYear())
-                    {
-                        liTag += `<li onclick = "openEvent()" class="event">${i}</li>`; 
-                    }
+                        {  
+                            liTag += `<li  onclick = "openEvent()" class="active">${i}</li>`;
+                        }
                     else
                     {
                         liTag += `<li onclick = "openEvent()">${i}</li>`;

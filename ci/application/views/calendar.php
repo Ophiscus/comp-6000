@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Dynamic Calendar JavaScript</title>
-	<link rel="stylesheet" href="<?php echo base_url("assets/calendar_style.css") ?>">
+    <link rel="stylesheet" href=<?php echo base_url("assets/style.css") ?>>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Font Link for Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-	<script type="text/javascript" src="<?php echo base_url("assets/calendar_script.js") ?>"></script>  
-	</head>
+    <script src=<?php echo base_url("assets/script.js defer")?>></script>
+  </head>
 
   <body>
 
