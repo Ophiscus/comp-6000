@@ -8,6 +8,14 @@ function closeNav() {
   document.getElementById("main").style.marginLeft= "0";
 }
 
+function openEvent(){
+    document.getElementById("eventBar").style.display ="block";
+}
+
+function closeEvent(){
+    document.getElementById("eventBar").style.display ="none";
+}
+
 const daysTag = document.querySelector(".days"),
 currentDate = document.querySelector(".current-date"),
 prevNextIcon = document.querySelectorAll(".icons span");
@@ -16,13 +24,14 @@ prevNextIcon = document.querySelectorAll(".icons span");
 let date = new Date(),
 currYear = date.getFullYear(),
 currMonth = date.getMonth();
-actualMonth;
+let demoEventData = "TestUser data fro the event bar";
+let demoDate = new Date("30-11-2022");
 
 // storing full name of all months in array
 const months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 
-const renderCalendar = () => {
+const dynamicCalendar = () => {
       let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
       lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
       lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
@@ -35,29 +44,25 @@ const renderCalendar = () => {
 
             for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
                       // adding active class to li if the current day, month, and year matched
-                      let isToday = i === date.getDate() && currMonth === new Date().getMonth()
-                                   && currYear === new Date().getFullYear() ? "active" : "";
-                      liTag += `<li class="${isToday}">${i}</li>`;
-                        if(currMonth+1<10)
-                        {
-                            actualMonth = "0"+ String(currMonth+1);
-                        }
-                        else
-                        {
-                            actualMonth = String(currMonth+1);
-                        }
-                        var y = 0;
-                        if(i<10)
-                        {
-                            y= "0"+i;
-                        }
-                        else
-                        {
-                            y =i;
-                        }
-                      date = currYear +"-"+ actualMonth +"-"+ y;
-                      console.log(date);
-                  }
+                    let currentDate= (i).toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping:false}) 
+                    let thisDate = new Date(`${currentDate} ${months[currMonth]} ${currYear}`);
+                      console.log(thisDate);
+                    let sqlDate = thisDate.toISOString(); 
+                      console.log(sqlDate);
+                    if(isToday = i=== date.getDate() && currMonth === new Date().getMonth()&& currYear === new Date().getFullYear())
+                            {  
+                                    liTag += `<li  onclick = "openEvent()" class="active">${i}</li>`;
+                            }
+                                   
+                    else if(i == demoDate.getDate()&& currMonth === demoDate().getMonth()&& currYear === demoDate().getFullYear())
+                    {
+                        liTag += `<li onclick = "openEvent()" class="event">${i}</li>`; 
+                    }
+                    else
+                    {
+                        liTag += `<li onclick = "openEvent()">${i}</li>`;
+                    } 
+                }
 
             for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
                       liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
@@ -65,7 +70,7 @@ const renderCalendar = () => {
                   currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
                   daysTag.innerHTML = liTag;
               }
-renderCalendar();
+dynamicCalendar();
 
 prevNextIcon.forEach(icon => { // getting prev and next icons
     icon.addEventListener("click", () => { // adding click event on both icons
@@ -80,6 +85,6 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
         } else {
             date = new Date(); // pass the current date as date value
         }
-        renderCalendar(); // calling renderCalendar function
+        dynamicCalendar(); // calling dynamicCalendar function
     });
 });
