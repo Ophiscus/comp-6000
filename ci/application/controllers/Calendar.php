@@ -7,12 +7,19 @@ class Calendar extends CI_Controller {
         
     }
 
+    
     public function show() {
         $this->load->helper('url'); 
+        
+        $this->load->view('calendar'); 
+    }
+
+    public function getEvents() {
         $this->load->model('Calendar_Model');
         $data = $this->Calendar_Model->getEvents();
         $event = array("results"=> $data);
-        $this->load->view('calendar', $event); 
+        $bla = $data[0];
+        echo($bla['Shift Start']."divider".$bla['End Time']."divider".$bla['Description']);
     }
 }
 
