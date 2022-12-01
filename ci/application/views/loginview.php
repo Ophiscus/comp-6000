@@ -16,6 +16,10 @@ h1{
 	text-align: center;
 }
 
+h2{
+	text-align:center;
+}
+
 .container{
 background-color: lightgrey;
 width: 300px;
@@ -37,7 +41,12 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
-form i{
+.Login{
+	display:inline-block;
+	margin: 0 auto;
+}
+
+.form i{
 margin-left: -30px; 
 cursor: pointer;
 }
@@ -88,9 +97,11 @@ const togglePassword = document.querySelector('#togglePassword');
 		<i class="bi bi-eye-slash" id="togglePassword"></i>
 		
 <!-- Submit button // need to map the submit button to the dashboard -->
+        <div class = "button">
 		<button type="submit">Login</button>
 		<?php echo $this->session->flashdata('login_error'); ?>
         <?php form_close(); ?>
+		</div>
 
 <!-- when one or both fields don't have a value to check -->
 
