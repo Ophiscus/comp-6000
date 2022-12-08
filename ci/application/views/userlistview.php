@@ -2,16 +2,32 @@
 <html>
 <head>
 <style>
-.announcement {
-	margin-top: 20px;
-}
+
 tbody {
 	width: 100%;
 }
 html, body {
 	height: 100%;
 }
+.values{
+background-color:white;
+border: 1px solid black;
+text-align: center;
+width: 100%;
+color:black;
+}
 
+.post_head{
+	background-color:#228B22;
+	border: 1px solid black;
+	text-align: center;
+	color:white;
+	width: 100%;
+}
+
+#content{
+	width:100%;
+}
 </style>
 
 <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
@@ -32,6 +48,13 @@ foreach ($results as $row) {
 	?>
 	<tr class="employees">
 		<tr class="post_head">
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Username</th>
+			<th>Job title</th>
+			<th>Contact Number</th>
+</tr>
+	<tr class = "values">	
 		  <td class="firstname">
 			<?php echo $row['First Name']?>
 		  </td>
@@ -42,7 +65,11 @@ foreach ($results as $row) {
 		    <?php echo $row['username']?>
 		  </td>
 		  <td class ="jobtitle">
-            <?php echo $row['Job Title']?>		  
+            <?php echo $row['Job Title']?>	
+          </td>  
+		  <td class = "contactnumber">
+		  <?php echo $row['contact number']?>
+          </td>
 		</tr>
 	<?php
    }   
