@@ -9,7 +9,7 @@ class Userlistmodel extends CI_Model
 	//Retrieves all messages in database and passes it to the controller
 	public function getUsers()
 	{
-		$sql = "SELECT `First Name`,`Last Name`, `username`,`Job Title` FROM Staff";
+		$sql = "SELECT `First Name`,`Last Name`, `username`,`Job Title`,`contact number` FROM Staff";
 
 		$query = $this->db->query($sql);
 		
