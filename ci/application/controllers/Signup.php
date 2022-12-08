@@ -19,6 +19,8 @@ class Signup extends CI_Controller
 // Acknowledge the input of the employee's credentials
     public function dosignup()
     {
+        // load up database to input the new employee's infomation
+        $this->load->database();
         $this->load->model('Signup_Model');
         $firstname = $this->input->post('firstname');
         $lastname = $this->input->post('firstname');
