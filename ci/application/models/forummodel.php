@@ -14,6 +14,16 @@ class Forummodel extends CI_Model
 		$query = $this->db->query($sql);
 		
 		return $query->result_array();
-	}	
+	}
+	
+	public function insertMessage($title, $string)
+	{
+		$data['Subject'] = $title;
+		$data['Content'] = $string;
+		$data['Poster'] = 1;
+		$data['PostDate'] = date("Y-m-d h:i:sa");
+		
+		$this->db->insert('Announcements', $data);
+	}
 }
 ?>
