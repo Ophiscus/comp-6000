@@ -120,7 +120,7 @@
 
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
 
-      if (nextEvent && events[eventNumber] != nullx) {
+      if (nextEvent && events[eventNumber] != null) {
         nextEventDate = new Date(events[eventNumber]["Shift Start"]);
         nextEvent = true;
       }
@@ -162,12 +162,17 @@
     icon.addEventListener("click", () => {// if clicked icon is previous icon then decrement current month by 1 else increment it by 1
       currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
-      if (currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
-        // creating a new date of current year & month and pass it as date value
-        date = new Date(currYear, currMonth);
-        currYear = date.getFullYear(); // updating current year with new date year
-        currMonth = date.getMonth(); // updating current month with new date month
-      } else {
+      if(currMonth < 0 ) { // if current month is less than 0 or greater than 11
+            // creating a new date of current year & month and pass it as date value
+            date = new Date();
+            currYear--;
+            currMonth = 11;
+        } 
+        else if(currMonth > 11){
+            date = new Date(); // pass the current date as date value
+            currYear++;
+            currMonth = 0;
+        }else {
         date = new Date(); // pass the current date as date value
       }
       // adding click event on both icons
