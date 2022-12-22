@@ -1,19 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Forum extends CI_Controller {
+class Userlist extends CI_Controller {
 	
 	public function show()
 	{
 		$this->load->helper('url');
-		$this->load->model('Forummodel');
+		$this->load->model('Userlistmodel');
 		
-		$data = $this->Forummodel->getPosts();
+		$data = $this->Userlistmodel->getUsers();
 
 		$results = array("results" => $data);
 		
 		//Passes message data from model to the view
-		$this->load->view('forumview', $results);
+		$this->load->view('userlistview', $results);
 	}
 }
 
