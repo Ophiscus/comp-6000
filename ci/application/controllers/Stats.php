@@ -8,6 +8,7 @@ class Stats extends CI_Controller {
     }
 
     public function show() {
+        $this->output->enable_profiler(TRUE);
         //adding helper because the view calls base_url.
         $this->load->helper('url');
         $this->load->model('Stats_model');

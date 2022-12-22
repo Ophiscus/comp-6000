@@ -14,13 +14,12 @@ class Calendar_model extends CI_Model{
 
     public function getAllEventsByMonth($month) {
         $this->db->select("StaffID, `Shift Start`, `End Time`, Description",FALSE);
-        $this->db->where('MONTH(`Shift Start`)',$month);
+        $this->db->where('MONTH(`Shift Start`) =', $month);
         $this->db->from('Rota');
         //$Sql = 'SELECT StaffID, `Shift Start`, `End Time`, `Description` FROM Rota WHERE MONTH(`Shift Start`) = ?';
         $query = $this->db->get();
         //$query = $this->db->query($Sql,[$month]);
-        print_r($this->db->last_query()); 
-        $result = $query->result_array();
+        return $result = $query->result_array();
     }
 }
 ?>
