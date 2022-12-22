@@ -113,7 +113,6 @@ const dynamicCalendar = (events) => {
                       // adding active class to li if the current day, month, and year matched
                     let improvDate= (i).toLocaleString(undefined, {minimumIntegerDigits: 2, useGrouping:false}) 
                     let thisDate = new Date(`${improvDate} ${months[currMonth]} ${currYear}`);
-                    let sqlDate = thisDate.toISOString(); 
                       if(parseInt(improvDate) === nextEventDate.getDate() && currMonth +1 === (nextEventDate.getMonth()+1) && currYear === nextEventDate.getFullYear()) {
                         liTag += `<li  onclick = "openEvent('${nextEventDate.toLocaleTimeString()},${new Date(events[0]["End Time"]).toLocaleTimeString()},${events[0]["Description"]}')" class="event">${i}</li>`
                       } else if(isToday = i=== date.getDate() && currMonth === new Date().getMonth()&& currYear === new Date().getFullYear())
@@ -156,13 +155,20 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
         // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
         currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
-        if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
+        if(currMonth < 0 ) { // if current month is less than 0 or greater than 11
             // creating a new date of current year & month and pass it as date value
-            date = new Date(currYear, currMonth);
-            currYear = date.getFullYear(); // updating current year with new date year
-            currMonth = date.getMonth(); // updating current month with new date month
-        } else {
+            date = new Date();
+            currYear--;
+            currMonth = 11;
+        } 
+        else if(currMonth > 11){
             date = new Date(); // pass the current date as date value
+            currYear++;
+            currMonth = 0;
+        }
+        else
+        {
+          date = new Date();
         }
         
         dynamicCalendar(events); // calling dynamicCalendar function
