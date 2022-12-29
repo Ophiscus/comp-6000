@@ -24,6 +24,7 @@ html, body {
 	border: 1px solid black;
 	text-align: center;
 	margin: auto;
+
 }
 
 #create {
@@ -39,11 +40,13 @@ html, body {
 
 #title {
 	width: 500px;
+	text-align: center;
 }
 
 #post_cont {
 	height: 400px;
 	width: 500px;
+	text-align: center;
 }
 
 #submit {
