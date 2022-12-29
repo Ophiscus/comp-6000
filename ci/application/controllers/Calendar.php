@@ -21,8 +21,7 @@ class Calendar extends CI_Controller {
     }
 
     public function getEventByMonth() {
-        $this->output->enable_profiler(TRUE);
-        $month = $this->input->post('month',TRUE);
+        $month = $this->input->get('month',TRUE);
         $this->load->model('Calendar_Model');
         $data = $this->Calendar_Model->getAllEventsByMonth($month);
         echo json_encode($data);
