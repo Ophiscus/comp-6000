@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 
 <head>
@@ -9,8 +9,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Import the styleSheet-->
     <link rel="stylesheet" href="<?php echo base_url("assets/style.css") ?>">
+    <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
     <!-- Import the sidebar Script-->
-    <script src="<?php echo base_url("assets/script.js") ?>"></script>
+    <script src="<?php echo base_url("assets/nav.js") ?>"></script>
 </head>
 
 <style>
@@ -95,7 +96,7 @@
     font-weight: bold;
     }
     
-    .save {
+    .editing {
         display:none;
         text-align: center;
     }
@@ -191,9 +192,26 @@
         }
     }
 
+    
+    var editing = false;
+    var rowEditingID;
+    var originalName;
+    var originalQuant;
+    var originalNeeded;
+    var originalCostPerUnit;
+
     function editRow(id) {
+
+        if(editing) {
+            cancelRow(rowEditingID);
+        }
+        editing = true;
+        rowEditingID = id;
+
         document.getElementById("editButton"+id).style.display="none";
         document.getElementById("saveButton"+id).style.display="block";
+        document.getElementById("deleteButton"+id).style.display="none";
+        document.getElementById("cancelButton"+id).style.display="block";
 
         var row = document.getElementById("row"+id);
         var children = row.getElementsByTagName("td");
@@ -208,6 +226,11 @@
         var currentQuantity = children[1].innerHTML;
         var currentNeeded = children[2].innerHTML;
         var currentItemCost = children[3].innerHTML;
+
+        originalName = currentName;
+        originalQuant = currentQuantity;
+        originalNeeded = currentNeeded;
+        originalCostPerUnit = currentItemCost;
 
         name.innerHTML="<input type='text' value='"+currentName+"'>";
         quantity.innerHTML="<input type='text' value='"+currentQuantity+"'>";
@@ -227,6 +250,29 @@
                 alert("delete successful");
             }
         });
+    }
+
+    function cancelRow(id) {
+
+        var row = document.getElementById("row"+id);
+        var children = row.getElementsByTagName("td");
+
+        children[0].innerHTML = originalName;
+        children[1].innerHTML = originalQuant;
+        children[2].innerHTML = originalNeeded;
+        children[3].innerHTML = originalCostPerUnit;
+
+        editing = false;
+        rowEditingID = null;
+        originalName = "";
+        originalQuant = "";
+        originalNeeded = "";
+        originalCostPerUnit = "";
+
+        document.getElementById("editButton"+id).style.display="block";
+        document.getElementById("saveButton"+id).style.display="none";
+        document.getElementById("deleteButton"+id).style.display="block";
+        document.getElementById("cancelButton"+id).style.display="none";
     }
 
     function addRow() {
@@ -269,7 +315,7 @@
             },
             success:function(response) {
                 var table =document.getElementById("table");
-                var newRow = table.insertRow((table.rows.length)-1).outerHTML="<tr id='row"+response+"'><td>"+newItemName+"</td><td>"+newQuantity+"</td><td>"+newNeeded+"</td><td>"+newItemCost+"</td><td> <button type = 'button' onclick='editRow("+response+")'> Edit </button> <br> <button type = 'button' onclick = 'deleteRow("+response+")'> Delete </button> </td> </tr>";
+                var newRow = table.insertRow((table.rows.length)-1).outerHTML="<tr id='row"+response+"'><td>"+newItemName+"</td><td>"+newQuantity+"</td><td>"+newNeeded+"</td><td>"+newItemCost+"</td><td> <button type = 'button' onclick='editRow("+response+")'> Edit </button> <br> <button type = 'button' onclick = 'deleteRow("+response+")'> Delete </button>  </td> </tr>";
 
                 document.getElementById("newItemName").value="";
                 document.getElementById("newQuantity").value="";
@@ -314,6 +360,8 @@
         
         document.getElementById("editButton"+id).style.display="block";
         document.getElementById("saveButton"+id).style.display="none";
+        document.getElementById("deleteButton"+id).style.display="block";
+        document.getElementById("cancelButton"+id).style.display="none";
     }
 
 </script>
@@ -322,6 +370,7 @@
 
 <?php include("assets/nav.html");?>
 
+    <div id="main" class="main">
         <div id="graphs" class="graphs">
             <script>
                 var index = 0;
@@ -366,8 +415,9 @@
                     <td><?php echo $row['Needed'] ?></td>
                     <td><?php echo $row['ItemCost']?></td>
                     <td> <button type ="button" id="editButton<?php echo $row['ItemID']?>" onclick = "editRow(<?php echo $row['ItemID']?>)">Edit</button> <br>
-                        <button type = "button" id="saveButton<?php echo $row['ItemID']?>" onclick="saveRow(<?php echo $row['ItemID']?>)" class="save"> Save </button>
-                        <button type = "button" onclick = "deleteRow(<?php echo $row['ItemID']?>)"> Delete </button> 
+                        <button type = "button" id="saveButton<?php echo $row['ItemID']?>" onclick="saveRow(<?php echo $row['ItemID']?>)" class="editing"> Save </button>
+                        <button type = "button" id="deleteButton<?php echo $row['ItemID']?>" onclick = "deleteRow(<?php echo $row['ItemID']?>)"> Delete </button> 
+                        <button type = "button" id="cancelButton<?php echo $row['ItemID']?>" onclick="cancelRow(<?php echo $row['ItemID']?>)" class="editing"> Cancel </button>
                     </td>
                 </tr>
                 <?php } ?>
