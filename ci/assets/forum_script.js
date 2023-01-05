@@ -13,3 +13,12 @@ function openForm() {
 	  button.innerHTML = "Cancel";
   }
 }
+
+/*function isManager(query_result) {
+	console.log("test");
+	if (query_result == "Manager") {
+		document.getElementById(tools).style.display = "block";
+	} else {
+		document.getElementById(tools).style.display = "none";
+	}
+}*/

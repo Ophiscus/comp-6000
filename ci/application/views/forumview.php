@@ -6,12 +6,14 @@
 
 </head>
 
-<body>
+<body onload="isManager('<?php echo $this->session->userdata('role') ?>')">
 <div id="main">
 
 <?php include("assets/nav.html");?>
 
-<div id="tools">
+<div id="manage_tools">
+
+<div id="tools" onload="test()">
 	<button id="create" onClick="openForm()">Create Post</button>
 </div>
 
@@ -28,6 +30,7 @@
 </div>
 
 </form>
+</div>
 
 <table id="content">
 <thead>
@@ -63,5 +66,15 @@ foreach ($results as $row) {
 
 <script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
+<script type="text/javascript">
+	function isManager(query_result) {
+		console.log(query_result);
+		if (query_result == "Manager") {
+			document.getElementById("tools").style.display = "block";
+		} else if (query_result == "Staff") {
+			document.getElementById("tools").style.display = "none";
+		}
+	}
+</script>
 
 </html>

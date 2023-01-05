@@ -9,7 +9,10 @@ class Forum extends CI_Controller {
 		$this->load->model('Forummodel');
 		
 		$data = $this->Forummodel->getPosts();
-
+		
+		//Loads user data set in the login script
+		$this->load->library('session');
+		
 		$results = array("results" => $data);
 		
 		//Passes message data from model to the view
@@ -33,5 +36,4 @@ class Forum extends CI_Controller {
 		$this->load->view('forumview', $results);
 	}
 }
-
 ?>
