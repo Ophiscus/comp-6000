@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `Announcements` (
   `PostDate` DATETIME NOT NULL,
   `PinUntil` DATETIME NOT NULL,
   `Content` LONGTEXT NULL,
+  `MessageType` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`AnnouncementID`),
   UNIQUE INDEX `AnnouncementID_UNIQUE` (`AnnouncementID` ASC),
   INDEX `Poster_idx` (`Poster` ASC),
@@ -178,13 +179,13 @@ CREATE TABLE IF NOT EXISTS `Private Messages` (
 -- Table `Forum Posts`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Forum Posts` (
+CREATE TABLE IF NOT EXISTS `ForumPosts` (
   `PostID` INT NOT NULL AUTO_INCREMENT,
   `Subject` VARCHAR(45) NOT NULL,
   `Poster` INT NOT NULL,
   `PostDate` DATETIME NOT NULL,
   `Content` LONGTEXT NOT NULL,
-  `Acknowledgements` INT NOT NULL DEFAULT 0,
+  `MessageType` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`PostID`),
   UNIQUE INDEX `PostID_UNIQUE` (`PostID` ASC),
   INDEX `Poster_idx` (`Poster` ASC),
@@ -205,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   `Subject` VARCHAR(4) NOT NULL,
   `Poster` INT NOT NULL,
   `PostDate` DATETIME NOT NULL,
-  `Content` LONGTEXT NOT NULL,
+  `CommentContent` LONGTEXT NOT NULL,
   `ReplyTo` INT NOT NULL,
   PRIMARY KEY (`CommentID`),
   UNIQUE INDEX `CommentID_UNIQUE` (`CommentID` ASC),

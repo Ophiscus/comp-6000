@@ -24,7 +24,6 @@ html, body {
 	border: 1px solid black;
 	text-align: center;
 	margin: auto;
-
 }
 
 #create {
@@ -41,6 +40,7 @@ html, body {
 #title {
 	width: 500px;
 	text-align: center;
+	margin-bottom: 10px;
 }
 
 #post_cont {
@@ -49,8 +49,14 @@ html, body {
 	text-align: center;
 }
 
+#type_select {
+	margin: 10px;
+	
+}
+
 #submit {
 	margin-top: 10px;
+	width: 80px;
 }
 
 /* Announcements */
@@ -58,28 +64,51 @@ html, body {
 #content {
 	margin-top: 20px !important;
 	margin: auto;
-}
-
-#content * {
+	width: 80%;
 	display: block;
 }
 
+#content * {}
+
 tbody {
 	width: 100%;
+	display: block;
 }
 
 .announcement {
-	margin-top: 20px;
+	margin-top: 40px;
+	display: block;
+}
+
+.post {
+	display: block;
+	width: 70%;
+}
+
+.post_head {
+	display: block;
+}
+
+.poster {
+	height: 25px;
+	border: 1px solid black;
+	float: left;
+	width: 5%;
+	background-color: #333;
+	color: white;
+	text-align: center;
+	display: block;
 }
 
 .subject {
 	height: 25px;
 	border: 1px solid black;
 	float: left;
-	width: 70%;
+	width: 65%;
 	background-color: #333;
 	color: white;
 	text-align: center;
+	display: block;
 }
 
 .date {
@@ -87,6 +116,26 @@ tbody {
 	text-align: center;
 	color: white;
 	height: 25px;
+	display: block;
+}
+
+.edit_icon {
+	float: right;
+	position: relative;
+	margin: auto;
+	padding-left: 50px;
+	top: -25px;
+	left: 40px;
+	display: block;
+}
+
+.edit_icon:hover {
+	opacity: 30%;
+	cursor: pointer;
+}
+
+.message_container {
+	display: block
 }
 
 .message {
@@ -97,4 +146,8 @@ tbody {
     background-color: white;
     display: block;
     padding: 10px;
+}
+
+.comment_section {
+	display: none;
 }
