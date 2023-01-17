@@ -1,18 +1,15 @@
 <html>
 <head>
-<title>Upload Form</title>
+    <title>Success Message</title>
 </head>
 <body>
-
-<h3>Your file was successfully uploaded!</h3>
-
+<h3>Congragulation You Have Successfuly Uploaded</h3>
+<!-- Uploaded file specification will show up here -->
 <ul>
-<?php foreach ($upload_data as $item => $value):?>
-<li><?php echo $item;?>: <?php echo $value;?></li>
-<?php endforeach; ?>
+    <?php foreach ($upload_data as $item => $value):?>
+    <li><?php echo $item;?>: <?php echo $value;?></li>
+    <?php endforeach; ?>
 </ul>
-
 <p><?php echo anchor('upload', 'Upload Another File!'); ?></p>
-
 </body>
 </html>
