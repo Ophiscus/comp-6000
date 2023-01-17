@@ -14,7 +14,7 @@
 
 <input type="submit" value="upload" />
 
-</form>
+<?php echo "</form>"?>
 
 </body>
 </html>
