@@ -9,22 +9,23 @@ class Payslip extends CI_Controller {
 				
         }
 
-        public function index()
+        public function show()
         {
                 $this->load->view('payslipview', array('error' => ' ' ));
         }
 
         public function do_upload()
         {
-                $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpg|png';
+                $config['upload_path']          = FCPATH."application/uploads/";
+                $config['allowed_types']        = 'gif|jpg|png|jpeg|pdf';
                 $config['max_size']             = 100;
                 $config['max_width']            = 1024;
                 $config['max_height']           = 768;
 
-                $this->load->library('upload', $config);
+                $this->load->library('upload');
+				$this->upload->initialize($config);
 
-                if ( ! $this->payslip->do_upload('userfile'))
+                if ( !$this->upload->do_upload('userfile'))
                 {
                         $error = array('error' => $this->upload->display_errors());
 
