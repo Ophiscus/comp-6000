@@ -15,7 +15,7 @@ class Stats_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function getIncome() {
+    public function getIncome($year) {
 
         $income = array();
 
@@ -23,7 +23,7 @@ class Stats_model extends CI_Model {
             $this->db->select_sum('Amount','profit');
             $this->db->from('income');
             $this->db->where('MONTH(Date)',$i);
-            $this->db->where('YEAR(Date)',date("Y"));
+            $this->db->where('YEAR(Date)',$year);
 
             $query = $this->db->get();
             $result = $query->result_array();
@@ -41,9 +41,10 @@ class Stats_model extends CI_Model {
         return $monthIncome;
     }
 
-    public function getExpenses() {
+    public function getExpenses($year) {
         $this->db->select('Name,Amount');
         $this->db->from('expenses');
+        $this->db->where('YEAR(Date)', $year);
 
         $query = $this->db->get();
         return $query->result_array();
