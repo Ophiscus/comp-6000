@@ -8,6 +8,14 @@ window.onload = function(event) {
 //Cycles through every element in page checking for manager tag, if an element has this then they are hidden if the employee is not a manager
 function checkManagerElements(query_result) {
 	var manager_elements = document.getElementsByClassName("manager");
+	console.log("Called");
+	//Faster solution provided css is reverted when page is reloaded
+	/*if (query_result == "Manager") {
+		console.log("Is a manager");
+		for (var i = 0; i < manager_elements.length; i++) {
+			manager_elements[i].style.display = "block";
+		}
+	}*/
 	
 	for (var i = 0; i < manager_elements.length; i++) {
 		if (query_result == "Manager") {

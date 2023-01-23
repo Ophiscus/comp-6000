@@ -21,12 +21,12 @@
 	<form method = "post" action = "<?php echo site_url('Forum/post'); ?>">
 		<div id="popup">
 			<!-- Title -->
-			<label for="title">Title:</label><br>
+			<label for="title" id="title_label">Title:</label><br>
 			<input type="text" id="title" name="title"><br>
 			
 			<!-- Message -->
-			<label for="post_cont" id="post_cont_lab">Content:</label><br>
-			<input type="text" id="post_cont" name="post_cont"><br>
+			<label for="post_cont" id="post_label">Content:</label><br>
+			<textarea type="text" id="post_cont" name="post_cont"></textarea><br>
 			
 			<!-- Post Type -->
 			<div id="type_select">
@@ -51,7 +51,7 @@
 foreach ($results as $row) {
 	?>
 	<tr class="announcement">
-		<td class="post">
+		<td class="post <?php echo $row['PostID']?>">
 			<tr class="post_head">
 				<td class="poster">
 					<?php echo $row['Poster']?>
@@ -75,15 +75,19 @@ foreach ($results as $row) {
 			<tr class="comment_section <?php echo $row['MessageType']?>">
 				<td> Comments: </td>
 				<?php
-				foreach ($comment_results as $row) { 
-					?>
+				//Dynamically loading comment HTML elements
+				/*foreach ($comment_results as $comment_row) { 
+					/*?>
 						<tr>
-							<button id="create_comment" onClick="openCommentForm()">Add Comment</button>
-							<form method = "post" action = "<?php echo site_url('Forum/post'); ?>">
+							<button class="create_comment" onClick="openCommentForm()">Add Comment</button>
+							<form method = "post" action = "<?php echo site_url('Forum/post_comment'); ?>">
 								<div id="popup">
 									<!-- Title -->
 									<label for="title">Title:</label><br>
 									<input type="text" id="title" name="title"><br>
+									
+									<!-- Reply To -->
+									<label><?php echo $comment_row['ReplyTo'] ?></label><br>
 									
 									<!-- Comment -->
 									<label for="post_cont" id="post_cont_lab">Content:</label><br>
@@ -100,7 +104,18 @@ foreach ($results as $row) {
 							</td>
 						</tr>
 					<?php
-				}
+				}*/
+				
+				//Manually echoing js script in php
+				/*echo '<script type="text/javascript">',
+					 'var post_ins = document.getElementsByClassName("<?php echo $row["PostID"]?>")',
+					 'for(var i = 0; i < post_ins.length; i++) {',
+						 'if(<?php echo $row["PostID"]?> == <?php echo $row["ReplyTo"]?>) {',
+							'document.createTextNode("<?php echo $row["CommentContent"]?>")',
+						 '}',
+					 '}',
+					 '</script>'
+				;*/
 				?>
 			</tr>
 		</td>
@@ -119,10 +134,34 @@ foreach ($results as $row) {
 <script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 <script type="text/javascript">
 	function getUsers() {
-	var users = document.getElementsByClassName("poster");
+		var users = document.getElementsByClassName("poster");
+		
+		for (var i = 0; i < users.length; i++) {
+			<?php $controller->getUser(users[i].textContent) ?>
+		}
+	}
 	
-	for (var i = 0; i < users.length; i++) {
-		<?php $controller->getUser(users[i].textContent) ?>
+	function getComments() {
+		console.log("called");
+	}
+	
+	function checkManagerElements(query_result) {
+	var manager_elements = document.getElementsByClassName("manager");
+	console.log("Called");
+	//Faster solution provided css is reverted when page is reloaded
+	/*if (query_result == "Manager") {
+		console.log("Is a manager");
+		for (var i = 0; i < manager_elements.length; i++) {
+			manager_elements[i].style.display = "block";
+		}
+	}*/
+	
+	for (var i = 0; i < manager_elements.length; i++) {
+		if (query_result == "Manager") {
+			manager_elements[i].style.display = "block";
+		} else {
+			manager_elements[i].style.display = "none";
+		}
 	}
 }
 </script>

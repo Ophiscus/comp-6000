@@ -55,6 +55,7 @@ class Login extends CI_Controller
 			
 			$results = $user->row();
 			 $data = array(
+					'staffid' => $results->{'StaffID'},
 					'username' => $results->username,
 					'first_name' => $results->{'First Name'},
 					'last_name' => $results->{'Last Name'},

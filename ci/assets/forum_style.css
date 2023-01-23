@@ -19,8 +19,8 @@ html, body {
 #tools {
 	width: 100%;
 	margin-top: 40px !important;
-	background: white;
-	height: 30px;
+	background-color: #333;
+	height: fit-content;
 	border: 1px solid black;
 	text-align: center;
 	margin: auto;
@@ -28,6 +28,20 @@ html, body {
 
 #create {
 	width: 100px;
+	color: #f2f2f2;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+    font-size: 20px;
+	background-color: #333;
+	width: fit-content;
+	border: none;
+}
+
+#create:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
 }
 
 #popup {
@@ -37,26 +51,71 @@ html, body {
 	transition: fade-in;
 }
 
+#title_label, #post_label {
+	color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+	background-color: #333;
+	border: none;
+}
+
+#title_label {
+	padding: 0px 228px;
+}
+
+#title, #post_cont {
+	margin-top: 0;
+}
+
 #title {
 	width: 500px;
 	text-align: center;
 	margin-bottom: 10px;
 }
 
+#post_label {
+	padding: 0px 208px;
+}
+
 #post_cont {
-	height: 400px;
+	height: 200px;
 	width: 500px;
 	text-align: center;
 }
 
+textarea, input[type=text] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
 #type_select {
 	margin: 10px;
-	
+	color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+	background-color: #333;
+	border: none;
+	padding: 0px 228px;
 }
 
 #submit {
 	margin-top: 10px;
 	width: 80px;
+	color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+	background-color: #333;
+	border: none;
+}
+
+#submit:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
 }
 
 /* Announcements */

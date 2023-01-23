@@ -203,9 +203,9 @@ CREATE TABLE IF NOT EXISTS `ForumPosts` (
 
 CREATE TABLE IF NOT EXISTS `Replies` (
   `CommentID` INT NOT NULL AUTO_INCREMENT,
-  `Subject` VARCHAR(4) NOT NULL,
-  `Poster` INT NOT NULL,
-  `PostDate` DATETIME NOT NULL,
+  `CommentSubject` VARCHAR(4) NOT NULL,
+  `CommentPoster` INT NOT NULL,
+  `CommentPostDate` DATETIME NOT NULL,
   `CommentContent` LONGTEXT NOT NULL,
   `ReplyTo` INT NOT NULL,
   PRIMARY KEY (`CommentID`),
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   INDEX `ReplyTo_idx` (`ReplyTo` ASC),
   CONSTRAINT `ReplyTo`
     FOREIGN KEY (`ReplyTo`)
-    REFERENCES `Forum Posts` (`PostID`)
+    REFERENCES `ForumPosts` (`PostID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
