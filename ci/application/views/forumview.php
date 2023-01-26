@@ -117,7 +117,6 @@ foreach ($results as $row) {
 					 '</script>'
 				;*/
 				?>
-				<script>test();</script>
 			</tr>
 		</td>
 	</tr>

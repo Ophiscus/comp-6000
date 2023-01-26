@@ -1,6 +1,6 @@
 //When the view is fully loaded these functions are called
 window.onload = function(event) {
-	showComments();
+	//showComments();
 	
 	//getUsers();
 }
@@ -65,6 +65,6 @@ function openForm() {
 	console.log("Message content " + message_content);
 }*/
 
-public function test() {
+function test() {
 	console.log("ping");
 }
