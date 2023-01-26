@@ -26,8 +26,8 @@ class Stats extends CI_Controller {
             $this->load->model('Stats_model');
 
             $stock = $this->Stats_model->getStock();
-            $income = $this->Stats_model->getIncome();
-            $expense = $this->Stats_model->getExpenses();
+            $income = $this->Stats_model->getIncome(date("Y"));
+            $expense = $this->Stats_model->getExpenses(date("Y"));
 
             //$stockData = array("stockData" => $stock);
             //$profitData = array("profitData" => $profit);
@@ -104,6 +104,30 @@ class Stats extends CI_Controller {
         $this->Stats_model->updateStock($id,$name,$needed,$cost,$quantity);
         
 
+    }
+
+    function getYearlyIncome()
+    {
+        $year = $this->input->get('year', TRUE);
+        if($year === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $income = $this->Stats_model->getIncome($year);
+        echo json_encode($income);
+    }
+
+    function getYearlyExpense()
+    {
+        $year = $this->input->get('year', TRUE);
+        if($year === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $expense = $this->Stats_model->getExpenses($year);
+        echo json_encode($expense);
     }
 
 }

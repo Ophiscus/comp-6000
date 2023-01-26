@@ -12,27 +12,44 @@
     <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
     <!-- Import the sidebar Script-->
     <script src="<?php echo base_url("assets/nav.js") ?>"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
 
 <style>
     .graphs {
         display: grid;
         grid-template-columns: auto auto;
-        padding: 10px;
+        grid-template-rows: 3vw 30vw;
+        padding: 0.5vw;
         width: 100%;
-        max-width: 500px;
+        max-width: 30vw;
         
+    }
+
+    .filler, .icons {
+        background-color: white;
+        border: 0.4vw solid #9C8C8C;
+    }
+
+    .graphs > .icons > #next{
+        float: right;
+        padding-right: 0.7vw;
+    }
+
+    #rowButtons{
+        display: grid;
+        grid-template-columns: auto;
     }
 
     canvas{
         background-color: white;
-        border: 10px solid grey;
-        border-spacing: 10px,20px;
+        border: 0.5vw solid grey;
+        border-spacing: 1vw,2vw;
         border-color: grey;
     }
 
     .stockTable {
-        padding: 10px;
+        padding: 0.5vw;
         text-align: center;
     }
 
@@ -50,8 +67,8 @@
     }
 
     th {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 2vw;
+        padding-bottom: 2vw;
         background-color: #228B22;
         color: white;
         text-transform: capitalize;
@@ -103,13 +120,15 @@
 </style>
 <script>
 
+    expenseChart;
+    incomeChart;
     function drawPieChart(xValues, yValues, id) {
 
         if (xValues.length == yValues.length) {
             var barColours = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
             createCanvasElement(id);
 
-            return new Chart(id, {
+            expenseChart = new Chart(id, {
                 type: "pie",
                 data: {
                     labels: xValues,
@@ -122,11 +141,13 @@
                     plugins: {
                         title: {    
                             display: true,
-                            text: id
+                            text: id + " for " + expenseYear
                         }
                     }
                 }
             });
+
+            return expenseChart;
         }
         return;
 
@@ -135,9 +156,8 @@
     function drawLineGraph(xValues, yValues, id) {
         if (xValues.length == yValues.length) {
             var barColours = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
-            createCanvasElement(id);
 
-            return new Chart(id, {
+            incomeChart = new Chart(id, {
                 type: "line",
                 data: {
                     labels: xValues,
@@ -152,17 +172,16 @@
                     plugins: {
                         title: {    
                             display: true,
-                            text: id
+                            text: id + " for " + incomeYear
                         }
                     }
                 }
             });
+
+            return incomeChart;
         }
         return;
 
-        function drawStackedBarChart(xValues, yValues, id) {
-
-        }
     }
 
     //TODO: currently using random colours if more than 8 is needed, definitely need to find a better solution (look at Canvas patterns or maybe a library that works)
@@ -315,7 +334,7 @@
             },
             success:function(response) {
                 var table =document.getElementById("table");
-                var newRow = table.insertRow((table.rows.length)-1).outerHTML="<tr id='row"+response+"'><td>"+newItemName+"</td><td>"+newQuantity+"</td><td>"+newNeeded+"</td><td>"+newItemCost+"</td><td> <button type = 'button' onclick='editRow("+response+")'> Edit </button> <br> <button type = 'button' onclick = 'deleteRow("+response+")'> Delete </button>  </td> </tr>";
+                var newRow = table.insertRow((table.rows.length)-1).outerHTML="<tr id='row"+response+"'><td>"+newItemName+"</td><td>"+newQuantity+"</td><td>"+newNeeded+"</td><td>"+newItemCost+"</td><td> <button type = 'button' onclick='editRow("+response+")'> Edit </button> <button type = 'button' onclick = 'deleteRow("+response+")'> Delete </button>  </td> </tr>";
 
                 document.getElementById("newItemName").value="";
                 document.getElementById("newQuantity").value="";
@@ -364,6 +383,33 @@
         document.getElementById("cancelButton"+id).style.display="none";
     }
 
+    function reRenderChart(chart,labels,data,title) {
+        
+        
+        chart.data.datasets.pop();
+        
+
+        var displayYear;
+
+        if(title === "Income") {
+            chart.data.datasets.push({
+                labels:labels,
+                label: "Monthly income in £",
+                data:data
+            })
+            displayYear = incomeYear;
+        } else {
+            chart.data.labels = labels;
+            chart.data.datasets.push({
+                data:data
+            })
+            displayYear = expenseYear;
+        }
+        chart.options.plugins.title.text = title + " for " + displayYear;
+        chart.update();
+    }
+
+
 </script>
 
 <body>
@@ -372,6 +418,14 @@
 
     <div id="main" class="main">
         <div id="graphs" class="graphs">
+            <div id="expense-icons" class = "icons">
+            <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                <span id="next" class="material-symbols-rounded">chevron_right</span>
+            </div>
+            <div id="income-icons" class = "icons">
+                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                <span id="next" class="material-symbols-rounded">chevron_right</span>
+            </div>
             <script>
                 var index = 0;
                 const income = [];
@@ -387,11 +441,18 @@
                     expenses[index]= <?php echo $expenseData['Amount']?>;
                     index++;
                 <?php } ?>
+                
+                var incomeYear = new Date().getFullYear();
+                var expenseYear = new Date().getFullYear();
+
                 //We can echo in values and loop using php to dynamically generate this list
                 drawPieChart(expenseNames, expenses, "Expenses")
                 
+                createCanvasElement("Income");
+
                 drawLineGraph(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], income, "Income")
-                
+            
+              
             </script>
             <button type="button" id="Expense Button" onclick="openForm(this.id)">Report Expenses</button>
             <button type="button" id="Income Button" onclick="openForm(this.id)">Report Income</button>
@@ -414,10 +475,13 @@
                     <td><?php echo $row['Quantity'] ?></td>
                     <td><?php echo $row['Needed'] ?></td>
                     <td><?php echo $row['ItemCost']?></td>
-                    <td> <button type ="button" id="editButton<?php echo $row['ItemID']?>" onclick = "editRow(<?php echo $row['ItemID']?>)">Edit</button> <br>
+                    <td> 
+                        <div id = "rowButtons">
+                        <button type ="button" id="editButton<?php echo $row['ItemID']?>" onclick = "editRow(<?php echo $row['ItemID']?>)">Edit</button>
                         <button type = "button" id="saveButton<?php echo $row['ItemID']?>" onclick="saveRow(<?php echo $row['ItemID']?>)" class="editing"> Save </button>
                         <button type = "button" id="deleteButton<?php echo $row['ItemID']?>" onclick = "deleteRow(<?php echo $row['ItemID']?>)"> Delete </button> 
                         <button type = "button" id="cancelButton<?php echo $row['ItemID']?>" onclick="cancelRow(<?php echo $row['ItemID']?>)" class="editing"> Cancel </button>
+                        </div>
                     </td>
                 </tr>
                 <?php } ?>
@@ -483,5 +547,57 @@
         document.getElementById("IncomePopup").style.setProperty('display','none');
     }
 
+    swapYearIcons = document.querySelectorAll("#income-icons span");
+
+    //add event listeners to chevrons for graph update functionality
+    swapYearIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            if(icon.id === "prev") {
+                incomeYear = incomeYear - 1;
+            } else if(icon.id === "next") {
+                incomeYear = incomeYear + 1;
+            }
+            
+            //retrieve new income data
+            $.ajax({
+                url: '<?php echo base_url("index.php/Stats/getYearlyIncome")?>',
+                method: 'get',
+                data: {year: incomeYear},
+                dataType: 'json',
+                success: function(data) {
+                    reRenderChart(incomeChart,Object.keys(data),[data.January,data.February,data.March,data.April,data.May,data.June,data.July,data.August,data.September,data.October,data.November,data.December],"Income");
+                }
+            })
+        })
+    });
+
+    swapYearIcons = document.querySelectorAll("#expense-icons span");
+
+    swapYearIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            if(icon.id === "prev") {
+                expenseYear = expenseYear - 1;
+            } else if(icon.id === "next") {
+                expenseYear = expenseYear + 1;
+            }
+
+            $.ajax({
+                url: '<?php echo base_url("index.php/Stats/getYearlyExpense")?>',
+                method: 'get',
+                data: {year:expenseYear},
+                dataType: 'json',
+                success:function(data) {
+                    var values = [];
+                    var names = [];
+                    for(let i =0; i<data.length;i++) {
+                        values[i] = data[i].Amount;
+                        names[i] = data[i].Name;
+                    }
+                    
+                    reRenderChart(expenseChart,names,values, "Expenses");
+                }
+            })
+        })
+    })
 </script>
 </html>
