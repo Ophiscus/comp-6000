@@ -10,12 +10,13 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <script src=<?php echo base_url("assets/script.js defer") ?>></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
 </head>
 
 
 <body>
 
-  <div id="mySidebar" class="sidebar">
+ <!-- <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
     <a href="#">Forum</a>
     <a href="#">Statistics</a>
@@ -28,11 +29,16 @@
       <button class="openbtn" onclick="openNav()">☰</button>
       <a class="active" href="#home">Home</a>
       <a href="#login">User</a>
-    </div>
+    </div> -->
+    
+<div id="main" class="main">
+
+    <?php include("assets/nav.html");?>
 
     <div class="wrapper">
       <header>
         <p class="current-date"></p>
+		<span><button onclick="openAddForm()">Add Event</button></span>
         <div class="icons">
           <span id="prev" class="material-symbols-rounded">chevron_left</span>
           <span id="next" class="material-symbols-rounded">chevron_right</span>
@@ -53,14 +59,66 @@
       </div>
 
       <div id="eventBar" class="eventBar" id="eventbar">
-        <a href="#close" class="closebtn" onclick="closeEvent()">X</a>
-        <a href="#event" class="active" id="eventTime">N/A</a>
-        <a href="#event" class="active" id="eventDescription">Events should go here</a>
-      </div>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeEvent()">X</a>
+        <a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>
+		<a href="#event" class="active" id="eventTime">N/A</a>
+		<a href="#event" class="active" id="eventDescription">Events should go here</a>
+		</div>
 
-    </div>
-  </div>
-  </div>
+		</div>
+				<div class="editPopup">
+					<div class="formPopup" id="popupForm">
+						<form action="/action_page.php" class="formContainer">
+						<h2>Please input time and description</h2>
+							 <label for="Time">
+								 <strong>Time</strong>
+							</label>
+							<input type="text" id="time" placeholder="please enter the time for the event." name="Time" required>
+							<label for="description">
+								<strong>Event/Description</strong>
+							 </label>
+							 <input type="text" id="description" placeholder="Please enter event" name="Description" required>
+							<button type="submit" class="btn">Submit</button>
+							<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+						 </form>
+					</div>
+				 </div>
+		</div>
+	</div>
+
+	<form method = "post" action = "<?php echo site_url('Calendar/post');?>">
+
+	</div>
+		<div class="addPopup">
+			<div class="addFormPopup" id="addPopupForm">
+				<div action="/action_page.php" class="Container">
+					<h2>Please input time and description</h2>
+					<label for="staffID">
+							<strong>staffID</strong>
+						</label>
+					<input type="number" id="staff" placeholder="Please enter event" name="StaffID" required>
+						<label for="startDate">
+							<strong>Starting time<strong>
+						</label>
+					<input type="datetime-local" id="startdate" placeholder="please enter the date for the event." name="StartDate" required>
+						<label for="endTime">
+							<strong>End Time</strong>
+						</label>
+					<input type="datetime-local" id="endtime" placeholder="please enter the time for the event." name="endTime" required>
+						<label for="description">
+							<strong>Event/Description</strong>
+						</label>
+					<input type="text" id="description" placeholder="Please enter event" name="Description" required>
+						<button type="submit" class="btn" value = "Post">Submit</button>
+						<button type="button" class="btn cancel" onclick="closeAddForm()">Cancel</button>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
+	</form>
+
+ </div>
 
 </body>
 
@@ -81,6 +139,22 @@
   function closeEvent() {
     document.getElementById("eventBar").style.display = "none";
   }
+
+  function openForm() {
+        document.getElementById("popupForm").style.display = "block";
+      }
+
+ function closeForm() {
+     document.getElementById("popupForm").style.display = "none";
+   }
+
+  function openAddForm() {
+       document.getElementById("addPopupForm").style.display = "block";
+    }
+
+function closeAddForm() {
+     document.getElementById("addPopupForm").style.display = "none";
+   }
 
   const daysTag = document.querySelector(".days"),
     currentDate = document.querySelector(".current-date"),
@@ -110,7 +184,7 @@
 
     if ((events.length > 0)) {
       var eventNumber = 0;
-      nextEventDate = new Date(events[eventNumber]["Shift Start"]);
+      nextEventDate = new Date(events[eventNumber]["ShiftStart"]);
       eventsToFill = true;
     }
 
@@ -121,7 +195,7 @@
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
 
       if (nextEvent && events[eventNumber] != null) {
-        nextEventDate = new Date(events[eventNumber]["Shift Start"]);
+        nextEventDate = new Date(events[eventNumber]["ShiftStart"]);
         nextEvent = true;
       }
       // adding active class to li if the current day, month, and year matched
@@ -129,7 +203,7 @@
       let thisDate = new Date(`${improvDate} ${months[currMonth]} ${currYear}`);
       let sqlDate = thisDate.toISOString();
       if (eventsToFill && parseInt(improvDate) === nextEventDate.getDate() && currMonth + 1 === (nextEventDate.getMonth() + 1) && currYear === nextEventDate.getFullYear()) {
-        liTag += `<li  onclick = "openEvent('${nextEventDate.toLocaleTimeString()},${new Date(events[eventNumber]["End Time"]).toLocaleTimeString()},${events[eventNumber]["Description"]}')" class="event">${i}</li>`
+        liTag += `<li  onclick = "openEvent('${nextEventDate.toLocaleTimeString()},${new Date(events[eventNumber]["EndTime"]).toLocaleTimeString()},${events[eventNumber]["Description"]}')" class="event">${i}</li>`
         eventNumber++;
         nextEvent = true;
       } else if (isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()) {
@@ -153,6 +227,7 @@
     dataType: 'json',
     success: function (response) {
       events = response;
+      console.log(response);
       dynamicCalendar(response);
     }
   })

@@ -27,6 +27,23 @@ class Calendar extends CI_Controller {
         echo json_encode($data);
     }
 
+	public function post()
+	{
+		$this->load->model('Calendar_Model');
+	
+		$StaffID = $this->input->post('StaffID');
+		$StartShift = $this->input->post('StartDate');
+		$EndShift = $this->input->post('endTime');
+		$Description = $this->input->post('Description');
+
+		$this->Calendar_Model->AddNewEvent($StaffID,$StartShift,$EndShift,$Description);
+		
+		//Reload the page
+        $this->load->helper('url'); 
+        
+        $this->load->view('calendar');
+	}
+
 }
 
 ?>

@@ -134,7 +134,7 @@ foreach ($results as $row) {
 <script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 <script type="text/javascript">
-	public function test() {
+	function test() {
 		console.log("ping");
 	}
 </script>

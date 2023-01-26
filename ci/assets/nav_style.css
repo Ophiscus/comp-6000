@@ -17,6 +17,10 @@ body{
   background: #FFFDD0;
 }
 
+.main{
+  transition: 0.5s;
+}
+
 .topnav{
   overflow: hidden;
   background-color: #333;
