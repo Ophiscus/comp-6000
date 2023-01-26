@@ -48,7 +48,7 @@
 </thead>
 <tbody>
 <?php
-foreach ($results as $row) {
+foreach ($results as $row) { 
 	?>
 	<tr class="announcement">
 		<td class="post <?php echo $row['PostID']?>">
@@ -117,6 +117,7 @@ foreach ($results as $row) {
 					 '</script>'
 				;*/
 				?>
+				<script>test();</script>
 			</tr>
 		</td>
 	</tr>
@@ -133,37 +134,9 @@ foreach ($results as $row) {
 <script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 <script type="text/javascript">
-	function getUsers() {
-		var users = document.getElementsByClassName("poster");
-		
-		for (var i = 0; i < users.length; i++) {
-			<?php $controller->getUser(users[i].textContent) ?>
-		}
+	public function test() {
+		console.log("ping");
 	}
-	
-	function getComments() {
-		console.log("called");
-	}
-	
-	function checkManagerElements(query_result) {
-	var manager_elements = document.getElementsByClassName("manager");
-	console.log("Called");
-	//Faster solution provided css is reverted when page is reloaded
-	/*if (query_result == "Manager") {
-		console.log("Is a manager");
-		for (var i = 0; i < manager_elements.length; i++) {
-			manager_elements[i].style.display = "block";
-		}
-	}*/
-	
-	for (var i = 0; i < manager_elements.length; i++) {
-		if (query_result == "Manager") {
-			manager_elements[i].style.display = "block";
-		} else {
-			manager_elements[i].style.display = "none";
-		}
-	}
-}
 </script>
 <script src="<?php echo base_url("assets/jquery-3.6.3.min.js") ?>">
 	$( document ).ready(function() {

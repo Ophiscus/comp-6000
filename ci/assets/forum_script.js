@@ -44,13 +44,13 @@ function openForm() {
 }
 
 //Looks at all elements which should have comments and displays them
-function showComments() {
+/*function showComments() {
 	var posts = document.getElementsByClassName("comment");
 	
 	for (var i = 0; i < posts.length; i++) {
 		posts[i].setAttribute( 'style', 'display: block !important' );
 	}
-}
+}*/
 
 //Allows the manager to edit the subject and message
 /*function editPost(current) {
@@ -65,6 +65,6 @@ function showComments() {
 	console.log("Message content " + message_content);
 }*/
 
-function test() {
+public function test() {
 	console.log("ping");
 }

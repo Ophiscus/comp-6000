@@ -15,7 +15,7 @@ class Forum extends CI_Controller {
 		
 		$results = array("results" => $data);
 		$comment_results = array("comment_results" => $comment_data);
-		$results = $results /*+ $comment_results*/;
+		$results = $results + $comment_results;
 		
 		//Adds usernames to results
 		/*for ($i = 0; $i < count($results); $i++) { 
@@ -53,6 +53,7 @@ class Forum extends CI_Controller {
 		
 		//Passes message data from model to the view
 		$this->load->view('forumview', ($results + $comment_results));
+		//$this->load->view('testview');
 	}
 	
 	public function post() {
