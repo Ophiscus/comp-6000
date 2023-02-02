@@ -10,6 +10,6 @@
     <li><?php echo $item;?>: <?php echo $value;?></li>
     <?php endforeach; ?>
 </ul>
-<p><?php echo anchor('upload', 'Upload Another File!'); ?></p>
+<p><?php echo anchor('Add file', 'Upload Another File!'); ?></p>
 </body>
 </html>
