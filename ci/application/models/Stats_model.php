@@ -15,6 +15,16 @@ class Stats_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function getHidden() {
+        $this->db->select('*');
+        $this->db->from('items');
+        $this->db->where('Hide',1);
+
+        $query=$this->db->get();
+
+        return $query->result_array();
+    }
+
     public function getIncome($year) {
 
         $income = array();
@@ -74,6 +84,7 @@ class Stats_model extends CI_Model {
     //sets hide value of the id deleted to 1, so that it won't appear in the view (this could be used for an UNDO or history function later, else this should simply delete the data)
     public function hideStock($id) {
         $this->db->set('Hide','1',FALSE);
+        $this->db->set('Hidden', 'CURRENT_TIMESTAMP',FALSE);
         $this->db->where('ItemID',$id);
         $this->db->update('items');
     }
@@ -83,6 +94,18 @@ class Stats_model extends CI_Model {
 
         $this->db->where('ItemID',$id);
         $this->db->update('items',$data);
+    }
+
+    public function restoreStock($id) {
+        $this->db->set('Hide','0',FALSE);
+        $this->db->set('Hidden', "NULL",FALSE);
+        $this->db->where('ItemID', $id);
+        $this->db->update('items');
+    }
+
+    public function deleteHiddenStock($id) {
+        $this->db->where('ItemID', $id);
+        $this->db->delete('items');
     }
 
 }

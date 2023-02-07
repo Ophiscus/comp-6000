@@ -28,11 +28,12 @@ class Stats extends CI_Controller {
             $stock = $this->Stats_model->getStock();
             $income = $this->Stats_model->getIncome(date("Y"));
             $expense = $this->Stats_model->getExpenses(date("Y"));
+            $hidden = $this->Stats_model->getHidden();
 
             //$stockData = array("stockData" => $stock);
             //$profitData = array("profitData" => $profit);
 
-            $data = array("stockData" => $stock, "incomeData" => $income, "expensesData" => $expense);
+            $data = array("stockData" => $stock, "incomeData" => $income, "expensesData" => $expense, "recoveryItems" => $hidden);
 
             $this->load->view('stats', $data);
     }
@@ -104,6 +105,32 @@ class Stats extends CI_Controller {
         $this->Stats_model->updateStock($id,$name,$needed,$cost,$quantity);
         
 
+    }
+
+    function restoreStock() {
+        $id = $this->input->post('id', TRUE);
+        if($id === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $this->Stats_model->restoreStock($id);
+
+        $this->show();
+
+        return;
+    }
+
+    function deleteHiddenStock() {
+        $id = $this->input->post('id', TRUE);
+        if($id === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $this->Stats_model->deleteHiddenStock($id);
+
+        return;
     }
 
     function getYearlyIncome()

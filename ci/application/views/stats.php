@@ -13,6 +13,7 @@
     <!-- Import the sidebar Script-->
     <script src="<?php echo base_url("assets/nav.js") ?>"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <style>
@@ -60,6 +61,11 @@
         border-collapse: collapse;
         text-align: center;
         background-color: #ffff66
+    }
+
+    #RecoveryTable th, #RecoveryTable td {
+        background-color: white;
+        color: black
     }
 
     table {
@@ -205,9 +211,11 @@
 
     function openForm(button_id){
         if(button_id == "Expense Button") {
-        document.getElementById("ExpensePopup").style.setProperty('display','block');
+            document.getElementById("ExpensePopup").style.setProperty('display','block');
         } else if(button_id == "Income Button") {
-        document.getElementById("IncomePopup").style.setProperty('display','block');
+            document.getElementById("IncomePopup").style.setProperty('display','block');
+        } else if(button_id == "Recover Button") {
+            document.getElementById("RecoveryPopup").style.setProperty('display','block');
         }
     }
 
@@ -409,6 +417,27 @@
         chart.update();
     }
 
+    function recoverItem(id) {
+        $.ajax({
+            url: '<?php echo base_url("index.php/Stats/restoreStock")?>',
+            method: 'post',
+            data: {id: id},
+            success:function(){
+                alert("recovery successful");
+            }
+        })
+    }
+
+    function deleteRecoveryItem(id) {
+        $.ajax({
+            url:'<?php echo base_url("index.php/Stats/deleteHiddenStock")?>',
+            method: 'post',
+            data: {id: id},
+            success:function(){
+                alert("Deleted");
+            }
+        })
+    }
 
 </script>
 
@@ -467,7 +496,7 @@
                     <th>Quantity</th>
                     <th>Needed</th>
                     <th>cost per unit</th>
-                    <th></th>
+                    <th><button type = "button" id = "Recover Button" onclick="openForm(this.id)" > Recover Deleted </button></th>
                 </tr>
                 <?php foreach($stockData as $row) { ?>
                 <tr id = "row<?php echo $row['ItemID']?>">
@@ -530,6 +559,34 @@
         </div>
     </div>
 
+    <div id="RecoveryPopup" class="popup">
+        <div id="Recover_Content" class="Content">
+        <span class="closeTab" id="closeRecoveryTab">&times;</span>
+            <h1>Deleted Items</h1>
+        
+            <div id="RecoveryItems">
+                <table id="RecoveryTable">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Restore</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr>
+                        <?php foreach($recoveryItems as $recoveryItem) { ?>
+                            <tr> 
+                            <td><?php echo $recoveryItem['ItemName'] ?></td>
+                            <td><span class="material-symbols-outlined" onclick = "recoverItem(<?php echo $recoveryItem['ItemID']?>)">restore_from_trash</span></td>
+                            <td><span class="material-symbols-outlined" onclick = "deleteRecoveryItem(<?php echo $recoveryItem['ItemID']?>)">delete_forever</span></td>
+                            </tr>
+                        <?php } ?>
+                    </tr>
+                </table>
+            </div>
+        
+        </div>
+
+    </div>
+
     
 
 
@@ -538,6 +595,7 @@
 
     var closeExpenses = document.getElementById("closeExpenseTab");
     var closeIncome = document.getElementById("closeIncomeTab");
+    var closeRecovery = document.getElementById("closeRecoveryTab");
 
     closeExpenses.onclick = function() {
         document.getElementById("ExpensePopup").style.setProperty('display','none');
@@ -545,6 +603,10 @@
 
     closeIncome.onclick = function() {
         document.getElementById("IncomePopup").style.setProperty('display','none');
+    }
+
+    closeRecovery.onclick = function() {
+        document.getElementById("RecoveryPopup").style.setProperty('display','none');
     }
 
     swapYearIcons = document.querySelectorAll("#income-icons span");
