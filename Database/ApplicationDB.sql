@@ -229,9 +229,9 @@ CREATE TABLE IF NOT EXISTS`items` (
   `Quantity` INT NOT NULL,
   `Needed` INT NOT NULL,
   'Hide' TINYINT NOT NULL DEFAULT 0,
+  'Hidden' Date,
   PRIMARY KEY (`ItemID`),
-  UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC),
-  UNIQUE INDEX `ItemName_UNIQUE` (`ItemName` ASC));
+  UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC));
 
 INSERT INTO `items`
 (`ItemName`,
