@@ -28,12 +28,11 @@ class Stats extends CI_Controller {
             $stock = $this->Stats_model->getStock();
             $income = $this->Stats_model->getIncome(date("Y"));
             $expense = $this->Stats_model->getExpenses(date("Y"));
-            $hidden = $this->Stats_model->getHidden();
 
             //$stockData = array("stockData" => $stock);
             //$profitData = array("profitData" => $profit);
 
-            $data = array("stockData" => $stock, "incomeData" => $income, "expensesData" => $expense, "recoveryItems" => $hidden);
+            $data = array("stockData" => $stock, "incomeData" => $income, "expensesData" => $expense);
 
             $this->load->view('stats', $data);
     }
@@ -133,6 +132,20 @@ class Stats extends CI_Controller {
         return;
     }
 
+    function getHidden() 
+    {
+        $this->load->model('Stats_model');
+        $data = $this->Stats_model->getHidden();
+        echo json_encode($data);
+    }
+
+    function getStock()
+    {
+        $this->load->model('Stats_model');
+        $data = $this->Stats_model->getStock();
+        echo json_encode($data);
+    }
+
     function getYearlyIncome()
     {
         $year = $this->input->get('year', TRUE);
@@ -156,6 +169,8 @@ class Stats extends CI_Controller {
         $expense = $this->Stats_model->getExpenses($year);
         echo json_encode($expense);
     }
+
+    
 
 }
 

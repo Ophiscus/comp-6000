@@ -215,7 +215,30 @@
         } else if(button_id == "Income Button") {
             document.getElementById("IncomePopup").style.setProperty('display','block');
         } else if(button_id == "Recover Button") {
-            document.getElementById("RecoveryPopup").style.setProperty('display','block');
+            $.ajax({
+                url: '<?php echo base_url("index.php/Stats/getHidden")?>',
+                method: 'get',
+                dataType: 'json',
+                success: function(items) {
+                    var recoveryPopup = document.getElementById("RecoveryPopup");
+                    var recoveryTable = $("#RecoveryTable");
+                    recoveryPopup.style.setProperty('display','block');
+                    recoveryTable.find("tr:gt(0)").remove();
+                    for(var i=0; i<items.length; i++) {
+                        var newRow = document.createElement("tr");
+                        var newCell1 = document.createElement("td");
+                        var newCell2 = document.createElement("td");
+                        var newCell3 = document.createElement("td");
+                        newCell1.innerHTML = items[i]["ItemName"];
+                        newCell2.innerHTML = '<span class="material-symbols-outlined" onclick = "recoverItem('+ items[i]["ItemID"] +')">restore_from_trash</span>';
+                        newCell3.innerHTML = '<span class="material-symbols-outlined" onclick = "deleteRecoveryItem(' + items[i]["ItemID"] + ')">delete_forever</span>';
+                        newRow.append(newCell1);
+                        newRow.append(newCell2);
+                        newRow.append(newCell3);
+                        recoveryTable[0].appendChild(newRow);
+                    }
+                }
+            })
         }
     }
 
@@ -426,6 +449,113 @@
                 alert("recovery successful");
             }
         })
+
+        //repopulate the existing stock table
+        $.ajax({
+            url: '<?php echo base_url("index.php/Stats/getStock")?>',
+            method: 'get',
+            dataType: 'json',
+            success:function(items){
+                var stockTable = $("#table");
+                stockTable.find("tr:gt(0)").remove();
+                for(let i=0; i<items.length; i++) {
+                    let newRow = document.createElement("tr");
+                    newRow.id = "row"+items[i]["ItemID"];
+                    let newCell1 = document.createElement("td");
+                    let newCell2 = document.createElement("td");
+                    let newCell3 = document.createElement("td");
+                    let newCell4 = document.createElement("td");
+                    let newCell5 = document.createElement("td");
+                    newCell1.innerHTML = items[i]["ItemName"];
+                    newCell2.innerHTML = items[i]["Quantity"];
+                    newCell3.innerHTML = items[i]["Needed"];
+                    newCell4.innerHTML = items[i]["ItemCost"];
+                    
+                    let buttonDiv = document.createElement("div");
+                    buttonDiv.id = "rowButtons"
+                    newCell5.append(buttonDiv);
+
+                    let itemID = items[i]["ItemID"];
+                    let editButton = document.createElement('input');
+                    editButton.type = "button";
+                    editButton.id = "editButton"+itemID;
+                    editButton.addEventListener("click",function(){editRow(itemID);});
+                    editButton.value = "Edit";
+                    buttonDiv.append(editButton);
+
+                    let saveButton = document.createElement('input');
+                    saveButton.type = "button";
+                    saveButton.id = "saveButton"+itemID;
+                    saveButton.addEventListener("click",function(){saveRow(itemID);});
+                    saveButton.value = "Save";
+                    saveButton.className = "editing";
+                    buttonDiv.append(saveButton);
+
+                    let deleteButton = document.createElement('input');
+                    deleteButton.type = "button";
+                    deleteButton.id = "deleteButton"+itemID;
+                    deleteButton.addEventListener("click",function(){deleteRow(itemID);});
+                    deleteButton.value = "Delete";
+                    buttonDiv.append(deleteButton);
+
+                    let cancelButton = document.createElement('input');
+                    cancelButton.type = "button";
+                    cancelButton.id = "cancelButton"+itemID;
+                    cancelButton.addEventListener("click",function(){cancelRow(itemID);});
+                    cancelButton.value = "Cancel";
+                    cancelButton.className = "editing";
+                    buttonDiv.append(cancelButton);
+
+                    newRow.append(newCell1);
+                    newRow.append(newCell2);
+                    newRow.append(newCell3);
+                    newRow.append(newCell4);
+                    newRow.append(newCell5);
+                    stockTable[0].appendChild(newRow);
+                }
+
+                let newRow = document.createElement("tr");
+
+                let newCell1 = document.createElement("td");
+                let newCell2 = document.createElement("td");
+                let newCell3 = document.createElement("td");
+                let newCell4 = document.createElement("td");
+                let newCell5 = document.createElement("td");
+                
+                let newIn1 = document.createElement('input');
+                newIn1.type = "text";
+                let newIn2 = document.createElement('input');
+                newIn2.type = "text";
+                let newIn3 = document.createElement('input');
+                newIn3.type = "text";
+                let newIn4 = document.createElement('input');
+                newIn4.type = "text";
+                newIn1.id = "newItemName";
+                newIn2.id = "newQuantity";
+                newIn3.id = "newNeeded";
+                newIn4.id = "newItemCost";
+
+                let newIn5 = document.createElement("input");
+                newIn5.type = "button";
+                newIn5.className = "add";
+                newIn5.value = "Add Row";
+                newIn5.addEventListener("click",addRow);
+
+                newCell1.append(newIn1);
+                newRow.append(newCell1);
+                newCell2.append(newIn2);
+                newRow.append(newCell2);
+                newCell3.append(newIn3);
+                newRow.append(newCell3);
+                newCell4.append(newIn4);
+                newRow.append(newCell4);
+                newCell5.append(newIn5);
+                newRow.append(newCell5);
+            
+                stockTable[0].appendChild(newRow);
+                
+            }
+        })
     }
 
     function deleteRecoveryItem(id) {
@@ -570,15 +700,6 @@
                         <th>Item Name</th>
                         <th>Restore</th>
                         <th>Delete</th>
-                    </tr>
-                    <tr>
-                        <?php foreach($recoveryItems as $recoveryItem) { ?>
-                            <tr> 
-                            <td><?php echo $recoveryItem['ItemName'] ?></td>
-                            <td><span class="material-symbols-outlined" onclick = "recoverItem(<?php echo $recoveryItem['ItemID']?>)">restore_from_trash</span></td>
-                            <td><span class="material-symbols-outlined" onclick = "deleteRecoveryItem(<?php echo $recoveryItem['ItemID']?>)">delete_forever</span></td>
-                            </tr>
-                        <?php } ?>
                     </tr>
                 </table>
             </div>
