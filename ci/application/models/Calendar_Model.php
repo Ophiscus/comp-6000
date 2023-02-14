@@ -13,7 +13,7 @@ class Calendar_model extends CI_Model{
     }
 
     public function getAllEventsByMonth($month) {
-        $this->db->select("StaffID, `ShiftStart`, `EndTime`, Description",FALSE);
+        $this->db->select("RotaID, StaffID, `ShiftStart`, `EndTime`, Description",FALSE);
         $this->db->where('MONTH(`ShiftStart`) =', $month);
         $this->db->from('Rota');
         $this->db->order_by('ShiftStart', 'ASC');

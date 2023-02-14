@@ -1,4 +1,4 @@
-<html lang="en" dir="ltr">
+   <html lang="en" dir="ltr">
 
 <head>
   <meta charset="utf-8">
@@ -13,23 +13,7 @@
   <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
 </head>
 
-
 <body>
-
- <!-- <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
-    <a href="#">Forum</a>
-    <a href="#">Statistics</a>
-    <a href="#">Calendar</a>
-    <a href="#">Contact Us</a>
-  </div>
-
-  <div id="main" class="main">
-    <div class="topnav">
-      <button class="openbtn" onclick="openNav()">☰</button>
-      <a class="active" href="#home">Home</a>
-      <a href="#login">User</a>
-    </div> -->
     
 <div id="main" class="main">
 
@@ -61,8 +45,14 @@
       <div id="eventBar" class="eventBar" id="eventbar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeEvent()">X</a>
         <a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>
-		<a href="#event" class="active" id="eventTime">N/A</a>
-		<a href="#event" class="active" id="eventDescription">Events should go here</a>
+    <table class="eventTable" id = "displayEvent">
+    <tr class = "tableHeader" >
+      <th> Start Date/Time</th>
+      <th> End Date/Time</th>
+      <th>Description</th>
+      <th>Edit/Delete</th>
+    </tr>
+  </table>
 		</div>
 
 		</div>
@@ -123,18 +113,7 @@
 </body>
 
 <script defer>
-  function openEvent(data) {
-    document.getElementById("eventBar").style.display = "block";
-    if (data == null) {
-      console.log("nothing");
-      document.getElementById("eventTime").innerHTML = "N/A";
-      document.getElementById("eventDescription").innerHTML = "No Event";
-    } else {
-      info = data.split(",")
-      document.getElementById("eventTime").innerHTML = "Time: " + info[0] + "-" + info[1];
-      document.getElementById("eventDescription").innerHTML = "Description: " + info[2];
-    }
-  }
+const eventDateData = new Array();
 
   function closeEvent() {
     document.getElementById("eventBar").style.display = "none";
@@ -164,8 +143,7 @@ function closeAddForm() {
   let date = new Date(),
     currYear = date.getFullYear(),
     currMonth = date.getMonth();
-  let demoEventData = "TestUser data fro the event bar";
-  let demoDate = new Date("30-11-2022");
+    
 
   // storing full name of all months in array
   const months = ["January", "February", "March", "April", "May", "June", "July",
@@ -181,7 +159,6 @@ function closeAddForm() {
     var eventsToFill = false;
     var nextEvent = false;
 
-
     if ((events.length > 0)) {
       var eventNumber = 0;
       nextEventDate = new Date(events[eventNumber]["ShiftStart"]);
@@ -193,26 +170,72 @@ function closeAddForm() {
     }
 
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
+      var eventsData = [];
 
       if (nextEvent && events[eventNumber] != null) {
         nextEventDate = new Date(events[eventNumber]["ShiftStart"]);
         nextEvent = true;
       }
+    
       // adding active class to li if the current day, month, and year matched
       let improvDate = (i).toLocaleString(undefined, { minimumIntegerDigits: 2, useGrouping: false })
-      let thisDate = new Date(`${improvDate} ${months[currMonth]} ${currYear}`);
-      let sqlDate = thisDate.toISOString();
-      if (eventsToFill && parseInt(improvDate) === nextEventDate.getDate() && currMonth + 1 === (nextEventDate.getMonth() + 1) && currYear === nextEventDate.getFullYear()) {
-        liTag += `<li  onclick = "openEvent('${nextEventDate.toLocaleTimeString()},${new Date(events[eventNumber]["EndTime"]).toLocaleTimeString()},${events[eventNumber]["Description"]}')" class="event">${i}</li>`
-        eventNumber++;
-        nextEvent = true;
-      } else if (isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()) {
-        liTag += `<li  onclick = "openEvent()" class="active">${i}</li>`;
-      }
-      else {
-        liTag += `<li onclick = "openEvent()">${i}</li>`;
-      }
+
+      if( isToday = i === date.getDate() && eventsToFill === true && parseInt(improvDate) === nextEventDate.getDate() && currMonth + 1 === (nextEventDate.getMonth() + 1) && currYear === nextEventDate.getFullYear() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear())
+        {
+          var j = eventNumber;
+          while(j <= event.length-1)
+            {
+              eventDateCheck = new Date(events[j]["ShiftStart"])
+              if(eventDateCheck.getDate() === parseInt(improvDate))
+              {
+                eventDateData += events[j];
+                console.log(eventDateData);
+                j++;
+              }
+              else
+              {
+                break;
+              }
+              
+            }
+          liTag += `<li id=${i}  onclick = "openEvent(...${eventDateData})" class="active event">${i}</li>`
+          eventNumber = j;
+          nextEvent = true
+        }
+      else if (eventsToFill && parseInt(improvDate) === nextEventDate.getDate() && currMonth + 1 === (nextEventDate.getMonth() + 1) && currYear === nextEventDate.getFullYear()) 
+          {
+            var isEventPresent = null;
+            var j = eventNumber;
+            var trialData = new Array();
+            while(j <= events.length-1)
+            {
+              let eventDateCheck = new Date(events[j]["ShiftStart"])
+              if(eventDateCheck.getDate() === parseInt(improvDate))
+              {
+                trialData.push(events[j]);
+                j++;
+              }
+              else
+              {
+                break;
+              }
+            }
+            
+            eventDateData.push(trialData);
+            liTag += `<li id=${i} onclick = "openEvent(this.id)" class="event">${i}</li>`
+            eventNumber = j;
+            nextEvent = true;
+          }
+      else if (isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()) 
+        {
+          liTag += `<li id=${i} onclick = "openEvent()" class="active">${i}</li>`;
+        }
+      else 
+        {
+         liTag += `<li id=${i} onclick = "openEvent()">${i}</li>`;
+        }
     }
+
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
       liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
@@ -268,6 +291,64 @@ function closeAddForm() {
 
   });
 
+  function openEvent(Id) {
+    document.getElementById("eventBar").style.display = "block";
+    console.log(eventDateData);
+    if (eventDateData == null) {
+      console.log("nothing");
+    } 
+    else 
+    {
+      console.log("Data");
+      var table = document.getElementById("displayEvent");
+      var tempData;
+
+      for(var i = 0; i<= (eventDateData.length-1); i++)
+      {
+        var date = new Date(eventDateData[i][0]["ShiftStart"]);
+        console.log(date);
+        let improvDate = (Id).toLocaleString(undefined, { minimumIntegerDigits: 2, useGrouping: false });
+
+          if(date.getDate() == improvDate )
+          {
+            tempData = eventDateData[i];
+            break;
+          }
+      }
+
+      console.log(tempData);
+
+      for(var j = 0; j<= (tempData.length -1); j++)
+      {
+        var tableRow = document.createElement("tr");
+        for(var k = 0; k <= 3; k++)
+        {
+          var info;
+          console.log(k);
+          switch(k)
+          {
+            case 0:
+              info = "ShiftStart";
+              break;
+            case 1:
+              info = "EndTime";
+              break;
+            case 2:
+              info = "Description";
+              break;
+            case 3:
+              info = "RotaID";
+          }
+            var tableData = document.createElement("td");
+            console.log(info);
+            tableData.innerText = tempData[j][info];
+            tableRow.appendChild(tableData);
+        }
+        table.appendChild(tableRow);
+      }
+
+    }
+  }
 </script>
 
 </html>
