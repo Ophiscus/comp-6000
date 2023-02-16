@@ -22,7 +22,10 @@
     <div class="wrapper">
       <header>
         <p class="current-date"></p>
-		<span><button onclick="openAddForm()">Add Event</button></span>
+        <?php if($ManagerAccess) { 
+		      echo '<span><button onclick="openAddForm()">Add Event</button></span>';
+        }
+        ?>
         <div class="icons">
           <span id="prev" class="material-symbols-rounded">chevron_left</span>
           <span id="next" class="material-symbols-rounded">chevron_right</span>
@@ -44,7 +47,10 @@
 
       <div id="eventBar" class="eventBar" id="eventbar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeEvent()">X</a>
-        <a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>
+        <?php if($ManagerAccess) {
+          echo '<a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>';
+        }
+        ?>
     <table class="eventTable" id = "displayEvent">
     <tr class = "tableHeader" >
       <th> Start Date/Time</th>
@@ -243,10 +249,19 @@ function closeAddForm() {
     currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
     daysTag.innerHTML = liTag;
   }
+  
+  <?php if( $ManagerAccess ) {
+    $url = base_url("index.php/Calendar/getEventByMonth");
+  } else {
+    $url = base_url("index.php/Calendar/getStaffEvents");
+  }?>
+  
+  url = <?php echo "'" . $url . "'" ?>
+
   $.ajax({
-    url: '<?php echo base_url("index.php/Calendar/getEventByMonth") ?>',
+    url: url,
     method: 'get',
-    data: { month: parseInt(currMonth + 1) },
+    data: { month: parseInt(currMonth + 1)},
     dataType: 'json',
     success: function (response) {
       events = response;
@@ -273,9 +288,18 @@ function closeAddForm() {
         }else {
         date = new Date(); // pass the current date as date value
       }
+
+      <?php if( $ManagerAccess ) {
+      $url = base_url("index.php/Calendar/getEventByMonth");
+      } else {
+      $url = base_url("index.php/Calendar/getStaffEvents");
+      }?>
+  
+      url = <?php echo "'" . $url . "'" ?>
+
       // adding click event on both icons
       $.ajax({
-        url: '<?php echo base_url("index.php/Calendar/getEventByMonth") ?>',
+        url: url,
         method: 'get',
         data: { month: currMonth + 1 },
         dataType: 'json',
@@ -321,6 +345,7 @@ function closeAddForm() {
       for(var j = 0; j<= (tempData.length -1); j++)
       {
         var tableRow = document.createElement("tr");
+        tableRow.id = "row"+tempData[j]["RotaID"];
         for(var k = 0; k <= 3; k++)
         {
           var info;
@@ -339,15 +364,42 @@ function closeAddForm() {
             case 3:
               info = "RotaID";
           }
+            rowInfo = tempData[j][info]
             var tableData = document.createElement("td");
             console.log(info);
-            tableData.innerText = tempData[j][info];
+            tableData.innerText = rowInfo;
             tableRow.appendChild(tableData);
+            
+            //create delete button
+            if( <?php echo json_encode($ManagerAccess); ?> && k === 3) {
+              var rowItem = document.createElement("td");
+              let deleteButton = document.createElement('input');
+              deleteButton.type = "button";
+              deleteButton.id = "deleteButton"+rowInfo;
+              deleteButton.value = "Delete";
+              deleteButton.addEventListener("click",function(){deleteEvent(rowInfo);});
+              rowItem.appendChild(deleteButton);
+              tableRow.appendChild(rowItem);
+            }
         }
+        
         table.appendChild(tableRow);
       }
 
     }
+  }
+
+  function deleteEvent(id) {
+    document.getElementById("row"+id).outerHTML="";
+
+    $.ajax({
+      url: '<?php echo base_url("index.php/Calendar/deleteEvent")?>',
+      method: 'post',
+      data: {id:id},
+      success:function(){
+        alert("Delete successful.");
+      }
+    })
   }
 </script>
 
