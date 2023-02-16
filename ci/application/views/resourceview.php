@@ -13,10 +13,9 @@ table,tr,td{
     border-collapse:collapse;
 }
 </style>
-
-<body onload="checkManagerElements('<?php echo $this->session->userdata('role') ?>')">
 </head>
-<body>
+<body onload="checkManagerElements('<?php echo $this->session->userdata('role') ?>')">
+
 <div id="manage_tools" class="manager">
 	<div id="tools" onload="isManager(this.id, '<?php echo $this->session->userdata('role') ?>')">
 	<?php echo $error;?>
@@ -33,19 +32,15 @@ table,tr,td{
 
 <?php echo "</form>"?>
 		
+
+
 </div>
 
 
+ 
+  
+    
 
-<table>
-    <tr>
-<td>Resource Type</td>
-<td>Documents</td>
-</tr>
-<tr>
-<td>Training</td>
-</tr>
-</table>    
-
+</div>
 </body>
 </html>
