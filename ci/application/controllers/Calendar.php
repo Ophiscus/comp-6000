@@ -3,14 +3,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); 
 class Calendar extends CI_Controller {
 
+    public function __construct() {
+        parent::__construct();
+        //authorisation check
+        $this->load->helper('url');
+        $this->load->library('session');
+
+        if(!isset($_SESSION['role'])) {
+            redirect(base_url());
+        }
+    }
+
     public function index(){
        
         
     }
 
     public function show() {
-        $this->load->helper('url'); 
-        
         $this->load->view('calendar'); 
     }
 
