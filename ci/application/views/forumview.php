@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="<?php echo base_url("assets/forum_style.css") ?>">
 <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
-
+<script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 </head>
 
 <body onload="checkManagerElements('<?php echo $this->session->userdata('role') ?>')">
@@ -15,7 +15,7 @@
 <!-- Manager Toolbar -->
 <div id="manage_tools" class="manager">
 	<div id="tools" onload="isManager(this.id, '<?php echo $this->session->userdata('role') ?>')">
-		<button id="create" onClick="openForm()">Create Post</button>
+		<button id="create" onClick="openForm('popup', 'create')">Create Post</button>
 	</div>
 
 	<form method = "post" action = "<?php echo site_url('Forum/post'); ?>">
@@ -37,7 +37,7 @@
 				</select>
 			</div>
 			
-			<input type = "submit" id="submit" value = "Post"/>
+			<input type="submit" id="submit" value="Post"/>
 		</div>
 	</form>
 </div>
@@ -48,7 +48,8 @@
 </thead>
 <tbody>
 <?php
-foreach ($results as $row) { 
+$id_num = 0;
+foreach ($postData as $row) { 
 	?>
 	<tr class="announcement">
 		<td class="post <?php echo $row['PostID']?>">
@@ -72,55 +73,40 @@ foreach ($results as $row) {
 				</td>
 			</tr>
 			
-			<tr class="comment_section <?php echo $row['MessageType']?>">
-				<td> Comments: </td>
-				<?php
-				//Dynamically loading comment HTML elements
-				/*foreach ($comment_results as $comment_row) { 
-					/*?>
-						<tr>
-							<button class="create_comment" onClick="openCommentForm()">Add Comment</button>
-							<form method = "post" action = "<?php echo site_url('Forum/post_comment'); ?>">
-								<div id="popup">
-									<!-- Title -->
-									<label for="title">Title:</label><br>
-									<input type="text" id="title" name="title"><br>
-									
-									<!-- Reply To -->
-									<label><?php echo $comment_row['ReplyTo'] ?></label><br>
-									
-									<!-- Comment -->
-									<label for="post_cont" id="post_cont_lab">Content:</label><br>
-									<input type="text" id="post_cont" name="post_cont"><br>
-									
-									<input type = "submit" id="submit" value = "Post"/>
-								</div>
-							</form>
-						</tr>
-						
-						<tr class="comment_content">
-							<td class="reply">
-								<?php echo $row['Replies.Content']?>
-							</td>
-						</tr>
-					<?php
-				}*/
+			<tr class="comment_section <?php echo $row['MessageType']?>" id="<?php echo $id_num ?>">	
+				<td class="comment_def">
 				
-				//Manually echoing js script in php
-				/*echo '<script type="text/javascript">',
-					 'var post_ins = document.getElementsByClassName("<?php echo $row["PostID"]?>")',
-					 'for(var i = 0; i < post_ins.length; i++) {',
-						 'if(<?php echo $row["PostID"]?> == <?php echo $row["ReplyTo"]?>) {',
-							'document.createTextNode("<?php echo $row["CommentContent"]?>")',
-						 '}',
-					 '}',
-					 '</script>'
-				;*/
+				<button id="<?php echo "create_comment" . $id_num ?>" class="create_comments" onClick="openForm('<?php echo "comment_popup" . $id_num ?>', '<?php echo "create_comment" . $id_num ?>')">Create Comment</button>
+				
+				<form method = "post" action = "<?php echo site_url('Forum/post_comment'); ?>">
+					<div id="<?php echo "comment_popup" . $id_num ?>" class="comment_popups">
+						<!-- Comment -->
+						<label for="ccontent" class="ccontent_label">Content:</label><br>
+						<input type="text" class="ccontent" name="ccontent"><br>
+						
+						<input class="hide_reply" type="number" step="1" class="reply_to" name="reply_to" value="<?php echo $row['PostID'] ?>"><br>
+						
+						<input type="submit" class="submit_comment" value="Post"/>
+					</div>
+				</form>
+				
+				</td>
+				
+				<?php 
+				if ($row['MessageType'] == "comment") {
+					foreach ($commentData as $row2) {
+						if ($row2['ReplyTo'] == $row['PostID']) {
+							?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo $row2['CommentPoster'] ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
+							<script> document.getElementById("<?php echo $id_num ?>").style.display = "block"; </script> <?php
+						}
+					}
+				}
 				?>
 			</tr>
 		</td>
 	</tr>
 	<?php
+	$id_num++;
    }   
 ?>
 
@@ -131,7 +117,6 @@ foreach ($results as $row) {
 </body>
 
 <script type="text/javascript" src="<?php echo base_url("assets/nav.js") ?>"></script>
-<script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 <script type="text/javascript">
 	function test() {
 		console.log("ping");

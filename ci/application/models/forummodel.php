@@ -20,8 +20,8 @@ class Forummodel extends CI_Model
 	
 	//Retrieves all comment data
 	public function getComments() {
-		$sql = "SELECT CommentSubject, CommentPoster, CommentPostDate, CommentContent FROM Replies ORDER BY CommentPostDate DESC";
-
+		$sql = "SELECT CommentSubject, CommentPoster, CommentPostDate, CommentContent, ReplyTo FROM Replies ORDER BY CommentPostDate DESC";
+		
 		$query = $this->db->query($sql);
 		
 		return $query->result_array();
@@ -38,11 +38,10 @@ class Forummodel extends CI_Model
 		$this->db->insert('ForumPosts', $data);
 	}
 	
-	public function insertReply($title, $string, $replyto) {
-		$data['CommentSubject'] = $title;
+	public function insertReply($reply, $replyto) {
 		$data['CommentPoster'] = $this->session->userdata('staffid');
 		$data['CommentPostDate'] = date("Y-m-d h:i:sa");
-		$data['CommentContent'] = $string;
+		$data['CommentContent'] = $reply;
 		$data['ReplyTo'] = $replyto;
 		
 		$this->db->insert('Replies', $data);

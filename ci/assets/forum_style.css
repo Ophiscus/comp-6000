@@ -193,6 +193,27 @@ tbody {
 	cursor: pointer;
 }
 
+.edit_sub {
+	height: 25px;
+    border: 1px solid black;
+    float: left;
+    width: 65%;
+    text-align: center;
+	margin-top: 0px !important;
+	display: block;
+}
+
+.edit_mes {
+	height: fit-content;
+    width: 100%;
+    border: 1px solid black;
+    margin: auto;
+    background-color: white;
+    display: block;
+    padding: 10px;
+	margin-top: 0px !important;
+}
+
 .message_container {
 	display: block
 }
@@ -207,6 +228,106 @@ tbody {
     padding: 10px;
 }
 
+.comment_def {
+	width: 100%;
+	text-align: center;
+	display: block;
+}
+
 .comment_section {
 	display: none;
+	height: fit-content;
+    width: 100%;
+    border: 1px solid black;
+	margin-top: 10px !important;
+    margin: auto;
+    background-color: white;
+    padding: 10px;
+}
+
+.create_comments{
+	width: 100px;
+	color: #f2f2f2;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+    font-size: 17px;
+	background-color: #333;
+	width: fit-content;
+	border: none;
+	margin-bottom: 10px;
+}
+
+.create_comments:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
+}
+
+.comment_popups {
+	display: none;
+	margin-top: 10px;
+	text-align: center;
+	transition: fade-in;
+}
+
+.submit_comment {
+	margin-top: 25px;
+	margin-bottom: 10px;
+	width: 60px;
+	color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+	background-color: #333;
+	border: none;
+}
+
+.submit_comment:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
+}
+
+.hide_reply {
+	/*display: none;*/
+}
+
+.ccontent {
+	width: 50%;
+}
+
+.comment_ind {
+	margin-top: 10px !important;
+	width: 100%;
+	margin: auto;
+	display: flex;
+	border: 1px solid black;
+}
+
+.poster_ind {
+	height: 25px;
+    border: 1px solid black;
+    float: left;
+	width: 5%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    display: block;
+	float: left;
+}
+
+.content_ind {
+	text-align: center;
+	width: 65%;
+}
+
+.post_date_ind {
+	background-color: #228B22;
+    text-align: center;
+    color: white;
+    height: 25px;
+	width: 30%;
+    display: block;
+	float: right;
 }
