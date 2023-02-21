@@ -3,15 +3,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed'); 
 class Calendar extends CI_Controller {
 
+    public function __construct() {
+        parent::__construct();
+        //authorisation check
+        $this->load->helper('url');
+        $this->load->library('session');
+        if(!isset($_SESSION['role'])) {
+            redirect(base_url());
+        }
+    }
+
     public function index(){
        
         
     }
 
     public function show() {
-        $this->load->helper('url'); 
-        
-        $this->load->view('calendar'); 
+        $elevatedAccess = false;
+        if($_SESSION['role'] == "Manager")  {
+            $elevatedAccess = true;
+        }
+        $data = array("ManagerAccess" => $elevatedAccess);
+        $this->load->view('calendar', $data); 
     }
 
     public function getEvents() {
@@ -24,6 +37,16 @@ class Calendar extends CI_Controller {
         $month = $this->input->get('month',TRUE);
         $this->load->model('Calendar_Model');
         $data = $this->Calendar_Model->getAllEventsByMonth($month);
+        echo json_encode($data);
+    }
+
+    public function getStaffEvents() {
+        
+        $month = $this->input->get('month',TRUE);
+        $id = $_SESSION['staffid'];
+        $this->load->model('Calendar_Model');
+        //$this->output->enable_profiler(TRUE);
+        $data = $this->Calendar_Model->getAllEventsByMonthForStaff($month,$id);
         echo json_encode($data);
     }
 
@@ -44,7 +67,12 @@ class Calendar extends CI_Controller {
         $this->load->view('calendar');
 	}
 
-
+    public function deleteEvent()
+    {
+        $id = $this->input->post('id',TRUE);
+        $this->load->model('Calendar_Model');
+        $this->Calendar_Model->DeleteEvent($id);
+    }
     public function edit()
 	{
 		$this->load->model('Calendar_Model');
@@ -62,8 +90,6 @@ class Calendar extends CI_Controller {
         
         $this->load->view('calendar');
 	}
-
-
 }
 
 ?>
