@@ -33,14 +33,26 @@ class Calendar_model extends CI_Model{
 		$this->db->insert('Rota', $data);
 	}
 
-    public function EditEvent($StaffID,$startShift,$EndShift,$description)
-	{
+    public function EditEvent($RotaID,$StaffID,$startShift,$EndShift,$description)
+	{ 
+        //$this->output->enable_profiler(TRUE);
+        $data = array();
+        if($StaffID != NULL){
 		$data['StaffID'] = $StaffID;
+        }
+        if($EndShift != NULL){
 		$data['ShiftStart'] = $startShift;
+        }
+        if($EndShift != NULL){
 		$data['EndTime'] = $EndShift;
+        }
+        if($description != NULL){
 		$data['Description'] = $description;
-		
+        }
+		if($data != NULL){
+        $this->db->where('RotaID', $RotaID);
 		$this->db->update('Rota', $data);
+        }
 	}
 }
 ?>

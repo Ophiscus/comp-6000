@@ -44,6 +44,26 @@ class Calendar extends CI_Controller {
         $this->load->view('calendar');
 	}
 
+
+    public function edit()
+	{
+		$this->load->model('Calendar_Model');
+        
+        $RotaID = $this->input->post('RotaID');
+		$StaffID = $this->input->post('StaffID');
+		$StartShift = $this->input->post('ShiftStart');
+		$EndShift = $this->input->post('EndTime');
+		$Description = $this->input->post('Description');
+
+		$this->Calendar_Model->EditEvent($RotaID,$StaffID,$StartShift,$EndShift,$Description);
+		
+		//Reload the page
+        $this->load->helper('url'); 
+        
+        $this->load->view('calendar');
+	}
+
+
 }
 
 ?>
