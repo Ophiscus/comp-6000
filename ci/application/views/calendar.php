@@ -47,21 +47,20 @@
 
       <div id="eventBar" class="eventBar" id="eventbar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeEvent()">X</a>
-        
-        <?php if($ManagerAccess) {
-          echo '<a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>';
-        }
-        ?>
     <table class="eventTable" id = "displayEvent">
       <thead>
         <tr class = "tableHeader" >
           <th> Start Date/Time</th>
           <th> End Date/Time</th>
           <th>Description</th>
-          <th>Edit/Delete</th>
+          <?php if($ManagerAccess) { 
+          echo '<th>Edit/Delete</th>';
+          } ?>
         </tr>
       </thead>
+      <div class = "scrollable">
       <tbody id ="eventsData"></tbody>
+      </div>
   </table>
 		</div>
 
@@ -228,6 +227,7 @@ function closeAddForm() {
               {
                 break;
               }
+              eventDateData.push(trialData);
             }
           liTag += `<li id=${i}  onclick = "openEvent(this.id)" class="active event">${i}</li>`
           eventNumber = j;
@@ -394,23 +394,41 @@ function closeAddForm() {
             case 3:
               info = "RotaID";
           }
-            rowInfo = tempData[j][info]
-            var tableData = document.createElement("td");
-            console.log(info);
-            tableData.innerText = rowInfo;
-            tableRow.appendChild(tableData);
-            
-            //create delete button
-            if( <?php echo json_encode($ManagerAccess); ?> && k === 3) {
-              var rowItem = document.createElement("td");
-              let deleteButton = document.createElement('input');
-              deleteButton.type = "button";
-              deleteButton.id = "deleteButton"+rowInfo;
-              deleteButton.value = "Delete";
-              deleteButton.addEventListener("click",function(){deleteEvent(rowInfo);});
-              rowItem.appendChild(deleteButton);
-              tableRow.appendChild(rowItem);
+
+            if(k!=3 || <?php echo json_encode($ManagerAccess); ?>) {
+              rowInfo = tempData[j][info]
+              var tableData = document.createElement("td");
+              console.log(info);
             }
+  
+            //create edit button
+            if(k === 3) {
+              if(<?php echo json_encode($ManagerAccess); ?>) {
+                var button = document.createElement("button");
+                var span = document.createElement("span");
+                var idiomatic = document.createElement("i");
+                button.setAttribute("id",tempData[j][info]);
+                button.setAttribute("class", "editButton");
+                button.addEventListener("click", function() {openEditForm(this.id)});
+                span.innerText = "Edit";
+                button.appendChild(span);
+                button.appendChild(idiomatic);
+                tableData.appendChild(button);
+
+                //create delete button
+                let deleteButton = document.createElement('input');
+                deleteButton.type = "button";
+                deleteButton.id = "deleteButton"+rowInfo;
+                deleteButton.value = "Delete";
+                deleteButton.className = "editButton";
+                deleteButton.addEventListener("click",function(){deleteEvent(rowInfo);});
+                tableData.appendChild(deleteButton);
+              }
+            }else{
+              tableData.innerText = tempData[j][info];
+            }
+            tableRow.appendChild(tableData);
+
         }
         tableBody.appendChild(tableRow);
       }
@@ -427,6 +445,7 @@ function closeAddForm() {
       data: {id:id},
       success:function(){
         alert("Delete successful.");
+        window.location.href= '<?php echo base_url("index.php/Calendar/show"); ?>';
       }
     })
   }
