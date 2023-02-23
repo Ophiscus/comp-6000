@@ -1,7 +1,14 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>var base_url = '<?php echo base_url() ?>'</script>
 <div class="topnav">
-<button class="openbtn" onclick="openNav()">☰</button>
-<a class="active" href="#home">Home</a>
-<a href="#login">Account Settings</a>
+	<button class="openbtn" onclick="openNav()">☰</button>
+	<a class="active" href="#home">Home</a>
+	<div class="dropdown-menu">
+		<a href="#login">Account Settings</a>
+			<div class="dropdown-menu-options">
+				<a href="../Login/logout">Logout</a>
+			</div>
+	</div>
 </div>
 
 <div id="mySidebar" class="sidebar">

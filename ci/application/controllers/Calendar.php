@@ -88,7 +88,7 @@ class Calendar extends CI_Controller {
 		//Reload the page
         $this->load->helper('url'); 
         
-        $this->load->view('calendar');
+        $this->show();
 	}
 }
 
