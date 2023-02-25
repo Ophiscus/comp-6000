@@ -81,33 +81,33 @@
   <body>
     <div class="main-block">
       <h1>Account Creation</h1>
-      <form action="/">
+      <form action='<?php echo base_url("index.php/Signup/dosignup")?>' method="post" >
      
        <!-- Users enter in details into the form -->
         <!-- First name input box-->
-        <input type="text" name="name" id="name" placeholder="First Name" required/>
+        <input type="text" name="firstname" id="firstname" placeholder="First Name" required/>
 
         <!-- Last name input box -->
-        <input type="text" name="name" id="name" placeholder="Last Name" required/>
+        <input type="text" name="lastname" id="lastname" placeholder="Last Name" required/>
 
-<!--Email input Box-->
-        <input type="text" name="name" id="name" placeholder="Email" required/>
+        <!--Email input Box-->
+        <input type="text" name="emailname" id="email" placeholder="Email" required/>
 
-<!--Username input Box-->
-        <input type="text" name="name" id="name" placeholder="Username" required/>
+        <!--Username input Box-->
+        <input type="text" name="username" id="username" placeholder="Username" required/>
 
         <!--Password input Box-->
-        <input type="password" name="name" id="name" placeholder="Password" required/>
+        <input type="password" name="password" id="password" placeholder="Password" required/>
 
         <hr>
         <h4>Access Level</h4>
-<div class="employeeRole">
+        <div class="employeeRole">
 
-          <input type="radio" id="Manager" name="accessLevel">
+          <input type="radio" id="Manager" value="Manager" name="accessLevel">
           <label for="managerAccess" class="radio">Manager</label>
 
 
-          <input type="radio" id="Employee" name="accessLevel">
+          <input type="radio" id="Employee" value="Staff" name="accessLevel">
           <label for="employeeAccess" class="radio">Employee</label>
         
         <hr>
@@ -116,7 +116,7 @@
         <!-- Submit Employee Creation // need to link to the database -->
           <button type="submit" href="/">Submit</button>
 
-<!--Map submit back to the manager's dashboard-->
+        <!--Map submit back to the manager's dashboard-->
         </div>
       </form>
     </div>

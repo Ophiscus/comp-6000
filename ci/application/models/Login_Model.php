@@ -7,7 +7,6 @@ class Login_Model extends CI_Model
 	public function __construct()
 	{
 		$this->load->database();
-		$passHashOptions = array('cost' =>11);
 	}
 	
 	public function checkLogin($username, $Password)
@@ -31,13 +30,13 @@ class Login_Model extends CI_Model
 		$this->db->where('username',$username,TRUE);
 		$queryResult = $this->db->get()->result_array();
 
-		$hashedPassword = $queryResult[0];
-		
+		$hashedPassword = $queryResult[0]['password'];
 		//check it's validity
 		if(password_verify($Password,$hashedPassword)) {
 			
-			if(password_needs_rehash($hashedPassword,"PASSWORD_DEFAULT",$passHashOptions)) {
-				$newHash = password_hash($Password,"PASSWORD_DEFAULT",$passHashOptions);
+			
+			if(password_needs_rehash($hashedPassword,PASSWORD_DEFAULT)) {
+				$newHash = password_hash($Password,PASSWORD_DEFAULT);
 				updatePassword($username,$newHash);
 			}
 

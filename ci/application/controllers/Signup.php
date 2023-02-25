@@ -14,7 +14,7 @@ class Signup extends CI_Controller
 
     public function show()
     {
-        $this->load->view("Signup";)
+        $this->load->view("AccountCreationPage");
     }
 // Acknowledge the input of the employee's credentials
     public function dosignup()
@@ -23,12 +23,12 @@ class Signup extends CI_Controller
         $this->load->database();
         $this->load->model('Signup_Model');
         $firstname = $this->input->post('firstname');
-        $lastname = $this->input->post('firstname');
-        $email = $this->input->post('password');
+        $lastname = $this->input->post('lastname');
+        $email = $this->input->post('email');
         $username = $this->input->post('username');
         $password = $this->input->post('password');
-        $accesslevel = $this->input->post('accesslevel');
-        $this->Signup_Model->addUser($username,$password);
+        $accesslevel = $this->input->post('accessLevel');
+        $this->Signup_Model->addUser($firstname,$lastname,$email,$username,$password,$accesslevel);
     }
 }
 ?>

@@ -10,7 +10,6 @@ class Login extends CI_Controller
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 		$this->load->database();
-		$this->output->enable_profiler(TRUE);
 	}
 
 	public function index()
