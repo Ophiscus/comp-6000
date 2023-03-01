@@ -3,21 +3,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forum extends CI_Controller {
 	
-	public function show() {
-		$this->load->helper('url');
-		$this->load->model('Forummodel');
-		
+	public function getViewData() {
 		$data = $this->Forummodel->getPosts();
 		$comment_data = $this->Forummodel->getComments();
+		$user_data = $this->Forummodel->getUsers();
 		
 		//Loads user data set in the login script
 		$this->load->library('session');
 		
-		$results = array("postData" => $data, "commentData" => $comment_data);
+		$results = array("postData" => $data, "commentData" => $comment_data, "userData" => $user_data);
 		
 		//Passes message data from model to the view
 		$this->load->view('forumview', $results);
-		//$this->load->view('testview');
+	}
+	
+	public function show() {
+		$this->load->helper('url');
+		$this->load->model('Forummodel');
+		
+		$this->getViewData();
 	}
 	
 	public function post() {
@@ -68,8 +72,11 @@ class Forum extends CI_Controller {
 		
 		$subject = $this->input->post('edit_sub');
 		$message = $this->input->post('edit_mes');
+		$postid = $this->input->post('edit_id');
 		
+		$this->Forummodel->editTable($subject, $message, $postid);
 		
+		$this->getViewData();
 	}
 }
 ?>

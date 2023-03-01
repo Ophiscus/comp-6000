@@ -3,6 +3,7 @@
 <head>
 <link rel="stylesheet" href="<?php echo base_url("assets/forum_style.css") ?>">
 <link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/forum_script.js") ?>"></script>
 </head>
 
@@ -51,24 +52,31 @@
 $id_num = 0;
 foreach ($postData as $row) { 
 	?>
-	<tr class="announcement">
-		<td class="post <?php echo $row['PostID']?>">
+	<tr class="announcement" id="announcement<?php echo $id_num ?>">
+		<td class="post" id="<?php echo $row['PostID']?>">
 			<tr class="post_head">
 				<td class="poster">
-					<?php echo $row['Poster']?>
+					<?php
+					foreach ($userData as $user) {
+						if ((int)$row['Poster'] == (int)$user['StaffID']) {
+							echo $user['FirstName'] . " " . $user['LastName'];
+						}
+					}
+					?>
+					<?php// echo $row['Poster']?>
 				</td>
-				<td class="subject">
+				<td class="subject" id="subject<?php echo $id_num ?>">
 					<?php echo $row['Subject']?>
 				</td>
 				<td class="date">
 					<?php echo $row['PostDate']?>
 				</td>
-				<td class="edit_icon manager" onClick="editPost(this)">
-					<img src="<?php echo base_url("assets/edit_icon.png") ?>">
+				<td class="edit_icon_parent manager">
+					<img class="edit_icon" src="<?php echo base_url("assets/edit_icon.png") ?>" onClick="editPost(this, <?php echo $id_num ?>)" id="edit_icon<?php echo $id_num ?>">
 				</td>
 			</tr>
 			<tr class="message_container">
-				<td class="message">
+				<td class="message" id="message<?php echo $id_num ?>">
 					<?php echo $row['Content']?>
 				</td>
 			</tr>
@@ -96,7 +104,7 @@ foreach ($postData as $row) {
 				if ($row['MessageType'] == "comment") {
 					foreach ($commentData as $row2) {
 						if ($row2['ReplyTo'] == $row['PostID']) {
-							?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo $row2['CommentPoster'] ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
+							?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo . ' . ((int)$row2['CommentPoster'] === (int)$user['StaffID']) ? $user['FirstName'] . ' ' . $user['LastName'] : ''; . ' . ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
 							<script> document.getElementById("<?php echo $id_num ?>").style.display = "block"; </script> <?php
 						}
 					}

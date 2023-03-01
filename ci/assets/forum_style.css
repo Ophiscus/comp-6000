@@ -146,17 +146,20 @@ tbody {
 
 .post_head {
 	display: block;
+	margin-top: 50px;
 }
 
 .poster {
 	height: 25px;
 	border: 1px solid black;
 	float: left;
-	width: 5%;
+	width: fit-content;
 	background-color: #333;
 	color: white;
 	text-align: center;
 	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .subject {
@@ -193,14 +196,58 @@ tbody {
 	cursor: pointer;
 }
 
+.tick_icon {
+	height: 30px;
+	width: 30px;
+	display: block;
+	float: right;
+	margin: 1px;
+	margin-bottom: 2px;
+	border: 0;
+	background-image: url("tick_icon.png");
+	background-size: 30px;
+	background-color: #FFFDD0;
+}
+
+.cross_icon {
+	height: 25px;
+	display: block;
+	float: right;
+	margin: 5px;
+	margin-bottom: 2px;
+}
+
+.tick_icon:hover, .cross_icon:hover {
+	opacity: 30%;
+	cursor: pointer;
+}
+
+.tick_icon:hover {
+	background: green;
+}
+
+.cross_icon:hover {
+	background: red;
+}
+
+.form_container {
+	justify-content: center;
+	display: block;
+}
+
+.sub_label, .mess_label {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: block;
+}
+
 .edit_sub {
 	height: 25px;
     border: 1px solid black;
-    float: left;
-    width: 65%;
+    width: 100%;
     text-align: center;
-	margin-top: 0px !important;
 	display: block;
+	margin: auto !important;
 }
 
 .edit_mes {
@@ -212,6 +259,12 @@ tbody {
     display: block;
     padding: 10px;
 	margin-top: 0px !important;
+	text-align: center;
+	margin: auto;
+}
+
+.id_input {
+	display: none;
 }
 
 .message_container {
@@ -272,7 +325,6 @@ tbody {
 }
 
 .submit_comment {
-	margin-top: 25px;
 	margin-bottom: 10px;
 	width: 60px;
 	color: #f2f2f2;
@@ -290,7 +342,7 @@ tbody {
 }
 
 .hide_reply {
-	/*display: none;*/
+	display: none;
 }
 
 .ccontent {

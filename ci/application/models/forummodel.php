@@ -47,12 +47,17 @@ class Forummodel extends CI_Model
 		$this->db->insert('Replies', $data);
 	}
 	
-	public function getPoster($posterID) {
-		$sql = "SELECT 'First Name', 'Last Name' FROM Staff WHERE StaffID = " + $posterID;
+	public function getUsers() {
+		//$sql = "SELECT `First Name`, `Last Name`, StaffID FROM Staff";
 
-		$query = $this->db->query($sql);
+		//$query = $this->db->query($sql);
+		$query = $this->db->query("SELECT FirstName, LastName, StaffID FROM Staff");
 		
 		return $query->result_array();
+	}
+	
+	public function editTable($subject, $message, $postid) {
+		$sql = "UPDATE ForumPosts SET Subject = " . $subject . ", Content = " . $message . " WHERE PostID = " . $postid;
 	}
 }
 ?>
