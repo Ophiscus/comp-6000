@@ -146,17 +146,20 @@ tbody {
 
 .post_head {
 	display: block;
+	margin-top: 50px;
 }
 
 .poster {
 	height: 25px;
 	border: 1px solid black;
 	float: left;
-	width: 5%;
+	width: fit-content;
 	background-color: #333;
 	color: white;
 	text-align: center;
 	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .subject {
@@ -193,6 +196,77 @@ tbody {
 	cursor: pointer;
 }
 
+.tick_icon {
+	height: 30px;
+	width: 30px;
+	display: block;
+	float: right;
+	margin: 1px;
+	margin-bottom: 2px;
+	border: 0;
+	background-image: url("tick_icon.png");
+	background-size: 30px;
+	background-color: #FFFDD0;
+}
+
+.cross_icon {
+	height: 25px;
+	display: block;
+	float: right;
+	margin: 5px;
+	margin-bottom: 2px;
+}
+
+.tick_icon:hover, .cross_icon:hover {
+	opacity: 30%;
+	cursor: pointer;
+}
+
+.tick_icon:hover {
+	background: green;
+}
+
+.cross_icon:hover {
+	background: red;
+}
+
+.form_container {
+	justify-content: center;
+	display: block;
+}
+
+.sub_label, .mess_label {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.edit_sub {
+	height: 25px;
+    border: 1px solid black;
+    width: 100%;
+    text-align: center;
+	display: block;
+	margin: auto !important;
+}
+
+.edit_mes {
+	height: fit-content;
+    width: 100%;
+    border: 1px solid black;
+    margin: auto;
+    background-color: white;
+    display: block;
+    padding: 10px;
+	margin-top: 0px !important;
+	text-align: center;
+	margin: auto;
+}
+
+.id_input {
+	display: none;
+}
+
 .message_container {
 	display: block
 }
@@ -207,6 +281,108 @@ tbody {
     padding: 10px;
 }
 
+.comment_def {
+	width: 100%;
+	text-align: center;
+	display: block;
+}
+
 .comment_section {
 	display: none;
+	height: fit-content;
+    width: 100%;
+    border: 1px solid black;
+	margin-top: 10px !important;
+    margin: auto;
+    background-color: white;
+    padding: 10px;
+}
+
+.create_comments{
+	width: 100px;
+	color: #f2f2f2;
+    text-align: center;
+    padding: 0px 16px;
+    text-decoration: none;
+    font-size: 17px;
+	background-color: #333;
+	width: fit-content;
+	border: none;
+	margin-bottom: 10px;
+}
+
+.create_comments:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
+}
+
+.comment_popups {
+	display: none;
+	margin-top: 10px;
+	text-align: center;
+	transition: fade-in;
+}
+
+.submit_comment {
+	margin-bottom: 10px;
+	width: 60px;
+	color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+	background-color: #333;
+	border: none;
+}
+
+.submit_comment:hover {
+	color: #f2f2f2;
+	background-color: #228B22;
+	cursor: pointer;
+}
+
+.hide_reply {
+	display: none;
+}
+
+.ccontent {
+	width: 50%;
+}
+
+.comment_ind {
+	margin-top: 10px !important;
+	width: 100%;
+	margin: auto;
+	display: block;
+	border: 1px solid black;
+}
+
+.poster_ind {
+	height: 25px;
+    float: left;
+	width: fit-content;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    display: block;
+	float: left;
+	padding-left: 10px;
+    padding-right: 10px;
+}
+
+.content_ind {
+	height: 25px;
+    float: left;
+    width: 65%;
+    background-color: white;
+    text-align: center;
+    display: block;
+}
+
+.post_date_ind {
+	background-color: #228B22;
+	text-align: center;
+    color: white;
+    height: 25px;
+    display: block;
 }

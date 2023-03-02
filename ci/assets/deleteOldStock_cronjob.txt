@@ -1,0 +1,1 @@
+mysql -u comp6000_14 -p"&wterat" -e "DELETE FROM items WHERE Hide = 1 AND ((MONTH(Hidden) < MONTH(CURRENT_TIMESTAMP) AND DAY(Hidden) <= DAY(CURRENT_TIMESTAMP)) OR (YEAR(Hidden) < YEAR(CURRENT_TIMESTAMP) AND DAY(HIDDEN) <= DAY(CURRENT_TIMESTAMP)));" -h dragon.kent.ac.uk comp6000_14

@@ -16,8 +16,8 @@ DROP TABLE IF EXISTS 'income'
 
 CREATE TABLE IF NOT EXISTS `Staff` (
   `StaffID` INT NOT NULL AUTO_INCREMENT,
-  `First Name` VARCHAR(45) NOT NULL,
-  `Last Name` VARCHAR(45) NOT NULL,
+  `FirstName` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -229,9 +229,9 @@ CREATE TABLE IF NOT EXISTS`items` (
   `Quantity` INT NOT NULL,
   `Needed` INT NOT NULL,
   'Hide' TINYINT NOT NULL DEFAULT 0,
+  'Hidden' Date,
   PRIMARY KEY (`ItemID`),
-  UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC),
-  UNIQUE INDEX `ItemName_UNIQUE` (`ItemName` ASC));
+  UNIQUE INDEX `ItemID_UNIQUE` (`ItemID` ASC));
 
 INSERT INTO `items`
 (`ItemName`,

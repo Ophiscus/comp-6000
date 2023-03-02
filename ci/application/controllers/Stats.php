@@ -106,6 +106,46 @@ class Stats extends CI_Controller {
 
     }
 
+    function restoreStock() {
+        $id = $this->input->post('id', TRUE);
+        if($id === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $this->Stats_model->restoreStock($id);
+
+        $this->show();
+
+        return;
+    }
+
+    function deleteHiddenStock() {
+        $id = $this->input->post('id', TRUE);
+        if($id === NULL) {
+            return;
+        }
+
+        $this->load->model('Stats_model');
+        $this->Stats_model->deleteHiddenStock($id);
+
+        return;
+    }
+
+    function getHidden() 
+    {
+        $this->load->model('Stats_model');
+        $data = $this->Stats_model->getHidden();
+        echo json_encode($data);
+    }
+
+    function getStock()
+    {
+        $this->load->model('Stats_model');
+        $data = $this->Stats_model->getStock();
+        echo json_encode($data);
+    }
+
     function getYearlyIncome()
     {
         $year = $this->input->get('year', TRUE);
@@ -129,6 +169,8 @@ class Stats extends CI_Controller {
         $expense = $this->Stats_model->getExpenses($year);
         echo json_encode($expense);
     }
+
+    
 
 }
 

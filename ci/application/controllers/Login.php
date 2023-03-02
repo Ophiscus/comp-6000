@@ -47,6 +47,7 @@ class Login extends CI_Controller
 				$this->session->set_flashdata('login_error', 'Please check your username or password and try again.', 300);
 				redirect(uri_string());
 			}
+
 			//if(!password_verify($password,$user->password)) {
 			if(!$this->Login_Model->checkLogin($username,$password)) {
 				$this->session->set_flashdata('login_error', 'Please check your email or password and try again.', 300);
@@ -75,7 +76,7 @@ class Login extends CI_Controller
 
 	public function logout(){
         $this->session->sess_destroy();
-        redirect('user/login');
+		$this->showView();
     }
 
 
