@@ -1,4 +1,4 @@
--- -----------------------------------------------------
+  -- -----------------------------------------------------
 -- Table `Staff`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Replies` ;
@@ -16,10 +16,10 @@ DROP TABLE IF EXISTS 'income'
 
 CREATE TABLE IF NOT EXISTS `Staff` (
   `StaffID` INT NOT NULL AUTO_INCREMENT,
-  `First Name` VARCHAR(45) NOT NULL,
-  `Last Name` VARCHAR(45) NOT NULL,
+  `FirstName` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `contact number` VARCHAR(45) NOT NULL,
   `Role` VARCHAR(20) NOT NULL,
@@ -41,7 +41,7 @@ INSERT INTO `Staff`
 `Role`,
 `Job Title`)
 VALUES
-("John","Smith","TestUser","TestPassword","JSmith@TestMail.com",07700900764,"Staff","Waiter");
+("John","Smith","TestUser","$2y$10$62dUU/OQrALraVyrSg0Jf.5zjF2nnfH5Pg62m9ageybpIDA6SSWva","JSmith@TestMail.com",07700900764,"Staff","Waiter");
 
 
 -- -----------------------------------------------------
