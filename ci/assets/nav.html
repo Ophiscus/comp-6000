@@ -15,8 +15,10 @@
 	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">X</a>
 	<a href="../Forum/show">Forum</a>
 	<a href="../Calendar/show" onclick="navigate('Calendar')">Calendar</a>
+	<?php if($this->session->userdata('role') === "Manager") { ?>
 	<a href="../Resources/show">Resources</a>
 	<a href="../Video/show">Training Videos</a>
 	<a href="../Stats/show">Performance Statistics</a>
+	 <?php } ?>
 	
 </div>
