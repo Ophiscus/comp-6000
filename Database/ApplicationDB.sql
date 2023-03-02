@@ -371,3 +371,8 @@ INSERT INTO `income`
 `Date`)
 VALUES
 ("Income", 3500, '2022-02-21');
+
+CREATE TABLE IF NOT EXISTS `videos` (
+  
+  `location` varchar(255) NOT NULL
+);
