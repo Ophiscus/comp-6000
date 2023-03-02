@@ -69,7 +69,7 @@
 		</div>
 				<div class="editPopup">
 					<div class="formPopup" id="editPopupForm">
-						<form action="/action_page.php" class="formContainer">
+						<div class="formContainer">
 						<h2>Please input time and description</h2>
 					<label for="staffID">
 							<strong>staffID</strong>
@@ -90,11 +90,12 @@
 							 <input type="text" id="description" placeholder="Please enter event" name="Description" required>
 							<button type="submit" class="btn" value = "post">Submit</button>
 							<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
-						 </form>
+        </div>
 					</div>
 				 </div>
 		</div>
 	</div>
+        </form>
 
 	<form method = "post" action = "<?php echo site_url('Calendar/post');?>">
 
