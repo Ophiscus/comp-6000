@@ -1,6 +1,12 @@
 <html>
 <head>
 
+<!-- Import the styleSheet-->
+<link rel="stylesheet" href="<?php echo base_url("assets/style.css") ?>">
+<link rel="stylesheet" href="<?php echo base_url("assets/nav_style.css") ?>">
+<!-- Import the sidebar Script-->
+<script src="<?php echo base_url("assets/nav.js") ?>"></script>
+
 <style>
 body{
 background-image: url("youngchef.jpg");
@@ -16,6 +22,9 @@ table,tr,td{
 </head>
 <body onload="checkManagerElements('<?php echo $this->session->userdata('role') ?>')">
 
+<?php include("assets/nav.html");?>
+
+<div id = "main">
 <div id="manage_tools" class="manager">
 	<div id="tools" onload="isManager(this.id, '<?php echo $this->session->userdata('role') ?>')">
 	<?php echo $error;?>
@@ -34,6 +43,7 @@ table,tr,td{
 		
 
 
+</div>
 </div>
 
 
