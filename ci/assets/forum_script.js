@@ -138,20 +138,26 @@ function generateComment(el, poster, content, post_date) {
 	var content_sec = document.createElement("TD");
 	var post_date_sec = document.createElement("TD");
 	
+	var comment_info = document.createElement("TR");
+	var comment_content = document.createElement("TR");
+	
 	poster_sec.textContent = poster;
 	console.log(poster_sec.textContent);
 	content_sec.textContent = content;
 	post_date_sec.textContent = post_date;
 	
-	poster_sec.className = "poster_ind"
-	content_sec.className = "content_ind"
-	post_date_sec.className = "post_date_ind"
+	poster_sec.className = "poster_ind";
+	content_sec.className = "content_ind";
+	post_date_sec.className = "post_date_ind";
 	
-	comment_sec.className = "comment_ind"
+	comment_sec.className = "comment_ind";
 	
-	comment_sec.appendChild(poster_sec);
-	comment_sec.appendChild(content_sec);
-	comment_sec.appendChild(post_date_sec);
+	comment_info.appendChild(poster_sec);
+	comment_info.appendChild(post_date_sec);
+	comment_content.appendChild(content_sec);
+	
+	comment_sec.appendChild(comment_info);
+	comment_sec.appendChild(comment_content);
 	
 	el.appendChild(comment_sec);
 }

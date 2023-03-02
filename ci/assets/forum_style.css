@@ -290,7 +290,7 @@ tbody {
 .comment_section {
 	display: none;
 	height: fit-content;
-    width: 100%;
+    width: 90%;
     border: 1px solid black;
 	margin-top: 10px !important;
     margin: auto;
@@ -355,6 +355,7 @@ tbody {
 	margin: auto;
 	display: block;
 	border: 1px solid black;
+	margin-bottom: 10px;
 }
 
 .poster_ind {
@@ -364,19 +365,21 @@ tbody {
     background-color: #333;
     color: white;
     text-align: center;
-    display: block;
+    display: table;
 	float: left;
 	padding-left: 10px;
     padding-right: 10px;
 }
 
 .content_ind {
-	height: 25px;
     float: left;
-    width: 65%;
-    background-color: white;
+    width: 100%;
     text-align: center;
+	height: fit-content;
+    margin: auto;
+    background-color: white;
     display: block;
+    padding: 10px;
 }
 
 .post_date_ind {
@@ -384,5 +387,8 @@ tbody {
 	text-align: center;
     color: white;
     height: 25px;
-    display: block;
+    display: table;
+	padding-left: 10px;
+    padding-right: 10px;
+	width: fit-content;
 }

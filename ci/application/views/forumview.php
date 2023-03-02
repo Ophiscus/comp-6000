@@ -110,7 +110,7 @@ foreach ($postData as $row) {
 									$username = $user['FirstName'] . " " . $user['LastName'];
 								}
 							} ?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo $username ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
-							<script> document.getElementById("<?php echo $id_num ?>").style.display = "block"; </script> <?php
+							<script> document.getElementById("<?php echo $id_num ?>").style.display = "table"; </script> <?php
 						}
 					}
 				}

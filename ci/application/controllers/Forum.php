@@ -26,6 +26,7 @@ class Forum extends CI_Controller {
 	
 	public function post() {
 		$this->load->model('Forummodel');
+		$this->load->helper('url');
 	
 		$title = $this->input->post('title');
 		$message = $this->input->post('post_cont');
@@ -33,16 +34,7 @@ class Forum extends CI_Controller {
 	
 		$this->Forummodel->insertMessage($title, $message, $type);
 		
-		//Reload the page
-		$this->load->helper('url');
-		$this->load->model('Forummodel');
-		$data = $this->Forummodel->getPosts();
-		
-		//Loads user data set in the login script
-		$this->load->library('session');
-		
-		$results = array("results" => $data);
-		$this->load->view('forumview', $results);
+		$this->getViewData();
 	}
 	
 	public function post_comment() {
@@ -54,16 +46,7 @@ class Forum extends CI_Controller {
 	
 		$this->Forummodel->insertReply($reply, $reply_to);
 		
-		$data = $this->Forummodel->getPosts();
-		$comment_data = $this->Forummodel->getComments();
-		
-		//Loads user data set in the login script
-		$this->load->library('session');
-		
-		$results = array("postData" => $data, "commentData" => $comment_data);
-		
-		//Passes message data from model to the view
-		$this->load->view('forumview', $results);
+		$this->getViewData();
 	}
 	
 	public function updatePost() {
