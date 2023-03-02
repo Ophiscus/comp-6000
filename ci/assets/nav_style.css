@@ -22,7 +22,6 @@ body{
 }
 
 .topnav{
-  overflow: hidden;
   background-color: #333;
   width: 100%;
   transition: .5s;
@@ -126,6 +125,26 @@ header .icons span:hover{
 header .current-date{
   font-size: 1.45rem;
   font-weight: 500;
+}
+
+.dropdown-menu {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-menu-options {
+  display: none;
+  position: absolute;
+  overflow: auto;
+  background-color: #333;
+  text-align: center;
+  padding: 0px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.dropdown-menu:hover .dropdown-menu-options{
+  display:block;
 }
 
 

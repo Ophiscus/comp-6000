@@ -353,33 +353,36 @@ tbody {
 	margin-top: 10px !important;
 	width: 100%;
 	margin: auto;
-	display: flex;
+	display: block;
 	border: 1px solid black;
 }
 
 .poster_ind {
 	height: 25px;
-    border: 1px solid black;
     float: left;
-	width: 5%;
+	width: fit-content;
     background-color: #333;
     color: white;
     text-align: center;
     display: block;
 	float: left;
+	padding-left: 10px;
+    padding-right: 10px;
 }
 
 .content_ind {
-	text-align: center;
-	width: 65%;
+	height: 25px;
+    float: left;
+    width: 65%;
+    background-color: white;
+    text-align: center;
+    display: block;
 }
 
 .post_date_ind {
 	background-color: #228B22;
-    text-align: center;
+	text-align: center;
     color: white;
     height: 25px;
-	width: 30%;
     display: block;
-	float: right;
 }

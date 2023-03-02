@@ -104,7 +104,12 @@ foreach ($postData as $row) {
 				if ($row['MessageType'] == "comment") {
 					foreach ($commentData as $row2) {
 						if ($row2['ReplyTo'] == $row['PostID']) {
-							?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo . ' . ((int)$row2['CommentPoster'] === (int)$user['StaffID']) ? $user['FirstName'] . ' ' . $user['LastName'] : ''; . ' . ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
+							$username;
+							foreach ($userData as $user) {
+								if ((int)$row2['CommentPoster'] == (int)$user['StaffID']) {
+									$username = $user['FirstName'] . " " . $user['LastName'];
+								}
+							} ?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo $username ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
 							<script> document.getElementById("<?php echo $id_num ?>").style.display = "block"; </script> <?php
 						}
 					}

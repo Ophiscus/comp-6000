@@ -22,7 +22,10 @@
     <div class="wrapper">
       <header>
         <p class="current-date"></p>
-		<span><button onclick="openAddForm()">Add Event</button></span>
+        <?php if($ManagerAccess) { 
+		      echo '<span><button onclick="openAddForm()">Add Event</button></span>';
+        }
+        ?>
         <div class="icons">
           <span id="prev" class="material-symbols-rounded">chevron_left</span>
           <span id="next" class="material-symbols-rounded">chevron_right</span>
@@ -44,31 +47,48 @@
 
       <div id="eventBar" class="eventBar" id="eventbar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeEvent()">X</a>
-        <a href= "#edit" class="editbtn" onclick="openForm()">Edit</a>
     <table class="eventTable" id = "displayEvent">
-    <tr class = "tableHeader" >
-      <th> Start Date/Time</th>
-      <th> End Date/Time</th>
-      <th>Description</th>
-      <th>Edit/Delete</th>
-    </tr>
+      <thead>
+        <tr class = "tableHeader" >
+          <th> Start Date/Time</th>
+          <th> End Date/Time</th>
+          <th>Description</th>
+          <?php if($ManagerAccess) { 
+          echo '<th>Edit/Delete</th>';
+          } ?>
+        </tr>
+      </thead>
+      <div class = "scrollable">
+      <tbody id ="eventsData"></tbody>
+      </div>
   </table>
 		</div>
 
+    <form method = "post" action = "<?php echo site_url('Calendar/edit');?>">
+
 		</div>
 				<div class="editPopup">
-					<div class="formPopup" id="popupForm">
+					<div class="formPopup" id="editPopupForm">
 						<form action="/action_page.php" class="formContainer">
 						<h2>Please input time and description</h2>
-							 <label for="Time">
-								 <strong>Time</strong>
-							</label>
-							<input type="text" id="time" placeholder="please enter the time for the event." name="Time" required>
+					<label for="staffID">
+							<strong>staffID</strong>
+						</label>
+            <input type="number" id="rota" name="RotaID" required>
+					<input type="number" id="staff" placeholder="Please enter event" name="StaffID" required>
+						<label for="startDate">
+							<strong>Starting time<strong>
+						</label>
+					<input type="datetime-local" id="startdate" placeholder="please enter the date for the event." name="ShiftStart" required>
+						<label for="endTime">
+							<strong>End Time</strong>
+						</label>
+							<input type="datetime-local" id="time" placeholder="please enter the time for the event." name="EndTime" required>
 							<label for="description">
 								<strong>Event/Description</strong>
 							 </label>
 							 <input type="text" id="description" placeholder="Please enter event" name="Description" required>
-							<button type="submit" class="btn">Submit</button>
+							<button type="submit" class="btn" value = "post">Submit</button>
 							<button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
 						 </form>
 					</div>
@@ -116,15 +136,25 @@
 const eventDateData = new Array();
 
   function closeEvent() {
-    document.getElementById("eventBar").style.display = "none";
-  }
+      document.getElementById("eventBar").style.display = "none";
+    }
 
   function openForm() {
-        document.getElementById("popupForm").style.display = "block";
+      document.getElementById("editPopupForm").style.display = "block";
       }
 
+  function openEditForm(Id) {
+    var rota = document.getElementById("rota");
+    rota.style.display = "none";
+    rota.value = parseInt(Id);
+    document.getElementById("editPopupForm").style.display = "block";
+    console.log(Id);
+  }
+
+
+
  function closeForm() {
-     document.getElementById("popupForm").style.display = "none";
+     document.getElementById("editPopupForm").style.display = "none";
    }
 
   function openAddForm() {
@@ -182,23 +212,24 @@ function closeAddForm() {
 
       if( isToday = i === date.getDate() && eventsToFill === true && parseInt(improvDate) === nextEventDate.getDate() && currMonth + 1 === (nextEventDate.getMonth() + 1) && currYear === nextEventDate.getFullYear() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear())
         {
-          var j = eventNumber;
-          while(j <= event.length-1)
+          var isEventPresent = null;
+            var j = eventNumber;
+            var trialData = new Array();
+            while(j <= events.length-1)
             {
-              eventDateCheck = new Date(events[j]["ShiftStart"])
+              let eventDateCheck = new Date(events[j]["ShiftStart"])
               if(eventDateCheck.getDate() === parseInt(improvDate))
               {
-                eventDateData += events[j];
-                console.log(eventDateData);
+                trialData.push(events[j]);
                 j++;
               }
               else
               {
                 break;
               }
-              
+              eventDateData.push(trialData);
             }
-          liTag += `<li id=${i}  onclick = "openEvent(...${eventDateData})" class="active event">${i}</li>`
+          liTag += `<li id=${i}  onclick = "openEvent(this.id)" class="active event">${i}</li>`
           eventNumber = j;
           nextEvent = true
         }
@@ -228,11 +259,11 @@ function closeAddForm() {
           }
       else if (isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear()) 
         {
-          liTag += `<li id=${i} onclick = "openEvent()" class="active">${i}</li>`;
+          liTag += `<li id=${i} onclick = "openEvent(this.id)" class="active">${i}</li>`;
         }
       else 
         {
-         liTag += `<li id=${i} onclick = "openEvent()">${i}</li>`;
+         liTag += `<li id=${i} onclick = "openEvent(this.id)">${i}</li>`;
         }
     }
 
@@ -243,10 +274,19 @@ function closeAddForm() {
     currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
     daysTag.innerHTML = liTag;
   }
+  
+  <?php if( $ManagerAccess ) {
+    $url = base_url("index.php/Calendar/getEventByMonth");
+  } else {
+    $url = base_url("index.php/Calendar/getStaffEvents");
+  }?>
+  
+  url = <?php echo "'" . $url . "'" ?>
+
   $.ajax({
-    url: '<?php echo base_url("index.php/Calendar/getEventByMonth") ?>',
+    url: url,
     method: 'get',
-    data: { month: parseInt(currMonth + 1) },
+    data: { month: parseInt(currMonth + 1)},
     dataType: 'json',
     success: function (response) {
       events = response;
@@ -273,9 +313,18 @@ function closeAddForm() {
         }else {
         date = new Date(); // pass the current date as date value
       }
+
+      <?php if( $ManagerAccess ) {
+      $url = base_url("index.php/Calendar/getEventByMonth");
+      } else {
+      $url = base_url("index.php/Calendar/getStaffEvents");
+      }?>
+  
+      url = <?php echo "'" . $url . "'" ?>
+
       // adding click event on both icons
       $.ajax({
-        url: '<?php echo base_url("index.php/Calendar/getEventByMonth") ?>',
+        url: url,
         method: 'get',
         data: { month: currMonth + 1 },
         dataType: 'json',
@@ -301,7 +350,13 @@ function closeAddForm() {
     {
       console.log("Data");
       var table = document.getElementById("displayEvent");
+      var tableBody = document.getElementById("eventsData");
       var tempData;
+
+      var rowCount = table.rows.length;
+        for (var i = rowCount - 1; i > 0; i--) {
+            table.deleteRow(i);
+        }
 
       for(var i = 0; i<= (eventDateData.length-1); i++)
       {
@@ -321,10 +376,10 @@ function closeAddForm() {
       for(var j = 0; j<= (tempData.length -1); j++)
       {
         var tableRow = document.createElement("tr");
+        tableRow.id = "row"+tempData[j]["RotaID"];
         for(var k = 0; k <= 3; k++)
         {
           var info;
-          console.log(k);
           switch(k)
           {
             case 0:
@@ -339,15 +394,60 @@ function closeAddForm() {
             case 3:
               info = "RotaID";
           }
-            var tableData = document.createElement("td");
-            console.log(info);
-            tableData.innerText = tempData[j][info];
+
+            if(k!=3 || <?php echo json_encode($ManagerAccess); ?>) {
+              rowInfo = tempData[j][info]
+              var tableData = document.createElement("td");
+              console.log(info);
+            }
+  
+            //create edit button
+            if(k === 3) {
+              if(<?php echo json_encode($ManagerAccess); ?>) {
+                var button = document.createElement("button");
+                var span = document.createElement("span");
+                var idiomatic = document.createElement("i");
+                button.setAttribute("id",tempData[j][info]);
+                button.setAttribute("class", "editButton");
+                button.addEventListener("click", function() {openEditForm(this.id)});
+                span.innerText = "Edit";
+                button.appendChild(span);
+                button.appendChild(idiomatic);
+                tableData.appendChild(button);
+
+                //create delete button
+                let deleteButton = document.createElement('input');
+                deleteButton.type = "button";
+                deleteButton.id = "deleteButton"+rowInfo;
+                deleteButton.value = "Delete";
+                deleteButton.className = "editButton";
+                deleteButton.addEventListener("click",function(){deleteEvent(rowInfo);});
+                tableData.appendChild(deleteButton);
+              }
+            }else{
+              tableData.innerText = tempData[j][info];
+            }
             tableRow.appendChild(tableData);
+
         }
-        table.appendChild(tableRow);
+        tableBody.appendChild(tableRow);
       }
 
     }
+  }
+
+  function deleteEvent(id) {
+    document.getElementById("row"+id).outerHTML="";
+
+    $.ajax({
+      url: '<?php echo base_url("index.php/Calendar/deleteEvent")?>',
+      method: 'post',
+      data: {id:id},
+      success:function(){
+        alert("Delete successful.");
+        window.location.href= '<?php echo base_url("index.php/Calendar/show"); ?>';
+      }
+    })
   }
 </script>
 
