@@ -22,9 +22,8 @@
         grid-template-columns: auto auto;
         grid-template-rows: 3vw 30vw;
         padding: 0.5vw;
-        width: 100%;
+        width: 50%;
         max-width: 30vw;
-        
     }
 
     .filler, .icons {
@@ -92,24 +91,24 @@
     .popup {
     display: none;
     position: fixed;
-    z-index: 1;
     padding-top: 100px; 
     left: 0;
     top: 0;
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4); 
     }
 
 
     .Content {
-    background-color: #fefefe;
+    background-color: #FFFDD0;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border: 3px solid;
+    width: 60%;
+    text-align: center;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
     }
 
     .closeTab {
@@ -117,6 +116,7 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
+    padding-right: 1%;
     }
     
     .editing {
@@ -126,8 +126,11 @@
 </style>
 <script>
 
+    //storing our charts for access in functions
     expenseChart;
     incomeChart;
+
+    //draw a piechart using chart js
     function drawPieChart(xValues, yValues, id) {
 
         if (xValues.length == yValues.length) {
@@ -159,6 +162,8 @@
 
 
     }
+
+    //draw a line graph using chart js
     function drawLineGraph(xValues, yValues, id) {
         if (xValues.length == yValues.length) {
             var barColours = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"];
@@ -190,17 +195,8 @@
 
     }
 
-    //TODO: currently using random colours if more than 8 is needed, definitely need to find a better solution (look at Canvas patterns or maybe a library that works)
-    /*function generateRandomGraphColours(qty) {
-        var colours = []
-        for (let i = 0; i < qty; i++) {
-            //divide 16777215 (the largest possible hex code, for pure white) by 2 to (hopefully) get darker colours (more fitting on graph)
-            colours[i] = "#" + Math.floor(Math.random() * (16777215 / 2)).toString(16);
-        }
-        return colours;
-    }
-    */
 
+    //create a canvas element to put a graph in
     function createCanvasElement(id) {
         var canvas = document.createElement("canvas")
         canvas.id = id;
@@ -209,12 +205,14 @@
         document.getElementById("graphs").appendChild(canvas);
     } 
 
+    //open one of the three forms on the page, depending on the button id
     function openForm(button_id){
         if(button_id == "Expense Button") {
-            document.getElementById("ExpensePopup").style.setProperty('display','block');
+            document.getElementById("ExpensePopup").style.setProperty('display','inline-block');
         } else if(button_id == "Income Button") {
-            document.getElementById("IncomePopup").style.setProperty('display','block');
+            document.getElementById("IncomePopup").style.setProperty('display','inline-block');
         } else if(button_id == "Recover Button") {
+            //the recover button will make a call to the database to get recoverable items, present them in a table with options to delete or restore them
             $.ajax({
                 url: '<?php echo base_url("index.php/Stats/getHidden")?>',
                 method: 'get',
@@ -243,6 +241,7 @@
     }
 
     
+    //controlls for editing table values, so they can be reverted on a cancel.
     var editing = false;
     var rowEditingID;
     var originalName;
@@ -250,6 +249,7 @@
     var originalNeeded;
     var originalCostPerUnit;
 
+    //function to turn row into an editable 
     function editRow(id) {
 
         if(editing) {
@@ -289,6 +289,7 @@
         
     }
 
+    //makes a call to the database to delete the table row with matching id
     function deleteRow(id) {
         document.getElementById("row"+id).outerHTML="";
 
@@ -302,6 +303,7 @@
         });
     }
 
+    //cancels editing and restores original values
     function cancelRow(id) {
 
         var row = document.getElementById("row"+id);
@@ -325,6 +327,7 @@
         document.getElementById("cancelButton"+id).style.display="none";
     }
 
+    //checks if new values are all inserted and valid at the field row, then if they are, requests to add them to the database
     function addRow() {
 
         var newItemName = document.getElementById("newItemName").value;
@@ -375,6 +378,7 @@
         })                
     }
 
+    //saves changes to the row corresponding to the id and restoresit to a non-editing state
     function saveRow(id) {
         document.getElementById("editButton"+id).style.display="none";
         document.getElementById("saveButton"+id).style.display="block";
@@ -414,6 +418,7 @@
         document.getElementById("cancelButton"+id).style.display="none";
     }
 
+    //refreshes and updates a chart, used for rendering charts for different months
     function reRenderChart(chart,labels,data,title) {
         
         
@@ -440,6 +445,7 @@
         chart.update();
     }
 
+    //sends a request to restore an item with the given id and the repopulates the stock table accordingly
     function recoverItem(id) {
         $.ajax({
             url: '<?php echo base_url("index.php/Stats/restoreStock")?>',
@@ -558,6 +564,7 @@
         })
     }
 
+    //sends a request for the given item to be permanently deleted
     function deleteRecoveryItem(id) {
         $.ajax({
             url:'<?php echo base_url("index.php/Stats/deleteHiddenStock")?>',
@@ -586,6 +593,7 @@
                 <span id="next" class="material-symbols-rounded">chevron_right</span>
             </div>
             <script>
+                //get our data from the controller for our graphs
                 var index = 0;
                 const income = [];
                 <?php foreach($incomeData as $month => $income) { ?>
@@ -601,10 +609,11 @@
                     index++;
                 <?php } ?>
                 
+                //get our current year
                 var incomeYear = new Date().getFullYear();
                 var expenseYear = new Date().getFullYear();
 
-                //We can echo in values and loop using php to dynamically generate this list
+               //draw our graphs
                 drawPieChart(expenseNames, expenses, "Expenses")
                 
                 createCanvasElement("Income");
@@ -613,6 +622,7 @@
             
               
             </script>
+            <!-- add our buttons -->
             <button type="button" id="Expense Button" onclick="openForm(this.id)">Report Expenses</button>
             <button type="button" id="Income Button" onclick="openForm(this.id)">Report Income</button>
         </div>
@@ -628,6 +638,7 @@
                     <th>cost per unit</th>
                     <th><button type = "button" id = "Recover Button" onclick="openForm(this.id)" > Recover Deleted </button></th>
                 </tr>
+                <!--populate the stock table with items from the database -->
                 <?php foreach($stockData as $row) { ?>
                 <tr id = "row<?php echo $row['ItemID']?>">
                     <td><?php echo $row['ItemName'] ?></td>
@@ -655,6 +666,7 @@
         </div>
     </div>
 
+    <!--popup forms for expenses and income, submits to the controller methods to add to the db -->
     <div id="ExpensePopup" class="popup">
         <div id="Expense_Content" class = "Content">
         <span class="closeTab" id="closeExpenseTab">&times;</span>
@@ -714,6 +726,7 @@
 </body>
 <script>
 
+    //add onclick functions to close the popup forms
     var closeExpenses = document.getElementById("closeExpenseTab");
     var closeIncome = document.getElementById("closeIncomeTab");
     var closeRecovery = document.getElementById("closeRecoveryTab");
@@ -756,6 +769,7 @@
 
     swapYearIcons = document.querySelectorAll("#expense-icons span");
 
+    //make the arrows swap the year for each graph.
     swapYearIcons.forEach(icon => {
         icon.addEventListener("click", () => {
             if(icon.id === "prev") {

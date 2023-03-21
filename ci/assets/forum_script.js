@@ -60,8 +60,9 @@ function editPost(current, currNum) {
 	//Create form and add it is a child to post
 	var inputForm = document.createElement("FORM");
 	
-	$.get('Forum/updatePost', function(response) {
-        inputForm.action = '<?php echo site_url("Forum/updatePost"); ?>';
+	$.get('updatePost', function(response) {
+        //inputForm.action =  '<?php echo site_url("Forum/updatePost"); ?>';
+		inputForm.action = base_url + "index.php/Forum/updatePost";
     });
 	
 	var formContainer = document.createElement("TD");

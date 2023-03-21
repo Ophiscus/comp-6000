@@ -57,7 +57,12 @@ class Forummodel extends CI_Model
 	}
 	
 	public function editTable($subject, $message, $postid) {
-		$sql = "UPDATE ForumPosts SET Subject = " . $subject . ", Content = " . $message . " WHERE PostID = " . $postid;
+		//$sql = "UPDATE ForumPosts SET Subject = " . $subject . ", Content = " . $message . " WHERE PostID = " . $postid;
+
+		$data = array('Subject'=>$subject,'Content'=>$message);
+		$this->db->where('PostID',$postid);
+		$this->db->update('ForumPosts',$data);
+
 	}
 }
 ?>
