@@ -10,6 +10,12 @@ class Signup extends CI_Controller
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 		$this->load->database();
+
+        if (isset($_SESSION['role']) && $_SESSION['role'] === "Manager") {
+
+        } else {
+          redirect(base_url());
+        }
 	}
 
     public function show()
@@ -29,6 +35,7 @@ class Signup extends CI_Controller
         $password = $this->input->post('password');
         $accesslevel = $this->input->post('accessLevel');
         $this->Signup_Model->addUser($firstname,$lastname,$email,$username,$password,$accesslevel);
+        redirect('/Forum/show');
     }
 }
 ?>

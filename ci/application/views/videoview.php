@@ -42,8 +42,8 @@ table,th,td{
     <tbody>
         <?php foreach ($video as $v): ?>
         <tr>
-            <td><?php echo $v->Title;?></td>
-            <td><video src="<?php echo $v->location;?>" controls></video></td>
+            <td><?php echo $v['Title'];?></td>
+            <td><video src="<?php echo base_url('uploads/'.$v['Title']);?>" controls></video></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

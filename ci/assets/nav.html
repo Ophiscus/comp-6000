@@ -5,7 +5,10 @@
 	<a class="active" href="../Forum/show">Home</a>
 	<div class="dropdown-menu">
 		<a href="#login">Account Settings</a>
-			<div class="dropdown-menu-options">
+			<div id="dropdown-menu-options">
+				<?php if($this->session->userdata('role') === "Manager") { ?>
+				<a href="../Signup/show">Create Account</a>
+				<?php } ?>
 				<a href="../Login/logout">Logout</a>
 			</div>
 	</div>
@@ -17,9 +20,9 @@
 	<a href="../Calendar/show" onclick="navigate('Calendar')">Calendar</a>
 	<?php if($this->session->userdata('role') === "Manager") { ?>
 	<a href="../Resources/show">Resources</a>
-	<a href="../Video/show">Training Videos</a>
 	<a href="../Stats/show">Performance Statistics</a>
 	 <?php } ?>
+	<a href="../Resources/showVideos">Training Videos</a>
 	 
 	
 </div>
