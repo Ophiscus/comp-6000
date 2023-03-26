@@ -81,7 +81,7 @@ foreach ($postData as $row) {
 				</td>
 			</tr>
 			
-			<tr class="comment_section <?php echo $row['MessageType']?>" id="<?php echo $id_num ?>">	
+			<tr class="comment_section <?php echo $row['MessageType']?>" id="<?php echo $id_num ?>" style="display:table">	
 				<td class="comment_def">
 				
 				<button id="<?php echo "create_comment" . $id_num ?>" class="create_comments" onClick="openForm('<?php echo "comment_popup" . $id_num ?>', '<?php echo "create_comment" . $id_num ?>')">Create Comment</button>

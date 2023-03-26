@@ -52,8 +52,6 @@ class Forum extends CI_Controller {
 	public function updatePost() {
 		$this->load->helper('url');
 		$this->load->model('Forummodel');
-		
-		$this->output->enable_profiler(TRUE);
 
 		$subject = $this->input->post('edit_sub');
 		$message = $this->input->post('edit_mes');
