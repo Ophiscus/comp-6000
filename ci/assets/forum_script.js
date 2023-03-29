@@ -35,6 +35,7 @@ function openForm(popup, create) {
 
 //Allows the manager to edit the subject and message
 function editPost(current, currNum) {
+	console.log("editing post");
 	var post_head = current.parentElement;
 	
 	//Hide edit icon
@@ -129,7 +130,10 @@ function closeEdit(currNum) {
 	
 	var edit = document.getElementById("edit_icon" + currNum)
 	edit.style.display = "block";
-	edit.addEventListener("click", editPost(edit, currNum));
+	edit.removeEventListener("click", editPost);
+	edit.addEventListener("click", function() {
+        editPost(edit, currNum);
+    });
 }
 
 function generateComment(el, poster, content, post_date) {

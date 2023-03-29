@@ -56,6 +56,13 @@ margin-left: -30px;
 cursor: pointer;
 }
 
+#logo {
+	margin: auto;
+    display: flex;
+    margin-bottom: -110px;
+    margin-top: -70px;
+}
+
 </style>
 </head>
 <body>
@@ -74,15 +81,13 @@ const togglePassword = document.querySelector('#togglePassword');
 <!-- calling the dologin function from controller -->	
 
 	<form method="post" action="<?php echo base_url(); ?>index.php/Login/dologin">
+	
 <!-- Heading of the page  -->
 
-	<img src= "<?php echo base_url();?>/assets/Logo-removebg-preview.png" id=centre>
-	
-	
-	
-
+	<image id="logo" src="<?php echo base_url("assets/logo.png") ?>">
 	
 <!-- Form to enter in Username and Password   -->
+
 	<div class ="container">
 	    <?php echo form_open('user/login'); ?>
 		<div class="form-group">
