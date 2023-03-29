@@ -12,6 +12,7 @@ html, body {
 	display: block;
 	transition: 0.5s;
 	margin: auto;
+	padding-bottom: 200px;
 }
 
 /* Tool Bar */
@@ -233,6 +234,7 @@ tbody {
 .form_container {
 	justify-content: center;
 	display: block;
+	padding-bottom: 30px;
 }
 
 .sub_label, .mess_label {

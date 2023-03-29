@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forum extends CI_Controller {
 	
+	//Loads all data required for the view
 	public function getViewData() {
 		$data = $this->Forummodel->getPosts();
 		$comment_data = $this->Forummodel->getComments();
@@ -24,6 +25,7 @@ class Forum extends CI_Controller {
 		$this->getViewData();
 	}
 	
+	//Posts a new message
 	public function post() {
 		$this->load->model('Forummodel');
 		$this->load->helper('url');
@@ -37,6 +39,7 @@ class Forum extends CI_Controller {
 		$this->getViewData();
 	}
 	
+	//Posts a new comment
 	public function post_comment() {
 		$this->load->helper('url');
 		$this->load->model('Forummodel');
@@ -49,6 +52,7 @@ class Forum extends CI_Controller {
 		$this->getViewData();
 	}
 	
+	//Sends updated content from view to database, then reloads view
 	public function updatePost() {
 		$this->load->helper('url');
 		$this->load->model('Forummodel');

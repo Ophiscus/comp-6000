@@ -1,6 +1,5 @@
 //When the view is fully loaded these functions are called
 window.onload = function(event) {
-	//getUsers();
 }
 
 //Cycles through every element in page checking for manager tag, if an element has this then they are hidden if the employee is not a manager
@@ -60,9 +59,8 @@ function editPost(current, currNum) {
 	
 	//Create form and add it is a child to post
 	var inputForm = document.createElement("FORM");
-	console.log(base_url);
+	
 	$.get('updatePost', function(response) {
-        //inputForm.action =  '<?php echo site_url("Forum/updatePost"); ?>';
 		inputForm.action = base_url + "index.php/Forum/updatePost";
     });
 	
@@ -122,6 +120,7 @@ function editPost(current, currNum) {
 	message.style.display = "none";
 }
 
+//Removes every element in the edit form
 function closeEdit(currNum) {
 	document.getElementById("form" + currNum).remove();
 	
@@ -136,6 +135,7 @@ function closeEdit(currNum) {
     });
 }
 
+//Loads a comment given certain parameters from the view data
 function generateComment(el, poster, content, post_date) {
 	var comment_sec = document.createElement("TR");
 	
@@ -147,7 +147,6 @@ function generateComment(el, poster, content, post_date) {
 	var comment_content = document.createElement("TR");
 	
 	poster_sec.textContent = poster;
-	console.log(poster_sec.textContent);
 	content_sec.textContent = content;
 	post_date_sec.textContent = post_date;
 	
@@ -165,8 +164,4 @@ function generateComment(el, poster, content, post_date) {
 	comment_sec.appendChild(comment_content);
 	
 	el.appendChild(comment_sec);
-}
-
-function test() {
-	console.log("ping");
 }

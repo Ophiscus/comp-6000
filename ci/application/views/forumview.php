@@ -63,7 +63,6 @@ foreach ($postData as $row) {
 						}
 					}
 					?>
-					<?php// echo $row['Poster']?>
 				</td>
 				<td class="subject" id="subject<?php echo $id_num ?>">
 					<?php echo $row['Subject']?>
