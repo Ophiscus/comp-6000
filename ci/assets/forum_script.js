@@ -64,11 +64,14 @@ function editPost(current, currNum) {
 		inputForm.action = base_url + "index.php/Forum/updatePost";
     });
 	
+	//Creating the overall edit form
 	var formContainer = document.createElement("TD");
 	formContainer.className = "form_container";
 	formContainer.id = "form_container" + currNum;
+	
 	inputForm.id = "form" + currNum;
 	inputForm.setAttribute("method", "post");
+	
 	post_head.parentElement.insertBefore(formContainer, post_head.nextSibling);
 	formContainer.appendChild(inputForm);
 	
@@ -76,6 +79,7 @@ function editPost(current, currNum) {
 	var sub_label = document.createElement("LABEL");
 	sub_label.className = "sub_label";
 	sub_label.innerHTML = "Edit Subject:";
+	
 	var mess_label = document.createElement("LABEL");
 	mess_label.className = "mess_label";
 	mess_label.innerHTML = "Edit Message:";
@@ -114,7 +118,7 @@ function editPost(current, currNum) {
 	document.getElementById("form" + currNum).appendChild(cross);
 	
 	//Add confirm and cancel button onclick events
-	cross.removeEventListener("click", editPost);
+	cross.onclick = null;
 	cross.setAttribute("onclick", "closeEdit(" + currNum + ")");
 	
 	//Hide the post display-only elements
@@ -131,9 +135,13 @@ function closeEdit(currNum) {
 	
 	var edit = document.getElementById("edit_icon" + currNum);
 	edit.style.display = "block";
-	edit.removeEventListener("click", editPost);
-	edit.addEventListener("click", function() {
-        editPost(edit, currNum);
+	
+	//Ensures that the edit button never has more than one event listener attached to it
+	var newEdit = edit.cloneNode(true);
+	edit.parentNode.replaceChild(newEdit, edit);
+	
+	newEdit.addEventListener("click", function() {
+        editPost(newEdit, currNum);
     });
 	
 	document.getElementById("form_container" + currNum).style.display = "none";
