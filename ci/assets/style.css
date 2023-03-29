@@ -124,7 +124,7 @@ header .current-date{
 	z-index: auto;
 	height: 35%;
 	bottom:0;
-	background-color: #111;
+	background-color: cadetblue;
 	overflow:auto;
 	transition: 0.5s;
 	padding-top: 60px;
@@ -295,7 +295,7 @@ header .current-date{
 
 #displayEvent
 {
-  color: #228B22;
+  color: whitesmoke;
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   margin: 25px 0;
@@ -313,14 +313,14 @@ header .current-date{
   }
 
   #displayEvent thead tr {
-    background-color: #0E4732;
+    background-color: #333;
     color: #ffffff;
     text-align: left;
 }
  
 .editButton {
 	display: inline-block;
-	background-color: #7b38d8;
+	background-color: #333;
 	padding: 20px;
 	width: 200px;
 	height: 20px;
@@ -331,6 +331,8 @@ header .current-date{
 	font-size: 16px; 
 	cursor: pointer; 
 	margin: 5px; 
+	max-width: fit-content;
+    max-height: 5vw;
   }
 
   .editButton:hover {

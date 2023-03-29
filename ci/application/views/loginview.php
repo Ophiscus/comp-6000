@@ -16,6 +16,11 @@ h1{
 	text-align: center;
 }
 
+#centre {
+	display: block;
+	margin: auto;
+}
+
 h2{
 	text-align:center;
 }
@@ -71,7 +76,7 @@ const togglePassword = document.querySelector('#togglePassword');
 	<form method="post" action="<?php echo base_url(); ?>index.php/Login/dologin">
 <!-- Heading of the page  -->
 
-	<h1 style="font-family:verdana";>Company name</h1>
+	<img src= "<?php echo base_url();?>/assets/Logo-removebg-preview.png" id=centre>
 	
 	
 	
