@@ -70,8 +70,13 @@ foreach ($postData as $row) {
 				<td class="date">
 					<?php echo $row['PostDate']?>
 				</td>
-				<td class="edit_icon_parent manager">
-					<img class="edit_icon" src="<?php echo base_url("assets/edit_icon.png") ?>" onClick="editPost(this, <?php echo $id_num ?>)" id="edit_icon<?php echo $id_num ?>">
+				<!--If the users role is a manager, then the edit icon is loaded (along with a parent td element)-->
+				<td class='edit_icon_parent manager'>
+				<?php if ($this->session->userdata('role') == "Manager") {
+					//echo "<td class='edit_icon_parent manager'>";
+						echo "<img class='edit_icon' src='" . base_url("assets/edit_icon.png") . "' onClick='editPost(this, \"" . $id_num . "\")' id='edit_icon" . $id_num . "'>";
+					//echo "</td>";
+				}?>
 				</td>
 			</tr>
 			<tr class="message_container">

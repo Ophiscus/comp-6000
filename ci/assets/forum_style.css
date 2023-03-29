@@ -182,6 +182,11 @@ tbody {
 	display: block;
 }
 
+.edit_icon_parent {
+	height: 0px;
+	display: none;
+}
+
 .edit_icon {
 	float: right;
 	position: relative;
@@ -234,6 +239,7 @@ tbody {
 .form_container {
 	justify-content: center;
 	display: block;
+	padding-bottom: 30px;
 	padding-bottom: 30px;
 }
 

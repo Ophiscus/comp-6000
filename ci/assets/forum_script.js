@@ -10,7 +10,8 @@ function checkManagerElements(query_result) {
 		if (query_result == "Manager") {
 			manager_elements[i].style.display = "block";
 		} else {
-			manager_elements[i].style.display = "none";
+			manager_elements[i].remove();
+			status = "remove";
 		}
 	}
 }
@@ -34,7 +35,6 @@ function openForm(popup, create) {
 
 //Allows the manager to edit the subject and message
 function editPost(current, currNum) {
-	console.log("editing post");
 	var post_head = current.parentElement;
 	
 	//Hide edit icon
@@ -66,6 +66,7 @@ function editPost(current, currNum) {
 	
 	var formContainer = document.createElement("TD");
 	formContainer.className = "form_container";
+	formContainer.id = "form_container" + currNum;
 	inputForm.id = "form" + currNum;
 	inputForm.setAttribute("method", "post");
 	post_head.parentElement.insertBefore(formContainer, post_head.nextSibling);
@@ -113,6 +114,7 @@ function editPost(current, currNum) {
 	document.getElementById("form" + currNum).appendChild(cross);
 	
 	//Add confirm and cancel button onclick events
+	cross.removeEventListener("click", editPost);
 	cross.setAttribute("onclick", "closeEdit(" + currNum + ")");
 	
 	//Hide the post display-only elements
@@ -127,12 +129,14 @@ function closeEdit(currNum) {
 	document.getElementById("subject" + currNum).style.display = "block";
 	document.getElementById("message" + currNum).style.display = "block";
 	
-	var edit = document.getElementById("edit_icon" + currNum)
+	var edit = document.getElementById("edit_icon" + currNum);
 	edit.style.display = "block";
 	edit.removeEventListener("click", editPost);
 	edit.addEventListener("click", function() {
         editPost(edit, currNum);
     });
+	
+	document.getElementById("form_container" + currNum).style.display = "none";
 }
 
 //Loads a comment given certain parameters from the view data
