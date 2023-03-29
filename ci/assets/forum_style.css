@@ -374,7 +374,6 @@ tbody {
 .content_ind {
     float: left;
     width: 100%;
-    text-align: center;
 	height: fit-content;
     margin: auto;
     background-color: white;

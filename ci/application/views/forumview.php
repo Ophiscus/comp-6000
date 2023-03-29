@@ -81,7 +81,7 @@ foreach ($postData as $row) {
 				</td>
 			</tr>
 			
-			<tr class="comment_section <?php echo $row['MessageType']?>" id="<?php echo $id_num ?>" style="display:table">	
+			<tr class="comment_section <?php echo $row['MessageType']?>" id="<?php echo $id_num ?>">	
 				<td class="comment_def">
 				
 				<button id="<?php echo "create_comment" . $id_num ?>" class="create_comments" onClick="openForm('<?php echo "comment_popup" . $id_num ?>', '<?php echo "create_comment" . $id_num ?>')">Create Comment</button>
@@ -101,8 +101,9 @@ foreach ($postData as $row) {
 				</td>
 				
 				<?php 
-				if ($row['MessageType'] == "comment") {
-					foreach ($commentData as $row2) {
+				if ($row['MessageType'] == "comment") { ?>
+					<script> document.getElementById("<?php echo $id_num ?>").style.display = "table"; </script>
+					<?php foreach ($commentData as $row2) {
 						if ($row2['ReplyTo'] == $row['PostID']) {
 							$username;
 							foreach ($userData as $user) {
@@ -110,7 +111,7 @@ foreach ($postData as $row) {
 									$username = $user['FirstName'] . " " . $user['LastName'];
 								}
 							} ?> <script> generateComment(document.getElementById("<?php echo $id_num ?>"), "<?php echo $username ?>", "<?php echo $row2['CommentContent'] ?>", "<?php echo $row2['CommentPostDate'] ?>"); </script> 
-							<script> document.getElementById("<?php echo $id_num ?>").style.display = "table"; </script> <?php
+							<?php
 						}
 					}
 				}
